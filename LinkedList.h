@@ -36,7 +36,6 @@ public:
         if(head==nullptr){
             head=nuevoNod;
             tail=head;
-            size++;
         }
         else if (head->getNext()==nullptr) {
             tail=nuevoNod;
@@ -46,8 +45,8 @@ public:
             Node<T>* tmp = tail;
             tail = nuevoNod;
             tmp->setNext(tail);
-            size++;
         }
+        size++;
     }
 
     void pop_front(){

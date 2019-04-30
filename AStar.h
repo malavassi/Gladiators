@@ -6,21 +6,21 @@
 #define GLADIATORS_ASTAR_H
 
 #include "LinkedList.h"
+#include "TuplaCuadrante.h"
+#include "Quadrant.h"
+#include <string>
 #include <cmath>
 
 using namespace std;
 
 class AStar {
-    struct quadrant{
-        int parent_x, parent_y;
-        double f, g, h;
-    };
 public:
     AStar(int _size, int destiny_x, int destiny_y){
         size=_size;
         goal_x=destiny_x;
         goal_y=destiny_y;
     };
+
     void createMap();       //Crea el mapa de referencia (0=vacio, 1=torre normal, 2=torre fuego, 3=torre explosiva y 4=jugador)
 
     bool isValid(int pos_x, int pos_y);     //Determina si cierta posición en la matriz mapa es válida y está desocupada
@@ -33,7 +33,9 @@ public:
 
     double calcH(int pos_x, int pos_y);     //Calcula el Heuristics
 
-    void aStarSearch(int ref_x, int ref_y);     //Busca el camina
+    LinkedList<Quadrant> generatePath(LinkedList<LinkedList<Quadrant>> search_matrix, int goalx, int goaly);
+
+    void aStarSearch(int ref_x, int ref_y);     //Busca el camino
 
     const LinkedList<LinkedList<int>> &getMapMatrix() const;
 
