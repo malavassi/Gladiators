@@ -21,11 +21,12 @@ public:
         Node<T>* nuevoNod = new Node<T>(value);
         if(head== nullptr){
             head=nuevoNod;
+            head->setNext(tail);
             tail=nuevoNod;
         } else {
             Node<T>* Tmp = head;
             head = nuevoNod;
-            nuevoNod->setNext(Tmp);
+            head->setNext(Tmp);
         }
         size+=1;
     };
@@ -34,7 +35,7 @@ public:
         Node<T>* nuevoNod = new Node<T>(value);
         if(head==nullptr){
             head=nuevoNod;
-            tail=nuevoNod;
+            tail=head;
             size++;
         }
         else if (head->getNext()==nullptr) {
@@ -44,7 +45,7 @@ public:
         else{
             Node<T>* tmp = tail;
             tail = nuevoNod;
-            tmp->setNext(nuevoNod);
+            tmp->setNext(tail);
             size++;
         }
     }
@@ -52,7 +53,7 @@ public:
     void pop_front(){
         if(head==tail){
             head=nullptr;
-            tail=nullptr;
+            tail=head;
         } else{
             head=head->getNext();
         }
@@ -62,24 +63,19 @@ public:
     void pop_element(int pos){
         Node<T>* tmp = head;
         if(pos==0){
-            if(head==tail){
-                tail=nullptr;
-            }
-            head=head->getNext();
+            pop_front();
         }
         else{
-            if(pos-=1 == 0){
-                tmp->setNext(tmp->getNext()->getNext());
-            }
-            else{
+            while((pos-=1)!=0 && tmp->getNext()!= nullptr){
                 tmp=tmp->getNext();
                 pos--;
             }
+            tmp->setNext(tmp->getNext()->getNext());
         }
         size--;
     }
 
-    Node<T>* getElemento(int pos){
+    Node<T>* getElemento(int pos) const {
         Node<T>* tmp = head;
         while(pos>0){
             tmp=tmp->getNext();
@@ -88,7 +84,7 @@ public:
         return tmp;
     }
 
-    T front()
+    T front() const
     {
         return head->getData();
     }
