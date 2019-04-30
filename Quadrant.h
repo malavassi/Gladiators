@@ -8,6 +8,15 @@
 
 class Quadrant {
 public:
+    Quadrant(){
+        f=-1;
+        g=0;
+        h=0;
+        parent_x=-1;
+        parent_y=-1;
+        pos_x=0;
+        pos_y=0;
+    }
     int getParentX() const;
 
     void setParentX(int parentX);

@@ -33,7 +33,7 @@ public:
 
     double calcH(int pos_x, int pos_y);     //Calcula el Heuristics
 
-    LinkedList<Quadrant> generatePath(LinkedList<LinkedList<Quadrant>> search_matrix, int goalx, int goaly);
+    LinkedList<Quadrant*> generatePath(LinkedList<LinkedList<Quadrant*>>* search_matrix, int goalx, int goaly);
 
     void aStarSearch(int ref_x, int ref_y);     //Busca el camino
 
