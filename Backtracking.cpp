@@ -64,18 +64,22 @@ Backtracking::posiciones Backtracking::encontrarRuta(LinkedList<LinkedList<int>>
     //
     int cont = 1;
     //
+    if(path.posx.getHead() != NULL){
     while ((path.posx.getHead()->getData() != 9 || path.posy.getHead()->getData() != 9) &&
            (path.posx.getSize() != 0 && path.posy.getSize() != 0)) {
-        cout << "Entre al while del encontrarRuta, cont: "<< cont << endl;
+        cout << "Entre al while del encontrarRuta, cont: " << cont << endl;
         this->retornarVecino(currentPoint, matriz);
         cout << "Ya finalice retornarVecino" << endl;
         cont++;
     }
     cout << "Sali del while de encontrarRuta" << endl;
+    }
     posiciones aux;
-    aux.posx = path.posx;
-    aux.posy = path.posy;
 
+    if(path.posx.getSize() != 0){
+        aux.posx = path.posx;
+        aux.posy = path.posy;
+    }
     //----------------------------------------------------//
     int i = 0;
     cout << "---------------------------------" << endl;
@@ -216,17 +220,19 @@ if(vecinos.getSize()!=0) {
     this->path.posy.push_front(sig.posy);
     this->currentPoint = sig;
     cout << " Me movi, ahora currentPoint es x: " << this->currentPoint.posx << ", y: " << this->currentPoint.posy << endl;
-}else{
+}else {
     cout << "El tamano de la lista de vecinos es igual a cero" << endl;
     this->visited.posx.push_front(this->currentPoint.posx);
     this->visited.posy.push_front(this->currentPoint.posy);
-    cout << "Estoy sacando de la lista path a x: "<< this->visited.posx.getHead()->getData() << ", y: " << this->visited.posy.getHead()->getData() << endl;
+    cout << "Estoy sacando de la lista path a x: " << this->visited.posx.getHead()->getData() << ", y: "
+         << this->visited.posy.getHead()->getData() << endl;
     this->path.posx.pop_front();
     this->path.posy.pop_front();
-    
+    if (path.posx.getSize() != 0) {
     sig.posx = path.posx.getHead()->getData();
     sig.posy = path.posy.getHead()->getData();
     this->currentPoint = sig;
+    }
     cout << " Retrocedi, ahora currentPoint es x: " << this->currentPoint.posx << ", y: " << this->currentPoint.posy << endl;
 }
 
