@@ -1,0 +1,1 @@
+/usr/bin/c++  -g   CMakeFiles/Gladiators.dir/main.cpp.o CMakeFiles/Gladiators.dir/Backtracking.cpp.o CMakeFiles/Gladiators.dir/Matriz.cpp.o  -o Gladiators 

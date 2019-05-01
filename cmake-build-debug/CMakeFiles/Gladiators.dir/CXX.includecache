@@ -1,0 +1,34 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/malavassi/Escritorio/Gladiators/Backtracking.cpp
+Backtracking.h
+/home/malavassi/Escritorio/Gladiators/Backtracking.h
+iostream
+-
+
+/home/malavassi/Escritorio/Gladiators/Backtracking.h
+LinkedList.h
+/home/malavassi/Escritorio/Gladiators/LinkedList.h
+Matriz.h
+/home/malavassi/Escritorio/Gladiators/Matriz.h
+iostream
+-
+
+/home/malavassi/Escritorio/Gladiators/LinkedList.h
+Node.h
+/home/malavassi/Escritorio/Gladiators/Node.h
+iostream
+-
+
+/home/malavassi/Escritorio/Gladiators/Matriz.h
+LinkedList.h
+/home/malavassi/Escritorio/Gladiators/LinkedList.h
+
+/home/malavassi/Escritorio/Gladiators/Node.h
+
