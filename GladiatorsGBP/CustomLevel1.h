@@ -27,5 +27,6 @@ protected:
 	virtual void Tick(float DeltaSeconds) override;
 private:
 	int cont;
+	Matriz tablero;
 
 };

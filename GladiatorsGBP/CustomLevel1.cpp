@@ -12,14 +12,8 @@ ACustomLevel1::ACustomLevel1(const FObjectInitializer & ObjectInitializer) : ALe
 	  
 }
 
-void ACustomLevel1::BeginPlay(){
+void ACustomLevel1::BeginPlay() {
 	Super::ReceiveBeginPlay();
-
-	TSubclassOf<AActor> ClassToFind;
-	TArray<AActor*> FoundActors;
-	UGameplayStatics::GetAllActorsOfClass(GetWorld(), ClassToFind, FoundActors);
-
-	UE_LOG(LogTemp, Warning, TEXT(FoundActors.GetTypeSize()));
 
 	UE_LOG(LogTemp, Warning, TEXT("Hello World!"));
 
@@ -30,7 +24,6 @@ void ACustomLevel1::BeginPlay(){
 	UE_LOG(LogTemp, Warning, TEXT("Trying to spawn"));
 	//GetWorld()->SpawnActor<AGladiator>(Location, Rotation, SpawnInfo);
 	GetWorld()->SpawnActor<ASimpleTower>(Location, Rotation, SpawnInfo);
-	
 	cont = 1;
 
 }
@@ -42,9 +35,4 @@ void ACustomLevel1::BeginDestroy() {
 
 void ACustomLevel1::Tick(float DeltaSeconds) {
 	Super::Tick(DeltaSeconds);
-
-	//AGladiatorsGBPCharacter* spawnthis;
-
-	if (cont == 1) {
-		}
 }
