@@ -5,6 +5,7 @@
 #include "SimpleTower.h"
 #include "Kismet/GameplayStatics.h"
 #include <string>
+#include "Matriz.h"
 
 #define print(text) if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 1.5, FColor::Green,text)
 
@@ -23,7 +24,10 @@ void ACustomLevel1::BeginPlay() {
 	FActorSpawnParameters SpawnInfo;
 	UE_LOG(LogTemp, Warning, TEXT("Trying to spawn"));
 	//GetWorld()->SpawnActor<AGladiator>(Location, Rotation, SpawnInfo);
-	GetWorld()->SpawnActor<ASimpleTower>(Location, Rotation, SpawnInfo);
+	//GetWorld()->SpawnActor<ASimpleTower>(Location, Rotation, SpawnInfo);
+	tablero = GetWorld()->SpawnActor<AMatriz>(Location,Rotation, SpawnInfo);
+	tablero->setUp();
+	tablero->getMatriz().getElemento(1)->getData().getElemento(1)->getData()->spawnTower();
 	cont = 1;
 
 }

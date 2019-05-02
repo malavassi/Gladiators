@@ -7,6 +7,7 @@
 #include "Gladiator.h"
 #include "Engine/World.h"
 #include "GladiatorsGBPCharacter.h"
+#include "Matriz.h"
 
 #include "CustomLevel1.generated.h"
 
@@ -27,6 +28,6 @@ protected:
 	virtual void Tick(float DeltaSeconds) override;
 private:
 	int cont;
-	Matriz tablero;
+	AMatriz* tablero;
 
 };
