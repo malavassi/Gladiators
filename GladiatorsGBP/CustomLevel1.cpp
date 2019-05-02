@@ -3,16 +3,28 @@
 
 #include "CustomLevel1.h"
 #include "SimpleTower.h"
+#include "Kismet/GameplayStatics.h"
+#include <string>
+
+#define print(text) if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 1.5, FColor::Green,text)
 
 ACustomLevel1::ACustomLevel1(const FObjectInitializer & ObjectInitializer) : ALevelScriptActor(ObjectInitializer){
+	  
 }
 
 void ACustomLevel1::BeginPlay(){
 	Super::ReceiveBeginPlay();
+
+	TSubclassOf<AActor> ClassToFind;
+	TArray<AActor*> FoundActors;
+	UGameplayStatics::GetAllActorsOfClass(GetWorld(), ClassToFind, FoundActors);
+
+	UE_LOG(LogTemp, Warning, TEXT(FoundActors.GetTypeSize()));
+
 	UE_LOG(LogTemp, Warning, TEXT("Hello World!"));
 
 	//Spawn the shiet
-	FVector Location(-150.5f, 50.0f, 130.0f);
+	FVector Location(-150.5f, 50.0f, 190.0f);
 	FRotator Rotation(0.0f, 0.0f, 0.0f);
 	FActorSpawnParameters SpawnInfo;
 	UE_LOG(LogTemp, Warning, TEXT("Trying to spawn"));
