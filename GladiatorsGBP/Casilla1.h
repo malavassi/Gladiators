@@ -10,6 +10,7 @@
 #include "Gladiator.h"
 #include "Engine/World.h"
 #include "GladiatorsGBPCharacter.h"
+#include "GladiatorAIController.h"
 
 #include "Casilla1.generated.h"
 
@@ -48,12 +49,19 @@ public:
 	void spawnTower();
 	/** Genera un gladiador en esta casilla*/
 	void spawnGladiator();
+	/**
+	Mueve a lo que tenga la casilla a otra casilla. En caso de ser un gladiador lo hace caminar, si es una torre se teleporta
+	@param casilla Puntero a la casilla donde se quiere mover 
+	*/
+	void moveTo(ACasilla1* casilla);
 
 	// Getters & setters comunes
 	void setTodo(int i, int j, int x, int y);
 	AGladiator* getGladiator();
 	ASimpleTower* getSimpleTower();
 	int getWaypointOrder();
+	int getX();
+	int getY();
 private:
 	int x; /** Posicion real en x en la interfaz */
 	int y; /** Posicion real en y en la interfaz*/

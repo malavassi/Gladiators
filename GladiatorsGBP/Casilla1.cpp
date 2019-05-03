@@ -51,6 +51,7 @@ void ACasilla1::spawnTower() {
 	FRotator Rotation(0.f, 0.f, 0.f);
 	FActorSpawnParameters SpawnInfo;
 	ASimpleTower* torre = GetWorld()->SpawnActor<ASimpleTower>(Location, Rotation, SpawnInfo);
+	this->gladiator = nullptr;
 	this->tower = torre;
 }
 
@@ -60,6 +61,7 @@ void ACasilla1::spawnGladiator() {
 	FActorSpawnParameters SpawnInfo;
 	AGladiator* gladiador = GetWorld()->SpawnActor<AGladiator>(Location, Rotation, SpawnInfo);
 	this->gladiator = gladiador;
+	this -> tower = nullptr;
 }
 
 void ACasilla1::setTodo(int ii, int jj, int xx, int yy) {
@@ -79,4 +81,26 @@ ASimpleTower* ACasilla1::getSimpleTower() {
 
 int ACasilla1::getWaypointOrder() {
 	return waypointOrder;
+}
+
+void ACasilla1::moveTo(ACasilla1* casilla) {
+	if (gladiator != nullptr) {
+		//AGladiatorAIController* controller = Cast<AGladiatorAIController>(gladiator->GetController());
+		AAIController *controller = gladiator->GetController<AAIController>();
+		if (controller) {
+			UE_LOG(LogTemp, Warning, TEXT("Moving"));
+
+			controller->MoveToLocation(FVector(casilla->getX(),casilla->getY(), 230));
+			//controller->MoveToActor(casilla, 5.f, false);
+		}
+		//AddMovementInput(GetActorForwardVector(), 20000);
+	}
+}
+
+int ACasilla1::getX() {
+	return x;
+}
+
+int ACasilla1::getY() {
+	return y;
 }
