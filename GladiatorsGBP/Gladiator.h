@@ -29,4 +29,9 @@ public:
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
+	/**
+	Mueve al personaje hacia la casilla especificada
+	@param casilla Puntero a la casilla a la que quiero mover
+	*/
+	void moveTo(auto* casilla);
 };

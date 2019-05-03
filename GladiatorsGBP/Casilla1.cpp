@@ -68,3 +68,15 @@ void ACasilla1::setTodo(int ii, int jj, int xx, int yy) {
 	this->x = xx;
 	this->y = yy;
 }
+
+AGladiator* ACasilla1::getGladiator() {
+	return gladiator;
+}
+
+ASimpleTower* ACasilla1::getSimpleTower() {
+	return tower;
+}
+
+int ACasilla1::getWaypointOrder() {
+	return waypointOrder;
+}

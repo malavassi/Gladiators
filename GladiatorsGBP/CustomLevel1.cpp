@@ -27,7 +27,9 @@ void ACustomLevel1::BeginPlay() {
 	//GetWorld()->SpawnActor<ASimpleTower>(Location, Rotation, SpawnInfo);
 	tablero = GetWorld()->SpawnActor<AMatriz>(Location,Rotation, SpawnInfo);
 	tablero->setUp();
-	tablero->getMatriz().getElemento(1)->getData().getElemento(1)->getData()->spawnTower();
+	tablero->getMatriz().getElemento(1)->getData().getElemento(1)->getData()->spawnGladiator();
+	ACasilla1* prueba = tablero->getMatriz().getElemento(9)->getData().getElemento(9)->getData();
+	tablero->getMatriz().getElemento(1)->getData().getElemento(1)->getData()->getGladiator()->moveTo(prueba);
 	cont = 1;
 
 }

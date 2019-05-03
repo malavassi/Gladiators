@@ -48,7 +48,12 @@ public:
 	void spawnTower();
 	/** Genera un gladiador en esta casilla*/
 	void spawnGladiator();
+
+	// Getters & setters comunes
 	void setTodo(int i, int j, int x, int y);
+	AGladiator* getGladiator();
+	ASimpleTower* getSimpleTower();
+	int getWaypointOrder();
 private:
 	int x; /** Posicion real en x en la interfaz */
 	int y; /** Posicion real en y en la interfaz*/
@@ -56,4 +61,5 @@ private:
 	int j; /** Posicion en la matriz en y, empieza en 0 */
 	ASimpleTower* tower; /**Torre en esta casilla, si hay una*/
 	AGladiator* gladiator; /** Gladiador en esta casilla, si hay uno*/
+	int waypointOrder;
 };
