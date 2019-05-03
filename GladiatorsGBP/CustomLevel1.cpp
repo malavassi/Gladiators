@@ -31,9 +31,13 @@ void ACustomLevel1::BeginPlay() {
 	ACasilla1* prueba1 = tablero->getMatriz().getElemento(9)->getData().getElemento(9)->getData();
 	ACasilla1* prueba2 = tablero->getMatriz().getElemento(5)->getData().getElemento(5)->getData();
 	ACasilla1* prueba3 = tablero->getMatriz().getElemento(1)->getData().getElemento(8)->getData();
+	
+	// Nota, los movimientos se sobreescriben, solucion:
+	// Crear una cola de movimientos, utilizar GetMoveStatus()
+	
 	tablero->getMatriz().getElemento(1)->getData().getElemento(1)->getData()->moveTo(prueba2);
 	tablero->getMatriz().getElemento(1)->getData().getElemento(1)->getData()->moveTo(prueba3);
-	//tablero->getMatriz().getElemento(1)->getData().getElemento(1)->getData()->moveTo(prueba1);
+	tablero->getMatriz().getElemento(1)->getData().getElemento(1)->getData()->moveTo(prueba1);
 
 	cont = 1;
 

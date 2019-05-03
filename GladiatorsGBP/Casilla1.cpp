@@ -34,16 +34,21 @@ ACasilla1::~ACasilla1()
 void ACasilla1::setActor(AGladiator* gladiador) {
 	this->gladiator = gladiador;
 	this->tower = nullptr;
+	if (gladiador) {
+		controller = Cast<AGladiatorAIController>(gladiator->GetController());
+	}
 }
 
 void ACasilla1::setActor(ASimpleTower* torre) {
 	this->gladiator = nullptr;
 	this->tower = torre;
+	controller = nullptr;
 }
 
 void ACasilla1::clear() {
 	this->gladiator = nullptr;
 	this->tower = nullptr;
+	controller = nullptr;
 }
 
 void ACasilla1::spawnTower() {
@@ -52,6 +57,7 @@ void ACasilla1::spawnTower() {
 	FActorSpawnParameters SpawnInfo;
 	ASimpleTower* torre = GetWorld()->SpawnActor<ASimpleTower>(Location, Rotation, SpawnInfo);
 	this->gladiator = nullptr;
+	controller = nullptr;
 	this->tower = torre;
 }
 
@@ -62,6 +68,9 @@ void ACasilla1::spawnGladiator() {
 	AGladiator* gladiador = GetWorld()->SpawnActor<AGladiator>(Location, Rotation, SpawnInfo);
 	this->gladiator = gladiador;
 	this -> tower = nullptr;
+	if (gladiador) {
+		controller = Cast<AGladiatorAIController>(gladiator->GetController());
+	}
 }
 
 void ACasilla1::setTodo(int ii, int jj, int xx, int yy) {
@@ -79,18 +88,17 @@ ASimpleTower* ACasilla1::getSimpleTower() {
 	return tower;
 }
 
-int ACasilla1::getWaypointOrder() {
-	return waypointOrder;
-}
 
 void ACasilla1::moveTo(ACasilla1* casilla) {
 	if (gladiator != nullptr) {
-		//AGladiatorAIController* controller = Cast<AGladiatorAIController>(gladiator->GetController());
-		AAIController *controller = gladiator->GetController<AAIController>();
+		//AAIController *controller = gladiator->GetController<AAIController>();
 		if (controller) {
-			UE_LOG(LogTemp, Warning, TEXT("Moving"));
-
-			controller->MoveToLocation(FVector(casilla->getX(),casilla->getY(), 230));
+			if (controller->GetMoveStatus() == EPathFollowingStatus::Moving) {
+				controller->enqueue(FVector(casilla->getX(), casilla->getY(), 230));
+			}
+			else {
+				controller->MoveToLocation(FVector(casilla->getX(), casilla->getY(), 230));
+			}
 		}
 		//AddMovementInput(GetActorForwardVector(), 20000);
 	}

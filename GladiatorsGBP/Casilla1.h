@@ -11,6 +11,7 @@
 #include "Engine/World.h"
 #include "GladiatorsGBPCharacter.h"
 #include "GladiatorAIController.h"
+#include "LinkedList.h"
 
 #include "Casilla1.generated.h"
 
@@ -59,7 +60,6 @@ public:
 	void setTodo(int i, int j, int x, int y);
 	AGladiator* getGladiator();
 	ASimpleTower* getSimpleTower();
-	int getWaypointOrder();
 	int getX();
 	int getY();
 private:
@@ -69,5 +69,5 @@ private:
 	int j; /** Posicion en la matriz en y, empieza en 0 */
 	ASimpleTower* tower; /**Torre en esta casilla, si hay una*/
 	AGladiator* gladiator; /** Gladiador en esta casilla, si hay uno*/
-	int waypointOrder;
+	AGladiatorAIController* controller; /** Controlador del gladiador, si lo hay*/
 };

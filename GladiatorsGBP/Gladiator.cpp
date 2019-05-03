@@ -29,7 +29,7 @@ AGladiator::AGladiator()
 	// Poseido por una AI desde que aparece
 	AutoPossessAI = EAutoPossessAI::PlacedInWorldOrSpawned;
 	// AI que lo posee es AGladiatorAIController
-	//AIControllerClass = AGladiatorAIController::StaticClass();
+	AIControllerClass = AGladiatorAIController::StaticClass();
 
 	static ConstructorHelpers::FObjectFinder<UAnimBlueprint> animAsset(TEXT("/Game/Mannequin/Animations/ThirdPerson_AnimBP.ThirdPerson_AnimBP"));
 	mesh->SetAnimInstanceClass(animAsset.Object->GeneratedClass);
