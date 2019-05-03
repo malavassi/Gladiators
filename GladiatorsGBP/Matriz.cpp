@@ -33,6 +33,33 @@ AMatriz::~AMatriz()
 {
 }
 
+void AMatriz::mover(int ii, int ij, int fi, int fj)
+{
+	ACasilla1* inicial = getCasilla(ii, ij);
+	ACasilla1* final = getCasilla(fi, fj);
+	if (inicial && final) {
+		if (final->getGladiator() == nullptr && final->getSimpleTower() == nullptr) {
+			AGladiator* gladiador = inicial->getGladiator();
+			ASimpleTower* tower = inicial->getSimpleTower();
+			if (gladiador) {
+				inicial->moveTo(final);
+				inicial->clear();
+				final->setActor(gladiador);
+			}
+			else if (tower) {
+				inicial->moveTo(final);
+				inicial->clear();
+				final->setActor(tower);
+			}
+		}
+	}
+}
+
 LinkedList<LinkedList<ACasilla1*>> AMatriz::getMatriz() {
 	return matriz;
+}
+
+ACasilla1 * AMatriz::getCasilla(int i, int j)
+{
+	return getMatriz().getElemento(i)->getData().getElemento(j)->getData();
 }

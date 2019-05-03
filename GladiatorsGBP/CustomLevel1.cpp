@@ -35,9 +35,12 @@ void ACustomLevel1::BeginPlay() {
 	// Nota, los movimientos se sobreescriben, solucion:
 	// Crear una cola de movimientos, utilizar GetMoveStatus()
 	
-	tablero->getMatriz().getElemento(1)->getData().getElemento(1)->getData()->moveTo(prueba2);
-	tablero->getMatriz().getElemento(1)->getData().getElemento(1)->getData()->moveTo(prueba3);
-	tablero->getMatriz().getElemento(1)->getData().getElemento(1)->getData()->moveTo(prueba1);
+	//tablero->getMatriz().getElemento(1)->getData().getElemento(1)->getData()->moveTo(prueba2);
+	tablero->mover(1, 1, 1, 5);
+	tablero->mover(1, 5, 7, 4);
+	tablero->mover(7, 4, 9, 9);
+	//tablero->getMatriz().getElemento(1)->getData().getElemento(1)->getData()->moveTo(prueba3);
+	//tablero->getMatriz().getElemento(1)->getData().getElemento(1)->getData()->moveTo(prueba1);
 
 	cont = 1;
 
