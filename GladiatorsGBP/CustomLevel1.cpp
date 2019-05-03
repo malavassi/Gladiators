@@ -28,8 +28,13 @@ void ACustomLevel1::BeginPlay() {
 	tablero = GetWorld()->SpawnActor<AMatriz>(Location,Rotation, SpawnInfo);
 	tablero->setUp();
 	tablero->getMatriz().getElemento(1)->getData().getElemento(1)->getData()->spawnGladiator();
-	ACasilla1* prueba = tablero->getMatriz().getElemento(7)->getData().getElemento(7)->getData();
-	tablero->getMatriz().getElemento(1)->getData().getElemento(1)->getData()->moveTo(prueba);
+	ACasilla1* prueba1 = tablero->getMatriz().getElemento(9)->getData().getElemento(9)->getData();
+	ACasilla1* prueba2 = tablero->getMatriz().getElemento(5)->getData().getElemento(5)->getData();
+	ACasilla1* prueba3 = tablero->getMatriz().getElemento(1)->getData().getElemento(8)->getData();
+	tablero->getMatriz().getElemento(1)->getData().getElemento(1)->getData()->moveTo(prueba2);
+	tablero->getMatriz().getElemento(1)->getData().getElemento(1)->getData()->moveTo(prueba3);
+	//tablero->getMatriz().getElemento(1)->getData().getElemento(1)->getData()->moveTo(prueba1);
+
 	cont = 1;
 
 }

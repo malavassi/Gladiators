@@ -91,7 +91,6 @@ void ACasilla1::moveTo(ACasilla1* casilla) {
 			UE_LOG(LogTemp, Warning, TEXT("Moving"));
 
 			controller->MoveToLocation(FVector(casilla->getX(),casilla->getY(), 230));
-			//controller->MoveToActor(casilla, 5.f, false);
 		}
 		//AddMovementInput(GetActorForwardVector(), 20000);
 	}

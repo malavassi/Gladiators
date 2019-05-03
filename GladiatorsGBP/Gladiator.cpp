@@ -22,6 +22,7 @@ AGladiator::AGladiator()
 	if (meshAsset.Succeeded()) {  // Si lo encuentro, lo seteo
 		mesh->SetSkeletalMesh(meshAsset.Object);
 		mesh->SetRelativeLocation(FVector(0.f, 0.f, -90.f));
+		mesh->SetRelativeRotation(FRotator(0.f, -90.f, 0.f));
 		mesh->SetWorldScale3D(FVector(1.f, 1.f, 1.f));
 	}
 
