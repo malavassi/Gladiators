@@ -2,6 +2,7 @@
 
 
 #include "Casilla1.h"
+#include "SimpleArrow.h"
 #include "DrawDebugHelpers.h"
 
 // Ayuda al debugger
@@ -24,7 +25,9 @@ ACasilla1::ACasilla1()
 void ACasilla1::OnOverlapBegin(AActor * OverlappedActor, AActor * OtherActor)
 {
 	// check if Actors do not equal nullptr and that 
-	if (OtherActor && (OtherActor != this) && triggerTower !=nullptr) {
+
+	ASimpleArrow* flechilla = Cast<ASimpleArrow>(OtherActor);
+	if (OtherActor && (OtherActor != this) && triggerTower !=nullptr && !flechilla) {
 		// print to screen using above defined method when actor enters trigger box
 		print("Overlap Begin");
 		printFString("Overlapped Actor = %s", *OverlappedActor->GetName());

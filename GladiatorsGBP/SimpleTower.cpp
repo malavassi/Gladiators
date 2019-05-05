@@ -15,6 +15,7 @@
 // include draw debug helpers header file
 #include "DrawDebugHelpers.h"
 #include "Kismet/KismetMathLibrary.h"
+#include <typeinfo>
 #include "SimpleArrow.h"
 
 #define print(text) if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 1.5, FColor::Green,text)
@@ -92,12 +93,13 @@ void ASimpleTower::Fire(AActor *Objective)
 			
 
 			ASimpleArrow* arrow = GetWorld()->SpawnActor<ASimpleArrow>(GetActorLocation()+(End-Start)/2, FRotator::ZeroRotator, SpawnInfo);
+			
+			
 			arrow->setType(type);
 			FRotator rotator = UKismetMathLibrary::FindLookAtRotation(arrow->GetActorLocation(), End);
 			arrow->SetActorRotation(rotator + FRotator(FQuat(FVector(0, 1, 0), PI / 2)));
-			
 
-			arrow->getMesh()->AddImpulseToAllBodiesBelow(End*0.5, NAME_None, true, true);
+			arrow->getMesh()->AddForce((End-Start)*1000);
 			
 			arrow->setTarget(End);
 
@@ -146,9 +148,8 @@ LinkedList<FVector> ASimpleTower::getTriggerBoxes()
 
 void ASimpleTower::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult) {
 	// check if Actors do not equal nullptr and that 
-	if (OtherActor && (OtherActor != this)) {
+	if (OtherActor && (OtherActor != this) ) {
 		// print to screen using above defined method when actor enters trigger box
-		print("Overlap Begin");
 		//printFString("Overlapped Actor = %s", *OverlappedActor->GetName());
 		Fire(OtherActor);
 	}

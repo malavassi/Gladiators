@@ -21,18 +21,20 @@ protected:
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
+
+
 	UFUNCTION()
 	void setTarget(FVector target);
 
 	void setType(int type);
 
 	UFUNCTION()
-		USkeletalMeshComponent* getMesh();
+		UStaticMeshComponent* getMesh();
 	UFUNCTION()
 		void OnHit(AActor * SelfActor, class AActor * OtherActor, FVector NormalImpulse, const FHitResult &Hit);
 private:
 	UPROPERTY()
-		USkeletalMeshComponent* mesh;
+		UStaticMeshComponent* mesh;
 	UPROPERTY()
 	FVector target; /**Objetivo al que va la flecha*/
 	UPROPERTY()

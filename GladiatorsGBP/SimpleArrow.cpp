@@ -29,30 +29,22 @@ ASimpleArrow::ASimpleArrow(){
 
 
 	// Lo siguiente solo puede estar en un constructor, nada mas!!
-	 mesh = CreateDefaultSubobject < USkeletalMeshComponent>(TEXT("Amesh"));
+	 mesh = CreateDefaultSubobject < UStaticMeshComponent>(TEXT("Amesh"));
 	//mesh->SetStaticMesh(StaticMesh'/Game/Geometry/Meshes/1M_Cube_Chamfer.1M_Cube_Chamfer');
 
-	//mesh->SetupAttachment(RootComponent);
+	mesh->SetupAttachment(RootComponent);
 
-	
-
-	RootComponent = mesh;
+	//RootComponent = mesh;
 
 
 	// Go find that shiet
-	static ConstructorHelpers::FObjectFinder<USkeletalMesh> meshAsset(TEXT("/Game/Geometry/Arrow.Arrow"));
-	//Physics asset necesario para fisicas
-	static ConstructorHelpers::FObjectFinder<UPhysicsAsset> physicsAsset(TEXT("/Game/Geometry/Arrow_PhysicsAsset.Arrow_PhysicsAsset"));
+	static ConstructorHelpers::FObjectFinder<UStaticMesh> meshAsset(TEXT("/Game/Geometry/Arrow_SM.Arrow_SM"));
 
-
-	if (meshAsset.Succeeded() && physicsAsset.Succeeded()) {
+	if (meshAsset.Succeeded()) {
 		// Set the shiet
 		UE_LOG(LogTemp, Warning, TEXT("Arrow created"));
-		mesh->SetSkeletalMeshWithoutResettingAnimation(meshAsset.Object);
-		mesh->SetRelativeLocation(FVector(0.f, 0.f, 0.f));
+		mesh->SetStaticMesh(meshAsset.Object);
 		mesh->SetWorldScale3D(FVector(20.f,20.f,8.f));
-
-		mesh->SetPhysicsAsset(physicsAsset.Object);
 		mesh->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
 		mesh->SetSimulatePhysics(true);
 
@@ -62,7 +54,8 @@ ASimpleArrow::ASimpleArrow(){
 
 }
 
-USkeletalMeshComponent* ASimpleArrow::getMesh() {
+
+UStaticMeshComponent* ASimpleArrow::getMesh() {
 	return mesh;
 }
 
