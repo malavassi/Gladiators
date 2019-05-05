@@ -27,18 +27,18 @@ void ACustomLevel1::BeginPlay() {
 	//GetWorld()->SpawnActor<ASimpleTower>(Location, Rotation, SpawnInfo);
 	tablero = GetWorld()->SpawnActor<AMatriz>(Location,Rotation, SpawnInfo);
 	tablero->setUp();
-	tablero->getMatriz().getElemento(1)->getData().getElemento(1)->getData()->spawnGladiator();
-	ACasilla1* prueba1 = tablero->getMatriz().getElemento(9)->getData().getElemento(9)->getData();
-	ACasilla1* prueba2 = tablero->getMatriz().getElemento(5)->getData().getElemento(5)->getData();
-	ACasilla1* prueba3 = tablero->getMatriz().getElemento(1)->getData().getElemento(8)->getData();
-	
+
+	tablero->addTower(0, 1, 1);
+	tablero->teleportActor(1, 1, 9, 9);
 	// Nota, los movimientos se sobreescriben, solucion:
 	// Crear una cola de movimientos, utilizar GetMoveStatus()
+
+
 	
 	//tablero->getMatriz().getElemento(1)->getData().getElemento(1)->getData()->moveTo(prueba2);
-	tablero->mover(1, 1, 1, 5);
-	tablero->mover(1, 5, 7, 4);
-	tablero->mover(7, 4, 9, 9);
+	//tablero->mover(1, 1, 1, 5);
+	//tablero->mover(1, 5, 7, 4);
+	//tablero->mover(7, 4, 9, 9);
 	//tablero->getMatriz().getElemento(1)->getData().getElemento(1)->getData()->moveTo(prueba3);
 	//tablero->getMatriz().getElemento(1)->getData().getElemento(1)->getData()->moveTo(prueba1);
 

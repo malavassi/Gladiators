@@ -55,6 +55,11 @@ void AMatriz::mover(int ii, int ij, int fi, int fj)
 	}
 }
 
+void AMatriz::addGladiador(int i, int j)
+{
+	getMatriz().getElemento(i)->getData().getElemento(j)->getData()->spawnGladiator();
+}
+
 LinkedList<LinkedList<ACasilla1*>> AMatriz::getMatriz() {
 	return matriz;
 }
@@ -62,4 +67,31 @@ LinkedList<LinkedList<ACasilla1*>> AMatriz::getMatriz() {
 ACasilla1 * AMatriz::getCasilla(int i, int j)
 {
 	return getMatriz().getElemento(i)->getData().getElemento(j)->getData();
+}
+
+void AMatriz::addTower(int torre, int i, int j) {
+	if (torre == 0) {
+		getMatriz().getElemento(i)->getData().getElemento(j)->getData()->spawnTower();
+	}
+}
+
+void AMatriz::teleportActor(int ii, int ij, int fi, int fj) {
+	ACasilla1* inicial = getCasilla(ii, ij);
+	ACasilla1* final = getCasilla(fi, fj);
+	if (inicial && final) {
+		if (final->getGladiator() == nullptr && final->getSimpleTower() == nullptr) {
+			AGladiator* gladiador = inicial->getGladiator();
+			ASimpleTower* tower = inicial->getSimpleTower();
+			if (gladiador) {
+				gladiador->SetActorLocation(FVector(final->getX(), final->getY(), 190.0f));
+				final->setActor(gladiador);
+				inicial->clear();
+			}
+			else if (tower) {
+				tower->SetActorLocation(FVector(final->getX(), final->getY(), 190.0f));
+				inicial->clear();
+				final->setActor(tower);
+			}
+		}
+	}
 }
