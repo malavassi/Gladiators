@@ -74,6 +74,12 @@ void ASimpleArrow::BeginPlay()
 	
 }
 
+void ASimpleArrow::setType(int type) {
+	this->type = type;
+	// Recalcule mesh
+
+}
+
 void ASimpleArrow::setTarget(FVector target) {
 	this->target = target;
 	targetAq = true;

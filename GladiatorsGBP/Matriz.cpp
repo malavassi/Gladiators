@@ -69,9 +69,9 @@ ACasilla1 * AMatriz::getCasilla(int i, int j)
 	return getMatriz().getElemento(i)->getData().getElemento(j)->getData();
 }
 
-void AMatriz::addTower(int torre, int i, int j) {
-	if (torre == 0) {  // En tiempo de ejecucion, por aqui va el error
+void AMatriz::addTower(int torr, int i, int j) {
 		ASimpleTower* torre = getMatriz().getElemento(i)->getData().getElemento(j)->getData()->spawnTower();
+		torre->setType(torr);
 		ACasilla1* actual = getCasilla(i, j);
 		LinkedList<FVector> triggerBoxes = torre->getTriggerBoxes();
 		int size = triggerBoxes.getSize();
@@ -86,7 +86,7 @@ void AMatriz::addTower(int torre, int i, int j) {
 				actual->addDependency(trigger);
 			}
 		}
-	}
+	
 }
 
 void AMatriz::teleportActor(int ii, int ij, int fi, int fj) {

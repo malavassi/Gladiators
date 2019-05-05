@@ -57,17 +57,18 @@ ASimpleTower::ASimpleTower()
 		mesh->SetWorldScale3D(FVector(1.f,1.f,8.f));
 	}
 
-	//Setup triggerBoxes for simple
-	triggerBoxes = LinkedList<FVector>();
-	for (int i = -1; i <= 1;i++) {
-		for (int j = -1; j <= 1;j++) {
-			if (i == 0 && j == 0) {
-			}
-			else {
-				triggerBoxes.push_back(FVector(i, j, 0));
-			}
-		}
-	}
+	type = 0;
+	area = 0;
+
+	setupTriggers();
+}
+
+void ASimpleTower::setType(int type) {
+	this->type = type;
+	area = 1 + type;
+	setupTriggers();
+
+	// Recalcule mesh
 }
 
 void ASimpleTower::Fire(AActor *Objective)
@@ -91,7 +92,7 @@ void ASimpleTower::Fire(AActor *Objective)
 			
 
 			ASimpleArrow* arrow = GetWorld()->SpawnActor<ASimpleArrow>(GetActorLocation()+(End-Start)/2, FRotator::ZeroRotator, SpawnInfo);
-			
+			arrow.setType(type);
 			FRotator rotator = UKismetMathLibrary::FindLookAtRotation(arrow->GetActorLocation(), End);
 			arrow->SetActorRotation(rotator + FRotator(FQuat(FVector(0, 1, 0), PI / 2)));
 			
@@ -104,6 +105,21 @@ void ASimpleTower::Fire(AActor *Objective)
 	}
 
 	
+}
+
+void ASimpleTower::setupTriggers()
+{
+	//Setup triggerBoxes for simple
+	triggerBoxes = LinkedList<FVector>();
+	for (int i = -area; i <= area; i++) {
+		for (int j = -area; j <= area; j++) {
+			if (i == 0 && j == 0) {
+			}
+			else {
+				triggerBoxes.push_back(FVector(i, j, 0));
+			}
+		}
+	}
 }
 
 // Called when the game starts or when spawned

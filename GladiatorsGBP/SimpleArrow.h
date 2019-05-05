@@ -24,6 +24,8 @@ public:
 	UFUNCTION()
 	void setTarget(FVector target);
 
+	void setType(int type);
+
 	UFUNCTION()
 		USkeletalMeshComponent* getMesh();
 	UFUNCTION()
@@ -32,18 +34,19 @@ private:
 	UPROPERTY()
 		USkeletalMeshComponent* mesh;
 	UPROPERTY()
-	FVector target;
+	FVector target; /**Objetivo al que va la flecha*/
 	UPROPERTY()
-	float tX;
+	float tX;/**Coordenada X del objetivo*/
 	UPROPERTY()
-	float tY;
+	float tY;/**Coordenada Y del objetivo*/
 	UPROPERTY()
-	float tZ;
+	float tZ;/**Coordenada Z del objetivo*/
 	UPROPERTY()
-	bool targetAq;
+	bool targetAq; /**Positivo si choca*/
 	UPROPERTY()
-	FVector currentPos;
+	FVector currentPos; /**Posicion de la flecha*/
 	UPROPERTY()
-	float speed;
+	float speed; /**Velocidad de la flecha*/
+	int type; /**Tipo de flecha. 0 normal, 1 fuego, 2 explosiva*/
 
 };

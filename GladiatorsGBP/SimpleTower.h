@@ -43,12 +43,16 @@ public:
 		void OnOverlapEnd(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex);
 private:
 	LinkedList<FVector> triggerBoxes; /** Posiciones relativas a mi torre donde van a estar mis triggerBoxes*/
+	int type; /** Tipo de torre, 0 normal, 1 fuego, 2 explosivo*/
+	int area; /** Area de efecto de la torre*/
+	void setupTriggers(); /** Pone los triggers necesarios*/ 
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
 public:	
 	// Called every frame
+	void setType(int type);
 	virtual void Tick(float DeltaTime) override;
 	LinkedList<FVector> getTriggerBoxes();
 
