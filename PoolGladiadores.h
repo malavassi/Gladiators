@@ -8,28 +8,32 @@
 
 #include "LinkedList.h"
 #include "Gladiator.h"
+#include "Generacion.h"
 #include <iostream>
 
 using namespace std;
 
+//Esta es la clase que almacena TODOS los gladiadores
+//por generacion y cada generacion a su vez esta dividida
+//en dos poblaciones (que llamo PoblacionA o PoblacionB)
 class PoolGladiadores {
 
 private:
-    int identificadorOleada;
-    LinkedList<LinkedList<Gladiator>> *poolGladiadores;
+    int identificadorOleada; //useless, no lo he eliminado
+    LinkedList<Generacion> *poolGladiadores; //puntero principal del pool
 
 public:
-    PoolGladiadores();
-    PoolGladiadores(LinkedList<LinkedList<Gladiator>> *poolGladiadores);
-    void recorrerPool();
+    PoolGladiadores(); //constructor por defecto
+    PoolGladiadores(LinkedList<Generacion> *poolGladiadores);
+    void recorrerPool();  //recorre todo el pool, ver prueba. Tested
 
-    int getIdentificadorOleada() const;
+    int getIdentificadorOleada() const; //nevermind
 
-    void setIdentificadorOleada(int identificadorOleada);
+    void setIdentificadorOleada(int identificadorOleada); //nevermind
 
-    LinkedList<LinkedList<Gladiator>> *getPoolGladiadores() const;
+    LinkedList<Generacion> *getPoolGladiadores() const; //pues getters y setters
 
-    void setPoolGladiadores(LinkedList<LinkedList<Gladiator>> *poolGladiadores);
+    void setPoolGladiadores(LinkedList<Generacion> *poolGladiadores);
 };
 
 

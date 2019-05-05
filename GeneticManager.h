@@ -5,6 +5,8 @@
 #ifndef GLADIATORS_GENETICMANAGER_H
 #define GLADIATORS_GENETICMANAGER_H
 
+//Clase que se va a encargar de la reproduccion
+
 
 class GeneticManager {
 

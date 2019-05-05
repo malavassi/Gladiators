@@ -13,16 +13,17 @@ GeneradorOleadas::GeneradorOleadas() {
     this->condicionFisicaRandom=0;
     this->contadorGladiador=1;
     this->limiteGladiadorPorOleada=5;
+    this->contadorGeneracion=1;
 
 }
 
-LinkedList<Gladiator> GeneradorOleadas::generarOleadaInicial() {
+void GeneradorOleadas::generarOleadaInicial() {
 
-    LinkedList<Gladiator> *OleadaTemporal = new LinkedList<Gladiator>();
+    LinkedList<Gladiator> *OleadaTemporalA = new LinkedList<Gladiator>();
 
     //pruebas
-    LinkedList<Gladiator> *OleadaTemporal2 = new LinkedList<Gladiator>();
-    LinkedList<Gladiator> *OleadaTemporal3 = new LinkedList<Gladiator>();
+    LinkedList<Gladiator> *OleadaTemporalB = new LinkedList<Gladiator>();
+
 
 
     srand(time(NULL));
@@ -37,24 +38,24 @@ LinkedList<Gladiator> GeneradorOleadas::generarOleadaInicial() {
         this->fuerzaTSuperiorRandom = (rand() %20) + 1;
 
         //CREA GLADIADOR Y AGREGA A LISTA
-        OleadaTemporal->push_front(new Gladiator());
+        OleadaTemporalA->push_front(new Gladiator());
 
         //MODIFICA ATRIBUTOS 'FIJOS'
-        OleadaTemporal->front()->setEdad(25);
-        OleadaTemporal->front()->setGeneracionesEsperadas(4);
+        OleadaTemporalA->front()->setEdad(25);
+        OleadaTemporalA->front()->setGeneracionesEsperadas(4);
 
         //MODIFICA ARIBUTOS VARIABLES O RANDOM
-        OleadaTemporal->front()->setIdUnico(this->contadorGladiador);
-        OleadaTemporal->front()->setCondicionFisica(condicionFisicaRandom);
-        OleadaTemporal->front()->setFuerzaTInferior(fuerzaTInferiorRandom);
-        OleadaTemporal->front()->setFuerzaTSuperior(fuerzaTSuperiorRandom);
+        OleadaTemporalA->front()->setIdUnico(this->contadorGladiador);
+        OleadaTemporalA->front()->setCondicionFisica(condicionFisicaRandom);
+        OleadaTemporalA->front()->setFuerzaTInferior(fuerzaTInferiorRandom);
+        OleadaTemporalA->front()->setFuerzaTSuperior(fuerzaTSuperiorRandom);
 
         //FUNCION FITNESS
-        OleadaTemporal->front()->setIQemocional(0); // falta
-        OleadaTemporal->front()->setResistencia(0); // falta
+        OleadaTemporalA->front()->setIQemocional(0); // falta
+        OleadaTemporalA->front()->setResistencia(0); // falta
 
         //CALCULA PROBABILIDAD DE SUPERVIVENCIA
-        OleadaTemporal->front()->setProbabilidadSupervivencia(0); //falta
+        OleadaTemporalA->front()->setProbabilidadSupervivencia(0); //falta
 
         contadorGladiador+=1;
         contadorOleada+=1;
@@ -69,69 +70,42 @@ LinkedList<Gladiator> GeneradorOleadas::generarOleadaInicial() {
         this->fuerzaTSuperiorRandom = (rand() %20) + 1;
 
         //CREA GLADIADOR Y AGREGA A LISTA
-        OleadaTemporal2->push_front(new Gladiator());
+        OleadaTemporalB->push_front(new Gladiator());
 
         //MODIFICA ATRIBUTOS 'FIJOS'
-        OleadaTemporal2->front()->setEdad(25);
-        OleadaTemporal2->front()->setGeneracionesEsperadas(4);
+        OleadaTemporalB->front()->setEdad(25);
+        OleadaTemporalB->front()->setGeneracionesEsperadas(4);
 
         //MODIFICA ARIBUTOS VARIABLES O RANDOM
-        OleadaTemporal2->front()->setIdUnico(this->contadorGladiador);
-        OleadaTemporal2->front()->setCondicionFisica(condicionFisicaRandom);
-        OleadaTemporal2->front()->setFuerzaTInferior(fuerzaTInferiorRandom);
-        OleadaTemporal2->front()->setFuerzaTSuperior(fuerzaTSuperiorRandom);
+        OleadaTemporalB->front()->setIdUnico(this->contadorGladiador);
+        OleadaTemporalB->front()->setCondicionFisica(condicionFisicaRandom);
+        OleadaTemporalB->front()->setFuerzaTInferior(fuerzaTInferiorRandom);
+        OleadaTemporalB->front()->setFuerzaTSuperior(fuerzaTSuperiorRandom);
 
         //FUNCION FITNESS
-        OleadaTemporal2->front()->setIQemocional(0); // falta
-        OleadaTemporal2->front()->setResistencia(0); // falta
+        OleadaTemporalB->front()->setIQemocional(0); // falta
+        OleadaTemporalB->front()->setResistencia(0); // falta
 
         //CALCULA PROBABILIDAD DE SUPERVIVENCIA
-        OleadaTemporal2->front()->setProbabilidadSupervivencia(0); //falta
+        OleadaTemporalB->front()->setProbabilidadSupervivencia(0); //falta
 
         contadorGladiador+=1;
         contadorOleada+=1;
     }
 
-    contadorOleada = 0;
+    Generacion * generacion = new Generacion(); //crea nueva generacion
+    poolGladiadores->getPoolGladiadores()->push_front(generacion); //la anade el pool
+    poolGladiadores->getPoolGladiadores()->getElemento(0)->setId(contadorGeneracion);//le asigna el id de la generacion
 
-    while(contadorOleada<limiteGladiadorPorOleada){
+    contadorGeneracion+=1; //suma uno para la asignacion de la siguiente generacion
 
-        this->condicionFisicaRandom = (rand() %20) + 1;
-        this->fuerzaTInferiorRandom = (rand() %20) + 1;
-        this->fuerzaTSuperiorRandom = (rand() %20) + 1;
+    poolGladiadores->getPoolGladiadores()->front()->setPoblacionA(OleadaTemporalA);//anade la oleada generada como poblacionA de la primer generacion
+    poolGladiadores->getPoolGladiadores()->front()->setPoblacionB(OleadaTemporalB);//ande la otra oleada generada pero como poblacionB
 
-        //CREA GLADIADOR Y AGREGA A LISTA
-        OleadaTemporal3->push_front(new Gladiator());
-
-        //MODIFICA ATRIBUTOS 'FIJOS'
-        OleadaTemporal3->front()->setEdad(25);
-        OleadaTemporal3->front()->setGeneracionesEsperadas(4);
-
-        //MODIFICA ARIBUTOS VARIABLES O RANDOM
-        OleadaTemporal3->front()->setIdUnico(this->contadorGladiador);
-        OleadaTemporal3->front()->setCondicionFisica(condicionFisicaRandom);
-        OleadaTemporal3->front()->setFuerzaTInferior(fuerzaTInferiorRandom);
-        OleadaTemporal3->front()->setFuerzaTSuperior(fuerzaTSuperiorRandom);
-
-        //FUNCION FITNESS
-        OleadaTemporal3->front()->setIQemocional(0); // falta
-        OleadaTemporal3->front()->setResistencia(0); // falta
-
-        //CALCULA PROBABILIDAD DE SUPERVIVENCIA
-        OleadaTemporal3->front()->setProbabilidadSupervivencia(0); //falta
-        contadorGladiador+=1;
-        contadorOleada+=1;
-    }
-
-
-    poolGladiadores->getPoolGladiadores()->push_front(OleadaTemporal);
-
-    poolGladiadores->getPoolGladiadores()->push_back(OleadaTemporal3);
-
-    poolGladiadores->recorrerPool();
-    free(OleadaTemporal);
-
-
+    poolGladiadores->recorrerPool(); //recorre el Pool
+    free(OleadaTemporalA);
+    free(OleadaTemporalB);
+    free(generacion);
 
     //
 

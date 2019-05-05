@@ -15,24 +15,30 @@
 
 using namespace std;
 
+//Clase encargada de generar las oleadas ->dos poblaciones de Gladiadores)
+
 class GeneradorOleadas {
 
 private:
-    int contadorGladiador;
+    int contadorGladiador; //id UNICO para cada Gladiador
 
-    int iQemocionalRandom;
-    int condicionFisicaRandom;
-    int fuerzaTSuperiorRandom;
-    int fuerzaTInferiorRandom;
+    int iQemocionalRandom; //para asignar un valor random de iQemocional del 1 al 5
+    int condicionFisicaRandom; //para asignar un valor random de condicion fisica
+    int fuerzaTSuperiorRandom; //same
+    int fuerzaTInferiorRandom; //... same
 
-    int limiteGladiadorPorOleada;
+    int limiteGladiadorPorOleada; //limite de cuantos gladiadores por poblacion (entiendase poblacion == oleada... its not the same but, luego se cambia)
 
-    PoolGladiadores *poolGladiadores;
+    int contadorGeneracion; //contador para identificar cual generacion se va creando
+
+    PoolGladiadores *poolGladiadores; //pool en el que va a generar las oleadas
+    //luego deberia tener como atributo a la clase encargada de aplicar el fitness
 
 public:
-    GeneradorOleadas();
-    LinkedList<Gladiator> generarOleadaInicial();
+    GeneradorOleadas(); //constructor
+    void generarOleadaInicial(); //Genera la primer Oleada (sin fitness)
 
+    //getters y setters
     int getContadorGladiador() const;
 
     void setContadorGladiador(int contadorGladiador);
