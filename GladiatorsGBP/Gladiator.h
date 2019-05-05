@@ -14,9 +14,18 @@ class GLADIATORSGBP_API AGladiator : public ACharacter
 public:
 	// Sets default values for this character's properties
 	AGladiator();
+	void setChars(int res, int iq, int cF, int TS, int TI, int edad, int prob, int genEsperadas);
 
 private:
 	//UStaticMeshComponent* mesh;
+	int resistencia;
+	int inteligenciaEmocional;
+	int condicionFisica;
+	int fuerzaTroncoSup;
+	int fuerzaTroncoInf;
+	int edad;
+	int prob;
+	int genEsperadas;
 
 protected:
 	// Called when the game starts or when spawned
@@ -25,6 +34,8 @@ protected:
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
+
+	void OnHit(AActor * SelfActor, class AActor * OtherActor, FVector NormalImpulse, const FHitResult &Hit);
 
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;

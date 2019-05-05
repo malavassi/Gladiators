@@ -96,6 +96,7 @@ void ASimpleArrow::Tick(float DeltaTime)
 }
 
 void ASimpleArrow::OnHit(AActor * SelfActor, class AActor * OtherActor, FVector NormalImpulse, const FHitResult &Hit){
+	print("hit");
 	Destroy();
 }
 

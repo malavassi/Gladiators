@@ -4,13 +4,18 @@
 #include "Gladiator.h"
 #include "ConstructorHelpers.h"
 #include "GladiatorAIController.h"
+#include "SimpleArrow.h"
 #include "Animation/AnimBlueprint.h"
+#define print(text) if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 1.5, FColor::Green,text)
+#define printFString(text, fstring) if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, FString::Printf(TEXT(text), fstring))
 
 // Sets default values
 AGladiator::AGladiator()
 {
  	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
+
+	OnActorHit.AddDynamic(this, &AGladiator::OnHit);
 
 	// Mesh esqueletico
 	USkeletalMeshComponent *mesh = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("GLAD"));
@@ -37,6 +42,16 @@ AGladiator::AGladiator()
 
 }
 
+void AGladiator::setChars(int res, int iq, int cF, int TS, int TI, int edad, int prob, int genEsperadas)
+{
+	resistencia = res;
+	inteligenciaEmocional = iq;
+	condicionFisica = cF;
+	this->edad = edad;
+	this->prob = prob;
+	this->genEsperadas = genEsperadas;
+}
+
 // Called when the game starts or when spawned
 void AGladiator::BeginPlay()
 {
@@ -49,6 +64,14 @@ void AGladiator::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
+}
+
+void AGladiator::OnHit(AActor * SelfActor, AActor * OtherActor, FVector NormalImpulse, const FHitResult & Hit)
+{
+	ASimpleArrow* flecha = Cast<ASimpleArrow>(OtherActor);
+	if (flecha) { // Si se logro
+		print("Me golpea una flecha");
+	}
 }
 
 // Called to bind functionality to input

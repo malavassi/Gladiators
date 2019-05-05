@@ -92,12 +92,12 @@ void ASimpleTower::Fire(AActor *Objective)
 			
 
 			ASimpleArrow* arrow = GetWorld()->SpawnActor<ASimpleArrow>(GetActorLocation()+(End-Start)/2, FRotator::ZeroRotator, SpawnInfo);
-			arrow.setType(type);
+			arrow->setType(type);
 			FRotator rotator = UKismetMathLibrary::FindLookAtRotation(arrow->GetActorLocation(), End);
 			arrow->SetActorRotation(rotator + FRotator(FQuat(FVector(0, 1, 0), PI / 2)));
 			
 
-			arrow->getMesh()->AddImpulseToAllBodiesBelow(End*3, NAME_None, true, true);
+			arrow->getMesh()->AddImpulseToAllBodiesBelow(End*0.5, NAME_None, true, true);
 			
 			arrow->setTarget(End);
 
