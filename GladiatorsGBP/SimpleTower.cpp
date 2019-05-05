@@ -34,17 +34,17 @@ ASimpleTower::ASimpleTower()
 	
 	//RootComponent = mesh;
 
-	effect_area = CreateDefaultSubobject<USphereComponent>(TEXT("Area"));
-	effect_area->InitSphereRadius(500.0f);
+	//effect_area = CreateDefaultSubobject<USphereComponent>(TEXT("Area"));
+	//effect_area->InitSphereRadius(500.0f);
 	//effect_area->SetRelativeLocation(FVector(0.f, 0.f, 0.f));
-	effect_area->SetCollisionProfileName(TEXT("Shoot!"));
+	//effect_area->SetCollisionProfileName(TEXT("Shoot!"));
 
 
-	effect_area->OnComponentBeginOverlap.AddDynamic(this, &ASimpleTower::OnOverlapBegin);
-	effect_area->OnComponentEndOverlap.AddDynamic(this, &ASimpleTower::OnOverlapEnd);
+	//effect_area->OnComponentBeginOverlap.AddDynamic(this, &ASimpleTower::OnOverlapBegin);
+	//effect_area->OnComponentEndOverlap.AddDynamic(this, &ASimpleTower::OnOverlapEnd);
 	//effect_area->AttachToComponent(RootComponent, FAttachmentTransformRules::KeepRelativeTransform);
 
-	RootComponent = effect_area;
+	//RootComponent = effect_area;
 
 	mesh->AttachToComponent(RootComponent, FAttachmentTransformRules::KeepRelativeTransform);
 	
@@ -57,8 +57,17 @@ ASimpleTower::ASimpleTower()
 		mesh->SetWorldScale3D(FVector(1.f,1.f,8.f));
 	}
 
-	
-
+	//Setup triggerBoxes for simple
+	triggerBoxes = LinkedList<FVector>();
+	for (int i = -1; i <= 1;i++) {
+		for (int j = -1; j <= 1;j++) {
+			if (i == 0 && j == 0) {
+			}
+			else {
+				triggerBoxes.push_back(FVector(i, j, 0));
+			}
+		}
+	}
 }
 
 void ASimpleTower::Fire(AActor *Objective)
@@ -87,7 +96,7 @@ void ASimpleTower::Fire(AActor *Objective)
 			arrow->SetActorRotation(rotator + FRotator(FQuat(FVector(0, 1, 0), PI / 2)));
 			
 
-			arrow->getMesh()->AddImpulseToAllBodiesBelow(End*10, NAME_None, true, true);
+			arrow->getMesh()->AddImpulseToAllBodiesBelow(End*5, NAME_None, true, true);
 			
 			arrow->setTarget(End);
 
@@ -103,7 +112,7 @@ void ASimpleTower::BeginPlay()
 	Super::BeginPlay();
 
 	// Muestra el radio en pantalla
-	DrawDebugSphere(GetWorld(), GetActorLocation(), 500.0f, 50, FColor::Purple, true, -1, 0, 2);
+	//DrawDebugSphere(GetWorld(), GetActorLocation(), 500.0f, 50, FColor::Purple, true, -1, 0, 2);
 	
 }
 
@@ -112,6 +121,11 @@ void ASimpleTower::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
+}
+
+LinkedList<FVector> ASimpleTower::getTriggerBoxes()
+{
+	return triggerBoxes;
 }
 
 void ASimpleTower::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult) {

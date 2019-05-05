@@ -2,20 +2,55 @@
 
 
 #include "Casilla1.h"
+#include "DrawDebugHelpers.h"
+
+// Ayuda al debugger
+#define print(text) if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 1.5, FColor::Green,text)
+#define printFString(text, fstring) if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, FString::Printf(TEXT(text), fstring))
+
 
 ACasilla1::ACasilla1()
 {
+	gladiator = nullptr;
+	tower = nullptr;
+	triggerTower = nullptr;
+	casillasDependientes = LinkedList<ACasilla1*>();
+	OnActorBeginOverlap.AddDynamic(this, &ACasilla1::OnOverlapBegin);
+	OnActorEndOverlap.AddDynamic(this, &ACasilla1::OnOverlapEnd);
+	
+
 }
 
-ACasilla1::ACasilla1(int i, int j) 
+void ACasilla1::OnOverlapBegin(AActor * OverlappedActor, AActor * OtherActor)
+{
+	// check if Actors do not equal nullptr and that 
+	if (OtherActor && (OtherActor != this) && triggerTower !=nullptr) {
+		// print to screen using above defined method when actor enters trigger box
+		print("Overlap Begin");
+		printFString("Overlapped Actor = %s", *OverlappedActor->GetName());
+		triggerTower->Fire(OtherActor);
+	}
+}
+
+void ACasilla1::OnOverlapEnd(AActor * OverlappedActor, AActor * OtherActor)
+{
+	// check if Actors do not equal nullptr and that 
+	if (OtherActor && (OtherActor != this) && triggerTower!=nullptr) {
+		// print to screen using above defined method when actor enters trigger box
+		print("Overlap Begin");
+		printFString("Overlapped Actor = %s", *OverlappedActor->GetName());
+	}
+}
+
+ACasilla1::ACasilla1(int i, int j)
 {
 	gladiator = nullptr;
 	tower = nullptr;
-	int initY = -1300;
-	int change = 400;
-	int initX = -2000;
-	this->x = initX + i * change;
-	this->y = initY + j * change;
+	triggerTower = nullptr;
+	casillasDependientes = LinkedList<ACasilla1*>();
+	OnActorBeginOverlap.AddDynamic(this, &ACasilla1::OnOverlapBegin);
+	OnActorEndOverlap.AddDynamic(this, &ACasilla1::OnOverlapEnd);
+	
 }
 
 ACasilla1::ACasilla1(int i, int j, int x, int y) {
@@ -25,6 +60,10 @@ ACasilla1::ACasilla1(int i, int j, int x, int y) {
 	this->j = j;
 	this->x = x;
 	this->y = y;
+	casillasDependientes = LinkedList<ACasilla1*>();
+	OnActorBeginOverlap.AddDynamic(this, &ACasilla1::OnOverlapBegin);
+	OnActorEndOverlap.AddDynamic(this, &ACasilla1::OnOverlapEnd);
+	
 }
 
 ACasilla1::~ACasilla1()
@@ -45,13 +84,23 @@ void ACasilla1::setActor(ASimpleTower* torre) {
 	controller = nullptr;
 }
 
+
+
 void ACasilla1::clear() {
 	this->gladiator = nullptr;
 	this->tower = nullptr;
-	controller = nullptr;
+	this->controller = nullptr;
+	this->triggerTower = nullptr;
+	if (casillasDependientes.getSize()>0) {
+		int size = casillasDependientes.getSize();
+		for (int c = 0; c < size;c++) {
+			casillasDependientes.getElemento(c)->getData()->clear();
+		}
+	}
+	this->casillasDependientes.clearList();
 }
 
-void ACasilla1::spawnTower() {
+ASimpleTower* ACasilla1::spawnTower() {
 	FVector Location(x,y,190.f);
 	FRotator Rotation(0.f, 0.f, 0.f);
 	FActorSpawnParameters SpawnInfo;
@@ -59,9 +108,10 @@ void ACasilla1::spawnTower() {
 	this->gladiator = nullptr;
 	controller = nullptr;
 	this->tower = torre;
+	return torre;
 }
 
-void ACasilla1::spawnGladiator() {
+AGladiator* ACasilla1::spawnGladiator() {
 	FVector Location(x, y, 190.f);
 	FRotator Rotation(0.f, 0.f, 0.f);
 	FActorSpawnParameters SpawnInfo;
@@ -71,6 +121,7 @@ void ACasilla1::spawnGladiator() {
 	if (gladiador) {
 		controller = Cast<AGladiatorAIController>(gladiator->GetController());
 	}
+	return gladiador;
 }
 
 void ACasilla1::setTodo(int ii, int jj, int xx, int yy) {
@@ -86,6 +137,17 @@ AGladiator* ACasilla1::getGladiator() {
 
 ASimpleTower* ACasilla1::getSimpleTower() {
 	return tower;
+}
+
+void ACasilla1::addDependency(ACasilla1 * casilla)
+{
+	casillasDependientes.push_back(casilla);
+}
+
+void ACasilla1::setTriggerTower(ASimpleTower * tower)
+{
+	this->triggerTower = tower;
+	DrawDebugBox(GetWorld(), GetActorLocation(), GetComponentsBoundingBox().GetExtent(), FColor::Purple, true, -1, 0, 5);
 }
 
 
@@ -111,3 +173,4 @@ int ACasilla1::getX() {
 int ACasilla1::getY() {
 	return y;
 }
+

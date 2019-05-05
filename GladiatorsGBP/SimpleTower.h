@@ -6,9 +6,11 @@
 #include "GameFramework/Actor.h"
 #include "DrawDebugHelpers.h"
 #include "Components/SphereComponent.h"
+#include "LinkedList.h"
+
 #include "SimpleTower.generated.h"
 
-
+class ACasilla1;
 UCLASS()
 class GLADIATORSGBP_API ASimpleTower : public AActor
 {
@@ -39,7 +41,8 @@ public:
 
 	UFUNCTION()
 		void OnOverlapEnd(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex);
-
+private:
+	LinkedList<FVector> triggerBoxes; /** Posiciones relativas a mi torre donde van a estar mis triggerBoxes*/
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
@@ -47,5 +50,6 @@ protected:
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
+	LinkedList<FVector> getTriggerBoxes();
 
 };
