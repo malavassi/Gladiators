@@ -29,7 +29,7 @@ void ACustomLevel1::BeginPlay() {
 	tablero->setUp();
 
 	tablero->addTower(0, 1, 1);
-	//tablero->teleportActor(1, 1, 9, 9);
+	tablero->teleportActor(1, 1, 9, 9);
 	// Nota, los movimientos se sobreescriben, solucion:
 	// Crear una cola de movimientos, utilizar GetMoveStatus()
 

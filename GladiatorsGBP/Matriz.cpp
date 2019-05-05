@@ -105,6 +105,20 @@ void AMatriz::teleportActor(int ii, int ij, int fi, int fj) {
 				tower->SetActorLocation(FVector(final->getX(), final->getY(), 190.0f));
 				inicial->clear();
 				final->setActor(tower);
+				ACasilla1* actual = getCasilla(fi, fj);
+				LinkedList<FVector> triggerBoxes = tower->getTriggerBoxes();
+				int size = triggerBoxes.getSize();
+				for (int c = 0; c < size; c++) {
+					int rx = triggerBoxes.getElemento(c)->getData().X;
+					int ry = triggerBoxes.getElemento(c)->getData().Y;
+					int ax = fi + rx;
+					int ay = fj + ry;
+					if (ax >= 0 && ay >= 0 && ax < 10 && ay < 10) {
+						ACasilla1* trigger = getCasilla(ax, ay);
+						trigger->setTriggerTower(tower);
+						actual->addDependency(trigger);
+					}
+				}
 			}
 		}
 	}
