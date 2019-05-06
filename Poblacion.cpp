@@ -31,7 +31,7 @@ void Poblacion::fitness_local() {
             int nuevFS = gladiador->getFuerzaTSuperior() - gladiador->getFuerzaTSuperior()*reduce/100;
             int nuevFI = gladiador->getFuerzaTInferior() - gladiador->getFuerzaTInferior()*reduce/100;
             // Settea nuevos atributos
-            gladiador.setAtributes(gladiador->getIQemocional(), nuevCF, nuevFS, nuevFI, false);  // Siempre que se ejecute el fitness los gladiadores no van a ser recien nacidos, por eso es false
+            gladiador->setAtributes(gladiador->getIQemocional(), nuevCF, nuevFS, nuevFI, false);  // Siempre que se ejecute el fitness los gladiadores no van a ser recien nacidos, por eso es false
 
             //Segundo, sumo la nueva resistencia
             int nuevRes = gladiador->getIQemocional()+gladiador->getFuerzaTInferior()+ gladiador->getFuerzaTSuperior()+
