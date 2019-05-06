@@ -62,8 +62,8 @@ void Poblacion::fitness_local() {
             }
 
             //Segundo, sumo la nueva resistencia
-            int nuevRes = gladiador->getIQemocional()+gladiador->getFuerzaTInferior()+ gladiador->getFuerzaTSuperior()+
-                    gladiador->getCondicionFisica();  // Agregar porcentajes si es necesario
+            int nuevRes = gladiador->getIQemocional()*1+gladiador->getFuerzaTInferior()*2+ gladiador->getFuerzaTSuperior()*2+
+                    gladiador->getCondicionFisica()*3;  // Agregar porcentajes si es necesario
             gladiador->setResistencia(nuevRes);  // Setteo la res
             cout<<"    Basado en sus atributos, el gladiador "<<gladiador->getIdUnico()<<" posee una resistencia de:"<<gladiador->getResistencia()<<endl;
 
