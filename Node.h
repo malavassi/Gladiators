@@ -6,7 +6,6 @@
 #define GLADIATORS_NODE_H
 
 //using namespace std;
-
 using namespace std;
 template <typename T>
 
@@ -15,7 +14,6 @@ public:
     Node(){
         data= nullptr;
         next= nullptr;
-        id=0;
     };
 
     /**
@@ -23,12 +21,12 @@ public:
      * @param valor Valor del nodo
      * */
     Node(T valor){
-        data=&valor;
+        data=valor;
         next= nullptr;
     };
 
-    T getData() {
-        return *data;
+    T getData() const {
+        return data;
     }
 
     void setData(T data) {
@@ -43,19 +41,10 @@ public:
         Node::next = next;
     }
 
-    int getId() const {
-        return id;
-    }
-
-    void setId(int id) {
-        Node::id = id;
-    }
-
 
 private:
-    T* data;  /** Dato del nodo*/
+    T data;  /** Dato del nodo*/
     Node<T>* next;  /** Puntero al siguiente nodo */
-    int id;
 };
 
 #endif //GLADIATORS_NODE_H

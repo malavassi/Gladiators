@@ -5,14 +5,17 @@
 #ifndef GLADIATORS_GLADIATOR_H
 #define GLADIATORS_GLADIATOR_H
 
+#include <iostream>
+
 /**
  * Clase encargada de representar al gladiador
  * @author fabian
  * */
+ using namespace std;
 class Gladiator {
 
 private:
-    static int cont; /**Estatica para llevar el control de los ids*/
+
     int id;  /**Identificador del gladiador*/
     int edad;  /**Edad del gladiador, afecta los demas atributos*/
     double probabilidadSupervivencia; /**Probabilidades de este gladiador de sobrevivir*/
@@ -30,6 +33,7 @@ private:
     Gladiator* padre2;
 
 public:
+    static int cont; /**Estatica para llevar el control de los ids*/
     /**
      * Fool constructor
      * @author fabian
@@ -46,6 +50,12 @@ public:
      * */
      Gladiator(int iq,int cf, int fs, int fi);
 
+
+     /**
+      * Aumenta la edad 20 annos
+      * @author elorim
+      * */
+     void avanzarEdad();
 
     //GETTERS
     int getIdUnico() const;

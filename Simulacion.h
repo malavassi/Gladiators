@@ -5,12 +5,14 @@
 #ifndef INC_2_SIMULACION_H
 #define INC_2_SIMULACION_H
 #include"Poblacion.h"
+#include <iostream>
 
 /**
  * Clase encargada del flow del programa
  * @author elorim
  * @date 05/05/19
  * */
+ using namespace std;
 class Simulacion {
 public:
     /**
@@ -26,8 +28,13 @@ public:
      * */
     void iniciar();
 private:
-    Poblacion poblacionA;
-    Poblacion poblacionB;
+    //Atributos
+    Poblacion* poblacionA; /**Poblacion de A*/
+    Poblacion* poblacionB; /**Poblacion de Backtracking*/
+
+    //Metodos
+    void siguienteIteracion();
+
 };
 
 

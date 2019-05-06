@@ -13,7 +13,6 @@
 using namespace std;
 template <typename T>
 
-
 class LinkedList {
 public:
     LinkedList(){
@@ -33,11 +32,10 @@ public:
             head->setNext(Tmp);
         }
         size+=1;
-        head->setId(size);
     };
 
     void push_back(T value){
-        auto nuevoNod = new Node<T>(value);
+        Node<T>* nuevoNod = new Node<T>(value);
         if(head==nullptr){
             head=nuevoNod;
             tail=head;
@@ -52,7 +50,6 @@ public:
             tmp->setNext(tail);
         }
         size++;
-        tail->setId(size);
     }
 
     T pop_front(){
@@ -64,27 +61,33 @@ public:
             head=head->getNext();
         }
         size--;
+        if(returnin){
         return returnin->getData();
+        }else{
+            return NULL;
+        }
 
     }
 
     void randomize(){
-        srand(time(NULL));
-        for(int i=0; i<52; i++) {
+        for(int i=0; i<size; i++) {
             int pos = (int) (rand()%size);
+            while(pos<0){
+                pos = (int) (rand()%size);
+            }
             push_back(pop_element(pos));
         }
     }
 
     T pop_element(int pos){
-        Node<T>* tmp = head;
         Node<T>* returnin = head;
+        Node<T>* tmp = head;
         if(pos==0){
             size--;
             return pop_front();
         }
         else{
-            while((pos-=1)!=0 && tmp->getNext()!= nullptr){
+            while((pos-=1)>0 && tmp->getNext()!= nullptr){
                 tmp=tmp->getNext();
                 pos--;
             }
@@ -104,7 +107,7 @@ public:
         return tmp;
     }
 
-    T *front() const
+    T front() const
     {
         return head->getData();
     }

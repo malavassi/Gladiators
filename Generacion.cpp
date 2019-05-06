@@ -6,11 +6,12 @@
 #include <ctime>
 #include <cstdlib>
 #include "Generacion.h"
-int Generacion::contador = 0; // Es estatica para que sea automatica
-Generacion::Generacion() {  // Solo ejecutar la primera generacion
+//int Generacion::contador = 0; // Es estatica para que sea automatica
+Generacion::Generacion(int numero) {  // Solo ejecutar la primera generacion
+    cout<<"    Creando la primera generacion\n";
     gladiadores = LinkedList<Gladiator*>(); // Crea la lista de generaciones
-    numero = Generacion::contador;  // guarda el numero de generacion
-    Generacion::contador++;  // Aumenta la variable estatica
+    this->numero = numero;  // guarda el numero de generacion
+    //Generacion::contador++;  // Aumenta la variable estatica
 
     srand(time(NULL)); // Lo tenia fabian, no se que hace
 
@@ -25,8 +26,8 @@ Generacion::Generacion() {  // Solo ejecutar la primera generacion
                     IQEmocional);  // Crea el gladiador
             gladiadores.push_back(gladiador);  // Lo agrega a la lista
         } // repite por la cantidad de gladiadores que se quieran crear
-
     }
+    cout<<"    Se creo la primera generacion con: "<<gladiadores.getSize()<<" gladiadores\n";
 }
 
 LinkedList<Gladiator *> Generacion::getGladiadores() {
@@ -45,10 +46,18 @@ Generacion::~Generacion() {
 
 }
 
-Generacion::Generacion(LinkedList<Gladiator *> gladiadores) {
+Generacion::Generacion(LinkedList<Gladiator *> gladiadores, int numero) {
     this->gladiadores = gladiadores;
-    numero = Generacion::contador;
-    Generacion::contador++;
+    this->numero = numero;
+    //Generacion::contador++;
+
+}
+
+void Generacion::avanzarEdad() {
+    average_age +=20;
+    for(int i=0;i<gladiadores.getSize();i++){
+        gladiadores.getElemento(i)->getData()->avanzarEdad();
+    }
 
 }
 

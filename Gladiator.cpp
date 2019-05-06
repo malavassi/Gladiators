@@ -79,7 +79,7 @@ void Gladiator::setResistencia(int resistencia) {
 Gladiator::Gladiator() {
 
     this->condicionFisica = 0;
-    this->edad = 20;  // Empieza con edad 20
+    this->edad = 0;
     this->fuerzaTInferior = 0;
     this->fuerzaTSuperior = 0;
     this->iQemocional=0;
@@ -99,16 +99,21 @@ Gladiator::Gladiator() {
 }
 
 Gladiator::Gladiator(int iq, int cf, int fs, int fi) {  // Este constructor solo deberia usarse en la primera generacion
+    // ID
+    id = Gladiator::cont;
+    Gladiator::cont++;
+    cout<<"      Creando el gladiador " << id<<endl;
     // Inicializando valores dados
     iQemocional = iq;
     condicionFisica = cf;
     fuerzaTInferior = fi;
     fuerzaTSuperior = fs;
+    cout<<"        Con atributos: IQ:"<<iQemocional<<", CF:"<<condicionFisica<<", FTI:"<<fuerzaTInferior<<", FTS:"<<fuerzaTSuperior<<endl;
 
     // Inicializando en nulos
     generacionesEsperadas = 0;
     probabilidadSupervivencia = 0.f;
-    edad = 20;  // Empieza con edad 20
+    edad = 0;
     resistencia = 0;
     padre1 = nullptr;
     padre2 = nullptr;
@@ -126,10 +131,6 @@ Gladiator::Gladiator(int iq, int cf, int fs, int fi) {  // Este constructor solo
     arr_atributos_f[1] = fs;
     arr_atributos_f[2] = fi;
     arr_atributos_f[3] = cf;
-
-    // ID
-    id = Gladiator::cont;
-    Gladiator::cont++;
 
 }
 
@@ -191,5 +192,10 @@ void Gladiator::setAtributesF(int *arrAttr) {
     fuerzaTSuperior = arrAttr[1];
     fuerzaTInferior = arrAttr[2];
     condicionFisica = arrAttr[3];
+}
+
+void Gladiator::avanzarEdad() {
+    edad+=20;
+
 }
 

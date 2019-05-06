@@ -6,6 +6,7 @@
 
 #include "LinkedList.h"
 #include "Generacion.h"
+#include <iostream>
 #include "Gladiator.h"
 
 /**
@@ -13,6 +14,7 @@
  * @author Elorim
  * @date 05/05/19
  * */
+ using namespace std;
 class Poblacion {
 public:
 
@@ -41,6 +43,7 @@ public:
     Gladiator* getElegido();
 private:
     //Atributos
+    int generacion_c = 0; /**Contador con el numero de generaciones*/
     LinkedList<Generacion*> generaciones; /** Generaciones de esta poblacion*/
     Gladiator* elegido;  /**Gladiador elegido para la siguiente iteracion*/
     char id; /**Identificador de la poblacion, A o B*/
