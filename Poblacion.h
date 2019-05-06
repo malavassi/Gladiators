@@ -49,6 +49,14 @@ private:
     char id; /**Identificador de la poblacion, A o B*/
 
     //Funciones
+    /**Bubblesort
+     * De GeeksforGeeks
+     * */
+    void bubbleSort(LinkedList<Gladiator*> lista);
+    /**
+     * Auxiliar para bubblesort
+     * */
+    void swap(int i, int j, LinkedList<Gladiator*> lista);
     /**
      * Muta al gladiador que se le pasa. La mutacion tiene un 10% de probabilidades de darse
      * y consiste en agarrar un valor random del array de atributos y sumarle el 30% de ese atributo

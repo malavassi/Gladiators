@@ -31,6 +31,10 @@ void Poblacion::fitness_local() {
     for(int generacion_c=0;generacion_c<generaciones.getSize();generacion_c++){ // Iterador de generaciones
         Generacion* genActual = generaciones.getElemento(generacion_c)->getData(); // Generacion actual sobre la que se trabaja
         genActual->avanzarEdad(); // Avanza la edad de todas las generaciones, menos de las recien nacidas
+        if(genActual->getEdad()>=100){
+            cout<<"Rezamos porque "<<generacion_c<<" vaya con Noguera\n";
+             (generaciones.pop_element(generacion_c));
+        }
 
         for(int gladiador_c=0;gladiador_c<genActual->getGladiadores().getSize();gladiador_c++){ // Iterador de gladiadores
             // Logica de fitness starts
@@ -58,8 +62,8 @@ void Poblacion::fitness_local() {
             }
 
             //Segundo, sumo la nueva resistencia
-            int nuevRes = gladiador->getIQemocional()+gladiador->getFuerzaTInferior()+ gladiador->getFuerzaTSuperior()+
-                    gladiador->getCondicionFisica();  // Agregar porcentajes si es necesario
+            int nuevRes = gladiador->getIQemocional()*20/100+gladiador->getFuerzaTInferior()*25/100+ gladiador->getFuerzaTSuperior()*25/100+
+                    gladiador->getCondicionFisica()*30/100;  // Agregar porcentajes si es necesario
             gladiador->setResistencia(nuevRes);  // Setteo la res
             cout<<"    Basado en sus atributos, el gladiador "<<gladiador->getIdUnico()<<" posee una resistencia de:"<<gladiador->getResistencia()<<endl;
 
@@ -118,15 +122,15 @@ void Poblacion::reproduccion() {
         }
     }
 
-    // Aleatorizar la lista
-    to_reproduce.randomize(); // Aleatoriza la lista
+    // Ordenar la lista
+    bubbleSort(to_reproduce); // Ordena la lista
     cout<<"  Las parejas son las siguientes:\n";
     for(int i=0;i<to_reproduce.getSize();i+=2){
         if(i+1<to_reproduce.getSize()) {
-            cout << "    Gladiador " << to_reproduce.getElemento(i)->getData()->getIdUnico() << " con gladiador "
+            cout << "    Gladiador " << to_reproduce.getElemento(i)->getData()->getResistencia() << " con gladiador "
                  << to_reproduce.getElemento(i + 1)->getData()->getIdUnico() << endl;
         }else{
-            cout<<"      Gladiador "<<to_reproduce.getElemento(i)->getData()->getIdUnico() << " no tiene pareja";
+            cout<<"      Gladiador "<<to_reproduce.getElemento(i)->getData()->getResistencia() << " no tiene pareja";
         }
     }
 
@@ -195,12 +199,12 @@ void Poblacion::reproduccion() {
             // MUTACION
             int mutacion = rand() % 100 + 1; // tira los dados del destino
             int inversion = rand() % 100 + 1;
-            if (mutacion <= 10) { // 10% de probabilidades de mutar
+            if (mutacion <= 20) { // 10% de probabilidades de mutar
                 cout << "       El bebe tuvo suerte, sucedera mutacion\n";
                 mutar(nuevo);  // Muto
                 cout << "      Fin de mutacion\n";
             }
-            if (inversion <= 5) {  // 5% de probabilidades de inversion
+            if (inversion <= 10) {  // 5% de probabilidades de inversion
                 cout << "      El bebe tuvo suerte, sucedera inversion\n";
                 invertir(nuevo); // Invierto
                 cout << "      Fin de inversion\n";
@@ -240,7 +244,7 @@ void Poblacion::mutar(Gladiator *gladiador) {
     for(int i=0;i<4;i++){  // iterando atributos
         if(i==attrMutar){  // si el atributo actual es igual al atributo a mutar, mute
             cout<<"        El atributo del bebe pasa de: "<<gladiador->getAttr(i)<<" a ";
-            newAttrs[i] = (gladiador->getAttr(i))+(gladiador->getAttr(i))*30/100;  // Sumando el 30% y guardando
+            newAttrs[i] = (gladiador->getAttr(i))+(gladiador->getAttr(i))*60/100;  // Sumando el 60% y guardando
             cout<<newAttrs[i]<<endl;
         }else{  // si no
             newAttrs[i] = gladiador->getAttr(i);  // Solo metalo al array
@@ -273,4 +277,22 @@ void Poblacion::invertir(Gladiator *gladiador) {
 
     // Settear
     gladiador->setAtributesI(arr);
+}
+
+
+void Poblacion::bubbleSort(LinkedList<Gladiator*> lista)
+{
+    int i, j;
+    for (i = 0; i < lista.getSize()-1; i++)
+        // Last i elements are already in place
+        for (j = 0; j < lista.getSize()-i-1; j++)
+            if (lista.getElemento(j)->getData()->getResistencia() < lista.getElemento(j+1)->getData()->getResistencia())
+                swap(j, j+1, lista);
+}
+
+void Poblacion::swap(int i, int j, LinkedList<Gladiator*> lista)
+{
+    Gladiator* tmp = lista.getElemento(i)->getData();
+    lista.getElemento(i)->setData(lista.getElemento(j)->getData());
+    lista.getElemento(j)->setData(tmp);
 }

@@ -45,6 +45,7 @@ public:
     int getNumero();
     int getPromedioSupervivencia();
     LinkedList<Gladiator*> getGladiadores();
+    int getEdad();
 
 };
 

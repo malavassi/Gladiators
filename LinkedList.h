@@ -34,6 +34,27 @@ public:
         size+=1;
     };
 
+    void addPos(int i, T value){
+        Node<T>* nuevoNod = new Node<T>(value);
+        if(i==0){  // head
+            nuevoNod->setNext(head);
+            head = nuevoNod;
+        }else if(i==size-1){  // tail
+            tail->setNext(nuevoNod);
+            nuevoNod->setNext(nullptr);
+        }else{  // middle
+            Node<T>* temp = head;
+            int j = 0;
+            while(temp->getNext()!=nullptr && j+1!=i){
+                temp = temp->getNext();
+                j++;
+            }
+                nuevoNod->setNext(temp->getNext());
+                temp->setNext(nuevoNod);
+        }
+        size++;
+    }
+
     void push_back(T value){
         Node<T>* nuevoNod = new Node<T>(value);
         if(head==nullptr){
@@ -83,7 +104,6 @@ public:
         Node<T>* returnin = head;
         Node<T>* tmp = head;
         if(pos==0){
-            size--;
             return pop_front();
         }
         else{
