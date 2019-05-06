@@ -6,6 +6,9 @@
 #define GLADIATORS_LINKEDLIST_H
 
 #include "Node.h"
+#include <cstdlib>
+#include <ctime>
+#include <iostream>
 
 using namespace std;
 template <typename T>
@@ -52,7 +55,8 @@ public:
         tail->setId(size);
     }
 
-    void pop_front(){
+    T pop_front(){
+        Node<T>* returnin = head;
         if(head==tail){
             head=nullptr;
             tail=head;
@@ -60,21 +64,35 @@ public:
             head=head->getNext();
         }
         size--;
+        return returnin->getData();
+
     }
 
-    void pop_element(int pos){
+    void randomize(){
+        srand(time(NULL));
+        for(int i=0; i<52; i++) {
+            int pos = (int) (rand()%size);
+            push_back(pop_element(pos));
+        }
+    }
+
+    T pop_element(int pos){
         Node<T>* tmp = head;
+        Node<T>* returnin = head;
         if(pos==0){
-            pop_front();
+            size--;
+            return pop_front();
         }
         else{
             while((pos-=1)!=0 && tmp->getNext()!= nullptr){
                 tmp=tmp->getNext();
                 pos--;
             }
+            returnin = tmp->getNext();
             tmp->setNext(tmp->getNext()->getNext());
         }
         size--;
+        return returnin->getData();
     }
 
     Node<T>* getElemento(int pos) const {

@@ -26,7 +26,7 @@ public:
      * */
     void seleccion();
     /**
-     * Funcion encargada de reproducir la poblacion
+     * Funcion encargada de reproducir la poblacion, crea inmediatamente la siguiente generacion
      * @author Elorim
      * */
     void reproduccion();
@@ -36,12 +36,6 @@ public:
      * @author Elorim
      * */
     void fitness_local();
-
-    /**
-     * Funcion encargada de generar una nueva generacion
-     * @author Elorim
-     * */
-     void nueva_generacion();
 
     // Getters & Setters
     Gladiator* getElegido();

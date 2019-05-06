@@ -49,22 +49,20 @@ public:
 
     //GETTERS
     int getIdUnico() const;
-
     int getEdad() const;
-
     double getProbabilidadSupervivencia() const;
-
     int getGeneracionesEsperadas() const;
-
     int getIQemocional() const;
-
     int getCondicionFisica() const;
-
     int getFuerzaTSuperior() const;
-
     int getFuerzaTInferior() const;
-
     int getResistencia() const;
+    /**
+     * Retorna el atributo numero attr del padre.
+     * @param attr Atributo a retornar (0:iq, 1:FS, 2:FI, 3:Cf)
+     * @returns Atributo numero attr
+     * */
+    int getAttr(int attr);
 
     //SETTERS
     void setIdUnico(int idUnico);
@@ -86,6 +84,8 @@ public:
     void setResistencia(int resistencia);
 
     void setAtributes(int iq, int cf, int fs, int fi, bool firstborn);
+
+    void setAtributesI(int arrAttr[4]);
 };
 
 

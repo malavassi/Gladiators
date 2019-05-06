@@ -86,6 +86,10 @@ Gladiator::Gladiator() {
     this->probabilidadSupervivencia=0;
     this->resistencia=0;
     this->generacionesEsperadas = 0;
+
+    // ID
+    id = cont;
+    cont++;
 }
 
 Gladiator::Gladiator(int iq, int cf, int fs, int fi) {  // Este constructor solo deberia usarse en la primera generacion
@@ -117,7 +121,9 @@ Gladiator::Gladiator(int iq, int cf, int fs, int fi) {  // Este constructor solo
     arr_atributos_f[2] = fi;
     arr_atributos_f[3] = cf;
 
-
+    // ID
+    id = cont;
+    cont++;
 
 }
 
@@ -140,6 +146,17 @@ void Gladiator::setAtributes(int iq, int cf, int fs, int fi, bool firstborn) {
         arr_atributos_i[1] = fs;
         arr_atributos_i[2] = fi;
         arr_atributos_i[3] = cf;
+    }
+
+}
+
+int Gladiator::getAttr(int attr) {
+    return arr_atributos_f[attr];
+}
+
+void Gladiator::setAtributesI(int arrAttr[4]) {
+    for(int i = 0;i<4;i++){
+        arr_atributos_i[i] = arrAttr[i];
     }
 
 }

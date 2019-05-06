@@ -20,7 +20,7 @@ private:
     static int contador; /**Contador de generaciones, aumenta con cada nueva generacion*/
     int numero; /**Numero de oleada*/
     int promedio_supervivencia; /**El promedio de de la probabilidad de supervivencia de la generacion en su mejor momento*/
-    const int numero_gladiadores = 10;
+    const int numero_gladiadores = 10; /**Numero de gladiadores por crear, mantenerlo par para la reproduccion*/
 
 public:
     Generacion();  /**Constructor vacio, solo se ejecuta en la primera generacion*/
