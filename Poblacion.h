@@ -23,7 +23,7 @@ public:
     ~Poblacion();
 
     /**
-     * Funcion encargada de seleccionar el mejor gladiador
+     * Selecciona a los diez mejores gladiadores de toda la poblacion para reproducirlos
      * @author Elorim
      * */
     void seleccion();
@@ -47,8 +47,16 @@ private:
     LinkedList<Generacion*> generaciones; /** Generaciones de esta poblacion*/
     Gladiator* elegido;  /**Gladiador elegido para la siguiente iteracion*/
     char id; /**Identificador de la poblacion, A o B*/
+    LinkedList<Gladiator*> reproducibles;
 
     //Funciones
+    /**
+     * Retorna al gladiador con mas probabilidad de supervivencia de la lista dada
+     * @oaram lista Lista de la cual se va a seleccionar al mejor
+     * @returns Mejor gladiador de la lista
+     * */
+     Gladiator* bestG(LinkedList<Gladiator*>* lista);
+
     /**Bubblesort
      * De GeeksforGeeks
      * */

@@ -62,8 +62,8 @@ void Poblacion::fitness_local() {
             }
 
             //Segundo, sumo la nueva resistencia
-            int nuevRes = gladiador->getIQemocional()*20/100+gladiador->getFuerzaTInferior()*25/100+ gladiador->getFuerzaTSuperior()*25/100+
-                    gladiador->getCondicionFisica()*30/100;  // Agregar porcentajes si es necesario
+            int nuevRes = gladiador->getIQemocional()+gladiador->getFuerzaTInferior()+ gladiador->getFuerzaTSuperior()+
+                    gladiador->getCondicionFisica();  // Agregar porcentajes si es necesario
             gladiador->setResistencia(nuevRes);  // Setteo la res
             cout<<"    Basado en sus atributos, el gladiador "<<gladiador->getIdUnico()<<" posee una resistencia de:"<<gladiador->getResistencia()<<endl;
 
@@ -76,30 +76,20 @@ void Poblacion::fitness_local() {
 }
 
 void Poblacion::seleccion() {
-    Gladiator* best = elegido;  // Puntero que apunta al mejor gladiador
-    for(int generacion_c=0;generacion_c<generaciones.getSize();generacion_c++){ // Iterador de generaciones
-        Generacion* genActual = generaciones.getElemento(generacion_c)->getData(); // Generacion actual sobre la que se trabaja
-        for(int gladiador_c=0;gladiador_c<genActual->getGladiadores().getSize();gladiador_c++){ // Iterador de gladiadores
-            // Logica de seleccion starts
-            Gladiator* gladiador = genActual->getGladiadores().getElemento(gladiador_c)->getData(); // Gladiador en el que voy a trabajar
-            if(best == nullptr){  // Si no hay un best aun
-                cout<<"    Debido a que no existe un campeon, gladiador "<<gladiador->getIdUnico()<<" tomara la vacante, con una probabilidad de supervivencia de:"
-                <<gladiador->getProbabilidadSupervivencia()<<endl;
-                best = gladiador;
-            }else{
-                if(gladiador->getProbabilidadSupervivencia()>best->getProbabilidadSupervivencia()){  // Si la probabilidad de superviviencia del actual es mejor que la del mejor, reemplace
-                    cout<<"    Gladiador "<<gladiador->getIdUnico()<<" con su probabilidad de supervivencia de: "<<gladiador->getProbabilidadSupervivencia()<<
-                    " ha mejorado al previo campeon, gladiador "<<best->getIdUnico()<< "de probabilidad de supervivencia de:"<<best->getProbabilidadSupervivencia()
-                    <<" tenemos nuevo campeon.\n";
-                    best = gladiador;
-                }// Si no pues no hace nada
-            }
+    LinkedList<Gladiator*>* gladiadores = new LinkedList<Gladiator*>();
+    for(int ge_c=0;ge_c<generaciones.getSize();ge_c++){  // Populando lista
+        Generacion* actualG = generaciones.getElemento(ge_c)->getData();
+        for(int g_c=0;g_c<actualG->getGladiadores().getSize();g_c++){
+            gladiadores->push_front(actualG->getGladiadores().getElemento(g_c)->getData());
         }
     }
-    cout<<"    Gladiador "<<best->getIdUnico()<<" se ha coronado campeon, es el elegido por Dios Noguera para entrar a la zona de intimidacion, que su sacrificio no sea en vano\n";
-    elegido = best;  // Setteo al mejor como el elegido
+    reproducibles = LinkedList<Gladiator*>();
+    for(int c=0;c<9;c++){
+        reproducibles.push_back(bestG(gladiadores));
+    }
 
-
+    cout<<"    Gladiador "<<reproducibles.getElemento(0)->getData()->getIdUnico()<<" se ha coronado campeon, es el elegido por Dios Noguera para entrar a la zona de intimidacion, que su sacrificio no sea en vano\n";
+    elegido = reproducibles.getElemento(0)->getData();  // Setteo al mejor como el elegido
 }
 
 Gladiator *Poblacion::getElegido() {
@@ -112,18 +102,7 @@ void Poblacion::reproduccion() {
     LinkedList<Gladiator*> nuevos = LinkedList<Gladiator*>();
 
     // CROSSOVER
-    LinkedList<Gladiator*> to_reproduce = LinkedList<Gladiator*>();  // Lista en la que se va a guardar a los menes que hay que reproducir
-    // Populando la lista
-    for(int generacion_c=0;generacion_c<generaciones.getSize();generacion_c++){ // Iterador de generaciones
-        Generacion* genActual = generaciones.getElemento(generacion_c)->getData(); // Generacion actual sobre la que se trabaja
-        for(int gladiador_c=0;gladiador_c<genActual->getGladiadores().getSize();gladiador_c++){ // Iterador de gladiadores
-            Gladiator* gladiador = genActual->getGladiadores().getElemento(gladiador_c)->getData(); // Gladiador en el que voy a trabajar
-            to_reproduce.push_front(gladiador); // agregando el gladiador
-        }
-    }
-
-    // Ordenar la lista
-    bubbleSort(to_reproduce); // Ordena la lista
+    LinkedList<Gladiator*> to_reproduce = reproducibles;  // Lista en la que se va a guardar a los menes que hay que reproducir
     cout<<"  Las parejas son las siguientes:\n";
     for(int i=0;i<to_reproduce.getSize();i+=2){
         if(i+1<to_reproduce.getSize()) {
@@ -140,80 +119,77 @@ void Poblacion::reproduccion() {
         Gladiator* padre1 = to_reproduce.pop_front();
         Gladiator* padre2 = to_reproduce.pop_front();
         if(padre1 && padre2) {  // Revisa que ambos existan, si no existe uno o ambos, no reproduce, esto porque algunas veces puede que no hayan parejas
-            Gladiator *nuevo = new Gladiator(); // Creo un nuevo gladiador en blanco
-            cout << "      El bebe gladiador es: " << nuevo->getIdUnico() << endl;
+            Gladiator *nuevo1 = new Gladiator(); // Creo un nuevo gladiador en blanco
+            Gladiator* nuevo2 = new Gladiator();
+            //cout << "      El bebe gladiador es: " << nuevo1->getIdUnico() << endl;
 
-            // Genero dos numeros random que van a ser los atributos que el primer padre va a pasar al hijo
+            // Genero dos numeros random que van a ser los atributos que el primer padre va a pasar al hijo 1
             int veces = 0;
-            int attr_pasar[] = {-1, -1, -1, -1}; // Inicializo en -1 para indicar que no se han asignado
+            int attr_pasar1[] = {-1, -1, -1, -1}; // Inicializo en -1 para indicar que no se han asignado
+            int attr_pasar2[] = {-1, -1, -1, -1}; // Inicializo en -1 para indicar que no se han asignado
             int pasado = -1; // Aqui guardo el atributo que ya asigno para que no asigne el mismo de nuevo
             while (veces != 2) {  // Termina cuando se ejecuta dos veces
                 int attr = rand() % 4; // Numero random del 0 al 4
                 while (pasado == attr) {  // Se fija que no sea el mismo numero que el pasado, si lo es, cambia
                     attr = rand() % 4;  // Recalculo
                 }
-                attr_pasar[attr] = padre1->getAttr(attr);
-                switch (attr) {
-                    case 0:
-                        cout << "        El bebe tiene la inteligencia de gladiador " << padre1->getIdUnico() << endl;
-                        break;
-                    case 1:
-                        cout << "        El bebe tiene el pecho de gladiador " << padre1->getIdUnico() << endl;
-                        break;
-                    case 2:
-                        cout << "        El bebe tiene las piernas de gladiador " << padre1->getIdUnico() << endl;
-                        break;
-                    case 3:
-                        cout << "        El bebe tiene el aguante de gladiador " << padre1->getIdUnico() << endl;
-                }
+                attr_pasar1[attr] = padre1->getAttr(attr);
+                attr_pasar2[attr] = padre2->getAttr(attr);
                 pasado = attr; // guardo el pasado
                 veces++;  // itero
             }
 
             //Asigno los dos atributos que no fueron asignados antes
             for (int i = 0; i < 4; i++) {
-                if (attr_pasar[i] == -1) {  // Si el atributo i es -1 (no fue asignado)
-                    attr_pasar[i] = padre2->getAttr(i);  // Le asigna el atributo i del padre2
-                    switch (i) {
-                        case 0:
-                            cout << "        El bebe tiene la inteligencia de gladiador " << padre2->getIdUnico()
-                                 << endl;
-                            break;
-                        case 1:
-                            cout << "        El bebe tiene el pecho de gladiador " << padre2->getIdUnico() << endl;
-                            break;
-                        case 2:
-                            cout << "        El bebe tiene las piernas de gladiador " << padre2->getIdUnico() << endl;
-                            break;
-                        case 3:
-                            cout << "        El bebe tiene el aguante de gladiador " << padre2->getIdUnico() << endl;
-                    }
+                if (attr_pasar1[i] == -1) {  // Si el atributo i es -1 (no fue asignado)
+                    attr_pasar1[i] = padre2->getAttr(i);  // Le asigna el atributo i del padre2
+                    attr_pasar2[i] = padre1->getAttr(i);
                 }
             }
 
             // Setteo los atributos al bebe
-            nuevo->setAtributesI(attr_pasar); // Setteo los atributos iniciales
+            nuevo1->setAtributesI(attr_pasar1); // Setteo los atributos iniciales
+            nuevo2->setAtributesI(attr_pasar2);
 
             // FIN CROSSOVER
 
-            // MUTACION
+            // MUTACION 1
             int mutacion = rand() % 100 + 1; // tira los dados del destino
             int inversion = rand() % 100 + 1;
             if (mutacion <= 20) { // 10% de probabilidades de mutar
                 cout << "       El bebe tuvo suerte, sucedera mutacion\n";
-                mutar(nuevo);  // Muto
+                mutar(nuevo1);  // Muto
                 cout << "      Fin de mutacion\n";
             }
             if (inversion <= 10) {  // 5% de probabilidades de inversion
                 cout << "      El bebe tuvo suerte, sucedera inversion\n";
-                invertir(nuevo); // Invierto
+                invertir(nuevo1); // Invierto
                 cout << "      Fin de inversion\n";
             }
-            cout << "        Atributos finales del bebe:" << " IQ:" << nuevo->getIQemocional() << " FS:"
-                 << nuevo->getFuerzaTSuperior() <<
-                 " FI:" << nuevo->getFuerzaTInferior() << " CF:" << nuevo->getCondicionFisica() << endl;
+/*            cout << "        Atributos finales del bebe:" << " IQ:" << nuevo->getIQemocional() << " FS:"
+                 << nuevo1->getFuerzaTSuperior() <<
+                 " FI:" << nuevo1->getFuerzaTInferior() << " CF:" << nuevo->getCondicionFisica() << endl;*/
 
-            nuevos.push_front(nuevo);  // Agrega a la lista de la nueva generacion
+            nuevos.push_front(nuevo1);  // Agrega a la lista de la nueva generacion
+
+            // MUTACION 2
+             mutacion = rand() % 100 + 1; // tira los dados del destino
+             inversion = rand() % 100 + 1;
+            if (mutacion <= 20) { // 10% de probabilidades de mutar
+                cout << "       El bebe tuvo suerte, sucedera mutacion\n";
+                mutar(nuevo2);  // Muto
+                cout << "      Fin de mutacion\n";
+            }
+            if (inversion <= 10) {  // 5% de probabilidades de inversion
+                cout << "      El bebe tuvo suerte, sucedera inversion\n";
+                invertir(nuevo2); // Invierto
+                cout << "      Fin de inversion\n";
+            }
+            /*cout << "        Atributos finales del bebe:" << " IQ:" << nuevo->getIQemocional() << " FS:"
+                 << nuevo->getFuerzaTSuperior() <<
+                 " FI:" << nuevo->getFuerzaTInferior() << " CF:" << nuevo->getCondicionFisica() << endl;*/
+
+            nuevos.push_front(nuevo2);  // Agrega a la lista de la nueva generacion
         }
 
     }  // Repite
@@ -296,3 +272,28 @@ void Poblacion::swap(int i, int j, LinkedList<Gladiator*> lista)
     lista.getElemento(i)->setData(lista.getElemento(j)->getData());
     lista.getElemento(j)->setData(tmp);
 }
+
+Gladiator *Poblacion::bestG(LinkedList<Gladiator*>* lista) {
+    Gladiator* best = nullptr;  // Puntero que apunta al mejor gladiador
+    int best_pos = -1;
+        for(int gladiador_c=0;gladiador_c<lista->getSize();gladiador_c++){ // Iterador de gladiadores
+            // Logica de seleccion starts
+            Gladiator* gladiador = lista->getElemento(gladiador_c)->getData(); // Gladiador en el que voy a trabajar
+            if(best == nullptr){  // Si no hay un best aun
+                //cout<<"    Debido a que no existe un campeon, gladiador "<<gladiador->getIdUnico()<<" tomara la vacante, con una probabilidad de supervivencia de:"
+              //  <<gladiador->getProbabilidadSupervivencia()<<endl;
+                best = gladiador;
+                best_pos = gladiador_c;
+            }else{
+                if(gladiador->getProbabilidadSupervivencia()>best->getProbabilidadSupervivencia()){  // Si la probabilidad de superviviencia del actual es mejor que la del mejor, reemplace
+                  //  cout<<"    Gladiador "<<gladiador->getIdUnico()<<" con su probabilidad de supervivencia de: "<<gladiador->getProbabilidadSupervivencia()<<
+                   // " ha mejorado al previo campeon, gladiador "<<best->getIdUnico()<< "de probabilidad de supervivencia de:"<<best->getProbabilidadSupervivencia()
+                    //<<" tenemos nuevo campeon.\n";
+                    best = gladiador;
+                    best_pos = gladiador_c;
+                }// Si no pues no hace nada
+            }
+        }
+        return lista->pop_element(best_pos);
+}
+

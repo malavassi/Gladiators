@@ -105,14 +105,16 @@ public:
         Node<T>* tmp = head;
         if(pos==0){
             return pop_front();
-        }
-        else{
-            while((pos-=1)>0 && tmp->getNext()!= nullptr){
+        }else{
+            int c = 0;
+            while(tmp->getNext()!= nullptr && c+1!=pos){
                 tmp=tmp->getNext();
-                pos--;
+                c++;
             }
             returnin = tmp->getNext();
-            tmp->setNext(tmp->getNext()->getNext());
+            if(tmp->getNext()!=nullptr){
+                tmp->setNext(tmp->getNext()->getNext());
+            }
         }
         size--;
         return returnin->getData();
