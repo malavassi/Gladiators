@@ -79,17 +79,23 @@ void Gladiator::setResistencia(int resistencia) {
 Gladiator::Gladiator() {
 
     this->condicionFisica = 0;
-    this->edad = 0;
+    this->edad = 20;  // Empieza con edad 20
     this->fuerzaTInferior = 0;
     this->fuerzaTSuperior = 0;
     this->iQemocional=0;
     this->probabilidadSupervivencia=0;
     this->resistencia=0;
     this->generacionesEsperadas = 0;
+    padre1 = nullptr;
+    padre2 = nullptr;
+    for(int i=0;i<4;i++){
+        arr_atributos_mod_mutacion[i] = 0;
+        arr_atributos_mod_inversion[i] = 0;
+    }
 
     // ID
-    id = cont;
-    cont++;
+    id = Gladiator::cont;
+    Gladiator::cont++;
 }
 
 Gladiator::Gladiator(int iq, int cf, int fs, int fi) {  // Este constructor solo deberia usarse en la primera generacion
@@ -102,7 +108,7 @@ Gladiator::Gladiator(int iq, int cf, int fs, int fi) {  // Este constructor solo
     // Inicializando en nulos
     generacionesEsperadas = 0;
     probabilidadSupervivencia = 0.f;
-    edad = 25;
+    edad = 20;  // Empieza con edad 20
     resistencia = 0;
     padre1 = nullptr;
     padre2 = nullptr;
@@ -122,8 +128,8 @@ Gladiator::Gladiator(int iq, int cf, int fs, int fi) {  // Este constructor solo
     arr_atributos_f[3] = cf;
 
     // ID
-    id = cont;
-    cont++;
+    id = Gladiator::cont;
+    Gladiator::cont++;
 
 }
 
@@ -158,5 +164,32 @@ void Gladiator::setAtributesI(int arrAttr[4]) {
     for(int i = 0;i<4;i++){
         arr_atributos_i[i] = arrAttr[i];
     }
+    iQemocional = arrAttr[0];
+    fuerzaTSuperior = arrAttr[1];
+    fuerzaTInferior = arrAttr[2];
+    condicionFisica = arrAttr[3];
+    setAtributesF(arrAttr);
 
 }
+
+void Gladiator::setAtributesM(int *arrAttr) {
+    for(int i = 0;i<4;i++){
+        arr_atributos_mod_mutacion[i] = arrAttr[i];
+    }
+    iQemocional = arrAttr[0];
+    fuerzaTSuperior = arrAttr[1];
+    fuerzaTInferior = arrAttr[2];
+    condicionFisica = arrAttr[3];
+    setAtributesF(arrAttr);
+}
+
+void Gladiator::setAtributesF(int *arrAttr) {
+    for(int i = 0;i<4;i++){
+        arr_atributos_f[i] = arrAttr[i];
+    }
+    iQemocional = arrAttr[0];
+    fuerzaTSuperior = arrAttr[1];
+    fuerzaTInferior = arrAttr[2];
+    condicionFisica = arrAttr[3];
+}
+

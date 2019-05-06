@@ -23,7 +23,15 @@ private:
     const int numero_gladiadores = 10; /**Numero de gladiadores por crear, mantenerlo par para la reproduccion*/
 
 public:
-    Generacion();  /**Constructor vacio, solo se ejecuta en la primera generacion*/
+    /**Constructor vacio, solo se ejecuta en la primera generacion*/
+    Generacion();
+    /**
+     * Constructor comun, se ejecuta en todas las demas generaciones.
+     * Establece la lista de gladiadores que se le pasa como la propia.
+     * @param gladiadores Lista de punteros a gladiadores que va a usar como propia.
+     * @author elorim
+     * */
+    Generacion(LinkedList<Gladiator*> gladiadores);
     ~Generacion();
 
     //getters y setters

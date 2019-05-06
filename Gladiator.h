@@ -86,6 +86,10 @@ public:
     void setAtributes(int iq, int cf, int fs, int fi, bool firstborn);
 
     void setAtributesI(int arrAttr[4]);
+
+    void setAtributesM(int arrAttr[4]);
+
+    void setAtributesF(int arrAttr[4]);
 };
 
 

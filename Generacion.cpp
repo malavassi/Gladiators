@@ -45,3 +45,10 @@ Generacion::~Generacion() {
 
 }
 
+Generacion::Generacion(LinkedList<Gladiator *> gladiadores) {
+    this->gladiadores = gladiadores;
+    numero = Generacion::contador;
+    Generacion::contador++;
+
+}
+

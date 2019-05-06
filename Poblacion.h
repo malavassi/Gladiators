@@ -41,11 +41,31 @@ public:
     Gladiator* getElegido();
 private:
     //Atributos
-    LinkedList<Generacion> generaciones; /** Generaciones de esta poblacion*/
+    LinkedList<Generacion*> generaciones; /** Generaciones de esta poblacion*/
     Gladiator* elegido;  /**Gladiador elegido para la siguiente iteracion*/
     char id; /**Identificador de la poblacion, A o B*/
 
     //Funciones
+    /**
+     * Muta al gladiador que se le pasa. La mutacion tiene un 10% de probabilidades de darse
+     * y consiste en agarrar un valor random del array de atributos y sumarle el 30% de ese atributo
+     * @param gladiador Gladiador a mutar.
+     * @author elorim
+     * */
+    void mutar(Gladiator* gladiador);
+
+    /**
+     * Invierte al gladiador que se le pasa. La inversion tiene un 5% de probabildades de suceder
+     * y consiste en tomar un valor inicial al azar y un valor final al azar del array de atributos
+     * e invertir ese sub array.
+     *
+     * Ejemplo:
+     *
+     * Tengo un array de atributos: [0,1,2,3] y mis valores aleatorios son: inicial 1, final 3
+     * entonces invierto desde la posicion 1 a la tres, quedando: [0,3,2,1]
+     * @param gladiador Gladiador a invertir atributos
+     * */
+    void invertir(Gladiator* gladiador);
 };
 
 
