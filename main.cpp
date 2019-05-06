@@ -1,22 +1,6 @@
 #include <iostream>
-#include "GeneradorOleadas.h"
-#include "PoolGladiadores.h"
-
-
-using namespace std;
 
 int main() {
-    cout << "TEST" << endl;
-
-    GeneradorOleadas * generadorOleadas = new GeneradorOleadas;
-    PoolGladiadores* poolGladiadores = new PoolGladiadores();
-
-    generadorOleadas->setPoolGladiadores(poolGladiadores);
-
-    generadorOleadas->generarOleadaInicial();
-
+    std::cout << "Hello, World!" << std::endl;
     return 0;
-
-
-
 }

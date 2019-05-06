@@ -18,7 +18,7 @@ public:
         size = 0;
     }
 
-    void push_front(T *value){
+    void push_front(T value){
         Node<T>* nuevoNod = new Node<T>(value);
         if(head== nullptr){
             head=nuevoNod;
@@ -33,8 +33,8 @@ public:
         head->setId(size);
     };
 
-    void push_back(T *value){
-        Node<T>* nuevoNod = new Node<T>(value);
+    void push_back(T value){
+        auto nuevoNod = new Node<T>(value);
         if(head==nullptr){
             head=nuevoNod;
             tail=head;

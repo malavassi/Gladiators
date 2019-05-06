@@ -5,28 +5,49 @@
 #ifndef GLADIATORS_GLADIATOR_H
 #define GLADIATORS_GLADIATOR_H
 
-
+/**
+ * Clase encargada de representar al gladiador
+ * @author fabian
+ * */
 class Gladiator {
 
 private:
-    int idUnico;
-    int edad;
-    double probabilidadSupervivencia;
-    int generacionesEsperadas;
-    int iQemocional;
-    int condicionFisica;
-    int fuerzaTSuperior;
-    int fuerzaTInferior;
-    int resistencia;
+    static int cont; /**Estatica para llevar el control de los ids*/
+    int id;  /**Identificador del gladiador*/
+    int edad;  /**Edad del gladiador, afecta los demas atributos*/
+    double probabilidadSupervivencia; /**Probabilidades de este gladiador de sobrevivir*/
+    int generacionesEsperadas; /**Generaciones en las que se espera que se gane la zona de intimidacion*/
+    int iQemocional; /**Atributo que suma a resistencia*/
+    int condicionFisica; /**Atributo que suma a resistencia*/
+    int fuerzaTSuperior;/**Atributo que suma a resistencia*/
+    int fuerzaTInferior;/**Atributo que suma a resistencia*/
+    int resistencia; /**Resistencia del gladiador, disminuye al ser golpeado por flechas*/
+    int arr_atributos_i[4]; /**Array de atributos inicial, dado al nacer, heredado de los padres sobre el que trabajaran los metodos de mutacion*/
+    int arr_atributos_f[4]; /**Array de atributos final, una vez aplicadas las mutaciones, lo afecta la edad*/
+    int arr_atributos_mod_mutacion[4]; /**Array de atributos despues de pasar por mutacion*/
+    int arr_atributos_mod_inversion[4]; /**Array de atributos despues de invertir*/
+    Gladiator* padre1;
+    Gladiator* padre2;
 
 public:
-
-    //CONSTRUCTOR
-
+    /**
+     * Fool constructor
+     * @author fabian
+     * */
     Gladiator();
 
-    //GETTERS
+    /**
+     * Constructor con los cuatro atributos iniciales. Solo usar en la primera generacion
+     * @param iq Inteligencia emocional
+     * @param cf Condicion fisica
+     * @param fs Fuerza en el tronco superior
+     * @param fi Fuerza en el tronco inferior
+     * @author elorim
+     * */
+     Gladiator(int iq,int cf, int fs, int fi);
 
+
+    //GETTERS
     int getIdUnico() const;
 
     int getEdad() const;
@@ -46,7 +67,6 @@ public:
     int getResistencia() const;
 
     //SETTERS
-
     void setIdUnico(int idUnico);
 
     void setEdad(int edad);
@@ -64,6 +84,8 @@ public:
     void setFuerzaTInferior(int fuerzaTInferior);
 
     void setResistencia(int resistencia);
+
+    void setAtributes(int iq, int cf, int fs, int fi, bool firstborn);
 };
 
 

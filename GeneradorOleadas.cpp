@@ -18,7 +18,7 @@ GeneradorOleadas::GeneradorOleadas() {
 }
 
 void GeneradorOleadas::generarOleadaInicial() {
-
+/*
     LinkedList<Gladiator> *OleadaTemporalA = new LinkedList<Gladiator>();
 
     //pruebas
@@ -105,7 +105,7 @@ void GeneradorOleadas::generarOleadaInicial() {
     poolGladiadores->recorrerPool(); //recorre el Pool
     free(OleadaTemporalA);
     free(OleadaTemporalB);
-    free(generacion);
+    free(generacion);*/
 
     //
 

@@ -16,7 +16,7 @@ PoolGladiadores::PoolGladiadores(LinkedList<Generacion> *poolGladiadores)
 }
 
 void PoolGladiadores::recorrerPool() {
-
+/*
     int cantidadGeneraciones= poolGladiadores->getSize();
     int cantidadGladiadorPorGeneracion;
     Node<Generacion> *generacion;
@@ -62,7 +62,7 @@ void PoolGladiadores::recorrerPool() {
         cout << "---------------------------- \n"<< endl;
 
     }
-
+*/
 }
 
 int PoolGladiadores::getIdentificadorOleada() const {

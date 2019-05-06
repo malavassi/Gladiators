@@ -3,13 +3,13 @@
 //
 
 #include "Gladiator.h"
-
+int Gladiator::cont = 0;
 int Gladiator::getIdUnico() const {
-    return idUnico;
+    return id;
 }
 
 void Gladiator::setIdUnico(int idUnico) {
-    Gladiator::idUnico = idUnico;
+    idUnico = idUnico;
 }
 
 int Gladiator::getEdad() const {
@@ -82,9 +82,64 @@ Gladiator::Gladiator() {
     this->edad = 0;
     this->fuerzaTInferior = 0;
     this->fuerzaTSuperior = 0;
-    this->idUnico = 0;
     this->iQemocional=0;
     this->probabilidadSupervivencia=0;
     this->resistencia=0;
     this->generacionesEsperadas = 0;
+}
+
+Gladiator::Gladiator(int iq, int cf, int fs, int fi) {  // Este constructor solo deberia usarse en la primera generacion
+    // Inicializando valores dados
+    iQemocional = iq;
+    condicionFisica = cf;
+    fuerzaTInferior = fi;
+    fuerzaTSuperior = fs;
+
+    // Inicializando en nulos
+    generacionesEsperadas = 0;
+    probabilidadSupervivencia = 0.f;
+    edad = 25;
+    resistencia = 0;
+    padre1 = nullptr;
+    padre2 = nullptr;
+    for(int i=0;i<4;i++){
+        arr_atributos_mod_mutacion[i] = 0;
+        arr_atributos_mod_inversion[i] = 0;
+    }
+
+    // Inicializando los arrays de atributos;
+    arr_atributos_i[0] = iq;
+    arr_atributos_i[1] = fs;
+    arr_atributos_i[2] = fi;
+    arr_atributos_i[3] = cf;
+    arr_atributos_f[0] = iq;
+    arr_atributos_f[1] = fs;
+    arr_atributos_f[2] = fi;
+    arr_atributos_f[3] = cf;
+
+
+
+}
+
+void Gladiator::setAtributes(int iq, int cf, int fs, int fi, bool firstborn) {
+
+    // Setting atributes
+    iQemocional=iq;
+    fuerzaTInferior=fi;
+    fuerzaTSuperior=fs;
+    condicionFisica=cf;
+    if(!firstborn) {  // Si no es recien nacido
+        //Setting array de atributos final
+        arr_atributos_f[0] = iq;
+        arr_atributos_f[1] = fs;
+        arr_atributos_f[2] = fi;
+        arr_atributos_f[3] = cf;
+    }else{  // Si si
+        // Setting array de atributos inicial
+        arr_atributos_i[0] = iq;
+        arr_atributos_i[1] = fs;
+        arr_atributos_i[2] = fi;
+        arr_atributos_i[3] = cf;
+    }
+
 }

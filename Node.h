@@ -22,13 +22,13 @@ public:
      * Contructor
      * @param valor Valor del nodo
      * */
-    Node(T* valor){
-        data=valor;
+    Node(T valor){
+        data=&valor;
         next= nullptr;
     };
 
-    T *getData() const {
-        return data;
+    T getData() {
+        return *data;
     }
 
     void setData(T data) {

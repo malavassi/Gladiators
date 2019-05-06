@@ -8,27 +8,28 @@
 #include "LinkedList.h"
 #include "Gladiator.h"
 
-
+/**
+ * Clase encargada de representar las generaciones
+ * @author fabian
+ * */
 //Generacion u 'oleada' se compone de dos poblaciones
 class Generacion {
 
 private:
-    LinkedList<Gladiator> * poblacionA;
-    LinkedList<Gladiator> * poblacionB;
+    LinkedList<Gladiator*> gladiadores; /**Gladiadores de esta generacion */
+    static int contador; /**Contador de generaciones, aumenta con cada nueva generacion*/
+    int numero; /**Numero de oleada*/
+    int promedio_supervivencia; /**El promedio de de la probabilidad de supervivencia de la generacion en su mejor momento*/
+    const int numero_gladiadores = 10;
 
 public:
-
-    Generacion();
+    Generacion();  /**Constructor vacio, solo se ejecuta en la primera generacion*/
+    ~Generacion();
 
     //getters y setters
-
-    LinkedList<Gladiator> *getPoblacionA() const;
-
-    void setPoblacionA(LinkedList<Gladiator> *poblacionA);
-
-    LinkedList<Gladiator> *getPoblacionB() const;
-
-    void setPoblacionB(LinkedList<Gladiator> *poblacionB);
+    int getNumero();
+    int getPromedioSupervivencia();
+    LinkedList<Gladiator*> getGladiadores();
 
 };
 
