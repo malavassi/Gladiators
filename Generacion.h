@@ -20,7 +20,7 @@ private:
     //static int contador; /**Contador de generaciones, aumenta con cada nueva generacion*/
     int numero; /**Numero de oleada*/
     int promedio_supervivencia; /**El promedio de de la probabilidad de supervivencia de la generacion en su mejor momento*/
-    const int numero_gladiadores = 7; /**Numero de gladiadores por crear, mantenerlo par para la reproduccion*/
+    const int numero_gladiadores = 20; /**Numero de gladiadores por crear, mantenerlo par para la reproduccion*/
     int average_age; /**Edad promedio de los gladiadores*/
 
 public:
@@ -45,6 +45,7 @@ public:
     int getNumero();
     int getPromedioSupervivencia();
     LinkedList<Gladiator*> getGladiadores();
+    int getEdad();
 
 };
 

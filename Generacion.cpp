@@ -62,3 +62,7 @@ void Generacion::avanzarEdad() {
 
 }
 
+int Generacion::getEdad() {
+    return average_age;
+}
+
