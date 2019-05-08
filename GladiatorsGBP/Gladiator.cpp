@@ -122,7 +122,7 @@ void AGladiator::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 	if (ded) {
-		print("Entrra");
+		//print("Entrra");
 		if (animations->GetRelevantAnimTimeRemaining(0,2)<0.1) {
 			mesh->bPauseAnims = true;
 		}

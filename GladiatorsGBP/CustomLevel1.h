@@ -13,6 +13,7 @@
 #include "CameraManager.h"
 #include "Animation/AnimSequence.h"
 #include "ConstructorHelpers.h"
+#include "CustomUserWidget.h"
 
 #include "CustomLevel1.generated.h"
 
@@ -26,6 +27,10 @@ class GLADIATORSGBP_API ACustomLevel1 : public ALevelScriptActor
 	GENERATED_BODY()
 public:
 	ACustomLevel1(const FObjectInitializer & ObjectInitializer);
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
+		UCustomUserWidget* widgetGlad1;
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
+		UCustomUserWidget* widgetGlad2;
 
 protected:
 	virtual void BeginPlay() override;
@@ -41,7 +46,11 @@ private:
 	UInputComponent* inputs;
 	ACameraManager* cameraManager;
 	UAnimSequence* anims;
-
+	
+	UFUNCTION(BlueprintCallable)
 	void cam1();
+	UFUNCTION(BlueprintCallable)
 	void cam2();
+	UFUNCTION(BlueprintCallable)
+		void cama3();
 };

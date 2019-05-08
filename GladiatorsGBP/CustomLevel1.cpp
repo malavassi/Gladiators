@@ -48,7 +48,6 @@ void ACustomLevel1::BeginPlay() {
 	//glad1->GetMesh()->PlayAnimation(anims, false);
 
 	tablero->addTower(0, 5,5);
-
 	tablero->mover(1, 0, 4, 5);
 	//tablero->mover(0, 9, 9, 9);
 	//glad1->setCamara();
@@ -98,5 +97,11 @@ void ACustomLevel1::Tick(float DeltaSeconds) {
 	Super::Tick(DeltaSeconds);
 	if (!glad1 && !glad2) {
 		UGameplayStatics::OpenLevel(GetWorld(), "ThirdPersonExampleMap");  // Reinicia nivel
+	}
+}
+
+void ACustomLevel1::cama3() {
+	if (airCam) {
+		airCam->setCam();
 	}
 }
