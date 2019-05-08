@@ -237,3 +237,59 @@ if(vecinos.getSize()!=0) {
 }
 
 }
+
+LinkedList<LinkedList<int>> *Backtracking::getMatrix() const {
+    return matrix;
+}
+
+void Backtracking::setMatrix(LinkedList<LinkedList<int>> *matrix) {
+    Backtracking::matrix = matrix;
+}
+
+const Backtracking::posiciones &Backtracking::getPath() const {
+    return path;
+}
+
+void Backtracking::setPath(const Backtracking::posiciones &path) {
+    Backtracking::path = path;
+}
+
+const Backtracking::posiciones &Backtracking::getVisited() const {
+    return visited;
+}
+
+void Backtracking::setVisited(const Backtracking::posiciones &visited) {
+    Backtracking::visited = visited;
+}
+
+const Backtracking::casilla &Backtracking::getInicio() const {
+    return inicio;
+}
+
+void Backtracking::setInicio(const Backtracking::casilla &inicio) {
+    Backtracking::inicio = inicio;
+}
+
+const Backtracking::casilla &Backtracking::getFin() const {
+    return fin;
+}
+
+void Backtracking::setFin(const Backtracking::casilla &fin) {
+    Backtracking::fin = fin;
+}
+
+const Backtracking::casilla &Backtracking::getCurrentPoint() const {
+    return currentPoint;
+}
+
+void Backtracking::setCurrentPoint(const Backtracking::casilla &currentPoint) {
+    Backtracking::currentPoint = currentPoint;
+}
+
+const LinkedList<Backtracking::casilla> &Backtracking::getVecinos() const {
+    return vecinos;
+}
+
+void Backtracking::setVecinos(const LinkedList<Backtracking::casilla> &vecinos) {
+    Backtracking::vecinos = vecinos;
+}

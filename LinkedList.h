@@ -53,7 +53,7 @@ public:
         size++;
     }
 
-    T pop_front(){
+    Node<T>* pop_front(){
         Node<T>* returnin = head;
         if(head==tail){
             head=nullptr;
@@ -63,9 +63,9 @@ public:
         }
         size--;
         if(returnin){
-        return returnin->getData();
+        return returnin;
         }else{
-            return NULL;
+            return nullptr;
         }
     }
 
@@ -75,11 +75,11 @@ public:
             while(pos<0){
                 pos = (int) (rand()%size);
             }
-            push_back(pop_element(pos));
+            push_back(pop_element(pos)->getData());
         }
     }
 
-    T pop_element(int pos){
+    Node<T>* pop_element(int pos){
         Node<T>* returnin = head;
         Node<T>* tmp = head;
         if(pos==0){
@@ -94,7 +94,7 @@ public:
             tmp->setNext(tmp->getNext()->getNext());
         }
         size--;
-        return returnin->getData();
+        return returnin;
     }
 
     Node<T>* getElemento(int pos) const {

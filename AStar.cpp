@@ -6,23 +6,6 @@
 #include "AStar.h"
 using namespace std;
 
-void AStar::createMap() {
-    LinkedList<LinkedList<int>>* matrix = new LinkedList<LinkedList<int>>();
-    for(int i=0; i<size; i++){
-        LinkedList<int>* column = new LinkedList<int>();
-        for(int j=0; j<size; j++){
-            column->push_back(0);
-        }
-        matrix->push_back(*column);
-    }
-    map_matrix=*matrix;
-    delete matrix;
-}
-
-void AStar::addTower(int type, int pos_x, int pos_y) {
-    map_matrix.getElemento(pos_x)->getData().getElemento(pos_y)->setData(type);
-}
-
 bool AStar::isValid(int pos_x, int pos_y) {
     if((0<=pos_x && pos_x<size) && (0<=pos_y && pos_y<size)){
         return true;
@@ -33,7 +16,7 @@ bool AStar::isValid(int pos_x, int pos_y) {
 }
 
 bool AStar::isUnblocked(int pos_x, int pos_y) {
-    if(map_matrix.getElemento(pos_x)->getData().getElemento(pos_y)->getData()==0){
+    if(map_matrix->getElemento(pos_x)->getData().getElemento(pos_y)->getData()==0){
         return true;
     }
     else{
@@ -81,7 +64,7 @@ LinkedList<Quadrant*> AStar::generatePath(LinkedList<LinkedList<Quadrant*>>* sea
     return path;
 }
 
-void AStar::aStarSearch(int ref_x, int ref_y) {
+bool AStar::aStarSearch(int ref_x, int ref_y) {
     bool reachedDest = false;
     //Crea una matriz de Quadrant para la búsqueda del camino
     LinkedList<LinkedList<Quadrant*>>* search_matrix = new LinkedList<LinkedList<Quadrant*>>();
@@ -145,7 +128,7 @@ void AStar::aStarSearch(int ref_x, int ref_y) {
                 reachedDest=true;
                 //Genera el camino final
                 generatePath(search_matrix, goal_x, goal_y);
-                return;
+                return true;
             } //Si no esta en la lista cerrada y es valido
             else if(closedList.getElemento(var_x)->getData().getElemento(var_y-1)->getData()==false && isValid(var_x, var_y-1)==true){
                 //Calcula los valores del algoritmo
@@ -181,7 +164,7 @@ void AStar::aStarSearch(int ref_x, int ref_y) {
                 reachedDest=true;
                 //Genera el camino final
                 generatePath(search_matrix, goal_x, goal_y);
-                return;
+                return true;
             } //Si no esta en la lista cerrada y es valido
             else if(closedList.getElemento(var_x+1)->getData().getElemento(var_y-1)->getData()==false && isValid(var_x+1, var_y-1)==true){
                 //Calcula los valores del algoritmo
@@ -217,7 +200,7 @@ void AStar::aStarSearch(int ref_x, int ref_y) {
                 reachedDest=true;
                 //Genera el camino final
                 generatePath(search_matrix, goal_x, goal_y);
-                return;
+                return true;
             } //Si no esta en la lista cerrada y es valido
             else if(closedList.getElemento(var_x+1)->getData().getElemento(var_y)->getData()==false && isValid(var_x+1, var_y)==true){
                 //Calcula los valores del algoritmo
@@ -253,7 +236,7 @@ void AStar::aStarSearch(int ref_x, int ref_y) {
                 reachedDest=true;
                 //Genera el camino final
                 generatePath(search_matrix, goal_x, goal_y);
-                return;
+                return true;
             } //Si no esta en la lista cerrada y es valido
             else if(closedList.getElemento(var_x+1)->getData().getElemento(var_y+1)->getData()==false && isValid(var_x+1, var_y+1)==true){
                 //Calcula los valores del algoritmo
@@ -289,7 +272,7 @@ void AStar::aStarSearch(int ref_x, int ref_y) {
                 reachedDest=true;
                 //Genera el camino final
                 generatePath(search_matrix, goal_x, goal_y);
-                return;
+                return true;
             } //Si no esta en la lista cerrada y es valido
             else if(closedList.getElemento(var_x)->getData().getElemento(var_y+1)->getData()==false && isValid(var_x, var_y+1)==true){
                 //Calcula los valores del algoritmo
@@ -325,7 +308,7 @@ void AStar::aStarSearch(int ref_x, int ref_y) {
                 reachedDest=true;
                 //Genera el camino final
                 generatePath(search_matrix, goal_x, goal_y);
-                return;
+                return true;
             } //Si no esta en la lista cerrada y es valido
             else if(closedList.getElemento(var_x-1)->getData().getElemento(var_y+1)->getData()==false && isValid(var_x-1, var_y+1)==true){
                 //Calcula los valores del algoritmo
@@ -361,7 +344,7 @@ void AStar::aStarSearch(int ref_x, int ref_y) {
                 reachedDest=true;
                 //Genera el camino final
                 generatePath(search_matrix, goal_x, goal_y);
-                return;
+                return true;
             } //Si no esta en la lista cerrada y es valido
             else if(closedList.getElemento(var_x-1)->getData().getElemento(var_y)->getData()==false && isValid(var_x-1, var_y)==true){
                 //Calcula los valores del algoritmo
@@ -397,7 +380,7 @@ void AStar::aStarSearch(int ref_x, int ref_y) {
                 reachedDest=true;
                 //Genera el camino final
                 generatePath(search_matrix, goal_x, goal_y);
-                return;
+                return true;
             } //Si no esta en la lista cerrada y es valido
             else if(closedList.getElemento(var_x-1)->getData().getElemento(var_y-1)->getData()==false && isValid(var_x-1, var_y-1)==true){
                 //Calcula los valores del algoritmo
@@ -426,10 +409,14 @@ void AStar::aStarSearch(int ref_x, int ref_y) {
     if(reachedDest==false){
         std::cout<<"No hay caminos posibles"<<endl;
     }
-    return;
+    return reachedDest;
 }
 
-const LinkedList<LinkedList<int>> &AStar::getMapMatrix() const {
+LinkedList<LinkedList<int>>* &AStar::getMapMatrix(){
     return map_matrix;
+}
+
+void AStar::setMapMatrix(LinkedList<LinkedList<int>> *mapMatrix) {
+    map_matrix = mapMatrix;
 }
 
