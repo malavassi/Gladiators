@@ -70,3 +70,8 @@ cmake-build-debug/Makefile
 CMakeLists\.txt
 
 main\.cpp
+
+
+\.idea/
+
+cmake-build-debug/

@@ -2,11 +2,14 @@
 // Created by cvaz on 22/04/19.
 //
 
-#ifndef FABRICAVIRTUAL_LINKEDLIST_H
-#define FABRICAVIRTUAL_LINKEDLIST_H
+#ifndef GLADIATORS_LINKEDLIST_H
+#define GLADIATORS_LINKEDLIST_H
 
 #include "Node.h"
+#include <cstdlib>
+#include <ctime>
 #include <iostream>
+
 using namespace std;
 template <typename T>
 
@@ -50,7 +53,8 @@ public:
         size++;
     }
 
-    void pop_front(){
+    T pop_front(){
+        Node<T>* returnin = head;
         if(head==tail){
             head=nullptr;
             tail=head;
@@ -58,21 +62,39 @@ public:
             head=head->getNext();
         }
         size--;
+        if(returnin){
+        return returnin->getData();
+        }else{
+            return NULL;
+        }
     }
 
-    void pop_element(int pos){
+    void randomize(){
+        for(int i=0; i<size; i++) {
+            int pos = (int) (rand()%size);
+            while(pos<0){
+                pos = (int) (rand()%size);
+            }
+            push_back(pop_element(pos));
+        }
+    }
+
+    T pop_element(int pos){
+        Node<T>* returnin = head;
         Node<T>* tmp = head;
         if(pos==0){
-            pop_front();
+            return pop_front();
         }
         else{
-            while((pos-=1)!=0 && tmp->getNext()!= nullptr){
+            while((pos-=1)>0 && tmp->getNext()!= nullptr){
                 tmp=tmp->getNext();
                 pos--;
             }
+            returnin = tmp->getNext();
             tmp->setNext(tmp->getNext()->getNext());
         }
         size--;
+        return returnin->getData();
     }
 
     Node<T>* getElemento(int pos) const {
@@ -82,6 +104,13 @@ public:
             pos--;
         }
         return tmp;
+    }
+
+    void clearList(){
+        int c = 0;
+        while(c < this->getSize()){
+            this->pop_front();
+        }
     }
 
     T front() const
@@ -119,16 +148,10 @@ public:
     tail = value;
     }
 
-    void clearList(){
-        int c = 0;
-        while(c < this->getSize()){
-            this->pop_front();
-        }
-    }
 private:
     Node<T>* head;
     Node<T>* tail;
     int size;
 };
 
-#endif //FABRICAVIRTUAL_LINKEDLIST_H
+#endif //GLADIATORS_LINKEDLIST_H
