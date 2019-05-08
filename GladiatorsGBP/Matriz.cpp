@@ -43,21 +43,21 @@ void AMatriz::mover(int ii, int ij, int fi, int fj)
 			ASimpleTower* tower = inicial->getSimpleTower();
 			if (gladiador) {
 				inicial->moveTo(final);
-				inicial->clear();
+				inicial->clear(false);
 				final->setActor(gladiador);
 			}
 			else if (tower) {
 				inicial->moveTo(final);
-				inicial->clear();
+				inicial->clear(true);
 				final->setActor(tower);
 			}
 		}
 	}
 }
 
-void AMatriz::addGladiador(int i, int j)
+AGladiator* AMatriz::addGladiador(int i, int j)
 {
-	getMatriz().getElemento(i)->getData().getElemento(j)->getData()->spawnGladiator();
+	return getMatriz().getElemento(i)->getData().getElemento(j)->getData()->spawnGladiator();
 }
 
 LinkedList<LinkedList<ACasilla1*>> AMatriz::getMatriz() {
@@ -99,11 +99,11 @@ void AMatriz::teleportActor(int ii, int ij, int fi, int fj) {
 			if (gladiador) {
 				gladiador->SetActorLocation(FVector(final->getX(), final->getY(), 190.0f));
 				final->setActor(gladiador);
-				inicial->clear();
+				inicial->clear(false);
 			}
 			else if (tower) {
 				tower->SetActorLocation(FVector(final->getX(), final->getY(), 190.0f));
-				inicial->clear();
+				inicial->clear(true);
 				final->setActor(tower);
 				ACasilla1* actual = getCasilla(fi, fj);
 				LinkedList<FVector> triggerBoxes = tower->getTriggerBoxes();

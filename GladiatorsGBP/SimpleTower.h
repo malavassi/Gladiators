@@ -41,6 +41,8 @@ public:
 
 	UFUNCTION()
 		void OnOverlapEnd(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex);
+	
+	FHitResult WeaponTrace(const FVector& StartTrace, const FVector& EndTrace) const;
 private:
 	LinkedList<FVector> triggerBoxes; /** Posiciones relativas a mi torre donde van a estar mis triggerBoxes*/
 	int type; /** Tipo de torre, 0 normal, 1 fuego, 2 explosivo*/

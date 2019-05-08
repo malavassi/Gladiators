@@ -12,6 +12,10 @@
 //////////////////////////////////////////////////////////////////////////
 // AGladiatorsGBPCharacter
 
+#define print(text) if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 1.5, FColor::Green,text)
+#define printFString(text, fstring) if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, FString::Printf(TEXT(text), fstring))
+
+
 AGladiatorsGBPCharacter::AGladiatorsGBPCharacter()
 {
 	// Set size for collision capsule
@@ -131,4 +135,8 @@ void AGladiatorsGBPCharacter::MoveRight(float Value)
 		// add movement in that direction
 		AddMovementInput(Direction, Value);
 	}
+}
+
+void AGladiatorsGBPCharacter::OnHit(AActor * SelfActor, class AActor * OtherActor, FVector NormalImpulse, const FHitResult &Hit) {
+	print("hit");
 }

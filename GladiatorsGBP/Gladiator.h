@@ -4,6 +4,8 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
+#include "GameFramework/SpringArmComponent.h"
+#include "Camera/CameraComponent.h"
 #include "Gladiator.generated.h"
 
 UCLASS()
@@ -15,6 +17,10 @@ public:
 	// Sets default values for this character's properties
 	AGladiator();
 	void setChars(int res, int iq, int cF, int TS, int TI, int edad, int prob, int genEsperadas);
+	bool getReady();
+	void setCamara(); /** Pone la camara en el objetivo actual*/
+
+	UCameraComponent* getCamera() { return FollowCamera;}
 
 private:
 	//UStaticMeshComponent* mesh;
@@ -26,12 +32,17 @@ private:
 	int edad;
 	int prob;
 	int genEsperadas;
+	bool ready;
+	USpringArmComponent* CameraBoom; /**Resorte para la camara*/
+	UCameraComponent* FollowCamera;  /**Camara*/
 
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
 public:	
+	void setResistencia(int cantidad);
+	void bajarResistencia(int cantidad);
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 

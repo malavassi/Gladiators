@@ -3,6 +3,7 @@
 
 #include "Casilla1.h"
 #include "SimpleArrow.h"
+#include "Kismet/GameplayStatics.h"
 #include "DrawDebugHelpers.h"
 
 // Ayuda al debugger
@@ -29,8 +30,13 @@ void ACasilla1::OnOverlapBegin(AActor * OverlappedActor, AActor * OtherActor)
 	ASimpleArrow* flechilla = Cast<ASimpleArrow>(OtherActor);
 	if (OtherActor && (OtherActor != this) && triggerTower !=nullptr && !flechilla) {
 		// print to screen using above defined method when actor enters trigger box
-		print("Overlap Begin");
-		printFString("Overlapped Actor = %s", *OverlappedActor->GetName());
+		//print("Overlap Begin");
+		//printFString("Overlapped Actor = %s", *OverlappedActor->GetName());
+		AGladiator* a = Cast<AGladiator>(OtherActor);
+		if (a&&a->getReady()) {
+			a->bajarResistencia(1);
+		}
+		
 		triggerTower->Fire(OtherActor);
 	}
 }
@@ -40,8 +46,8 @@ void ACasilla1::OnOverlapEnd(AActor * OverlappedActor, AActor * OtherActor)
 	// check if Actors do not equal nullptr and that 
 	if (OtherActor && (OtherActor != this) && triggerTower!=nullptr) {
 		// print to screen using above defined method when actor enters trigger box
-		print("Overlap Begin");
-		printFString("Overlapped Actor = %s", *OverlappedActor->GetName());
+		//print("Overlap Begin");
+		//printFString("Overlapped Actor = %s", *OverlappedActor->GetName());
 	}
 }
 
@@ -89,18 +95,21 @@ void ACasilla1::setActor(ASimpleTower* torre) {
 
 
 
-void ACasilla1::clear() {
+void ACasilla1::clear(bool all) {
 	this->gladiator = nullptr;
 	this->tower = nullptr;
 	this->controller = nullptr;
-	this->triggerTower = nullptr;
-	if (casillasDependientes.getSize()>0) {
-		int size = casillasDependientes.getSize();
-		for (int c = 0; c < size;c++) {
-			casillasDependientes.getElemento(c)->getData()->clear();
+	if (all) {
+		this->triggerTower = nullptr;
+		if (casillasDependientes.getSize() > 0) {
+			int size = casillasDependientes.getSize();
+			for (int c = 0; c < size; c++) {
+				casillasDependientes.getElemento(c)->getData()->clear(true);
+			}
 		}
+		this->casillasDependientes.clearList();
 	}
-	this->casillasDependientes.clearList();
+	
 }
 
 ASimpleTower* ACasilla1::spawnTower() {

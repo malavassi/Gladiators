@@ -5,6 +5,7 @@
 #include "ConstructorHelpers.h"
 #include "GladiatorAIController.h"
 #include "SimpleArrow.h"
+#include "Kismet/GameplayStatics.h"
 #include "Animation/AnimBlueprint.h"
 #define print(text) if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 1.5, FColor::Green,text)
 #define printFString(text, fstring) if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, FString::Printf(TEXT(text), fstring))
@@ -14,6 +15,19 @@ AGladiator::AGladiator()
 {
  	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
+
+	// Create a camera boom (pulls in towards the player if there is a collision)
+	CameraBoom = CreateDefaultSubobject<USpringArmComponent>(TEXT("CameraBom"));
+	CameraBoom->SetupAttachment(RootComponent);
+	CameraBoom->TargetArmLength = 300.0f; // The camera follows at this distance behind the character	
+	CameraBoom->bUsePawnControlRotation = true; // Rotate the arm based on the controller
+
+	// Create a follow camera
+	FollowCamera = CreateDefaultSubobject<UCameraComponent>(TEXT("FollowCamra"));
+	FollowCamera->SetupAttachment(CameraBoom, USpringArmComponent::SocketName); // Attach the camera to the end of the boom and let the boom adjust to match the controller orientation
+	FollowCamera->bUsePawnControlRotation = false; // Camera does not rotate relative to arm
+
+	resistencia = 0;
 
 	OnActorHit.AddDynamic(this, &AGladiator::OnHit);
 
@@ -42,6 +56,23 @@ AGladiator::AGladiator()
 
 }
 
+void AGladiator::setResistencia(int cantidad) {
+	resistencia = cantidad;
+	ready = true;
+}
+
+bool AGladiator::getReady() {
+	return ready;
+}
+
+void AGladiator::bajarResistencia(int cantidad) {
+	resistencia -= cantidad;
+	if (resistencia==0) {
+		//print("Ay perrillo me mori");
+		Destroy();
+	}
+}
+
 void AGladiator::setChars(int res, int iq, int cF, int TS, int TI, int edad, int prob, int genEsperadas)
 {
 	resistencia = res;
@@ -56,7 +87,13 @@ void AGladiator::setChars(int res, int iq, int cF, int TS, int TI, int edad, int
 void AGladiator::BeginPlay()
 {
 	Super::BeginPlay();
+}
 
+void AGladiator::setCamara() {
+	APlayerController* ActivePC = UGameplayStatics::GetPlayerController(this, 0);
+	if (ActivePC && FollowCamera) {
+		ActivePC->SetViewTarget(this);
+	}
 }
 
 // Called every frame

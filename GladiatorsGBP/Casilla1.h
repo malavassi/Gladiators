@@ -56,7 +56,7 @@ public:
 	/**
 	Desocupa a la casilla de una torre o un gladiador.
 	*/
-	void clear();
+	void clear(bool all);
 	/** Genera una torre en esta casilla*/
 	ASimpleTower* spawnTower();
 	/** Genera un gladiador en esta casilla*/

@@ -7,7 +7,9 @@
 #include "Gladiator.h"
 #include "Engine/World.h"
 #include "GladiatorsGBPCharacter.h"
+#include "Gladiator.h"
 #include "Matriz.h"
+#include "MyCameraActor.h"
 
 #include "CustomLevel1.generated.h"
 
@@ -28,6 +30,9 @@ protected:
 	virtual void Tick(float DeltaSeconds) override;
 private:
 	int cont;
-	AMatriz* tablero;
-
+	AMatriz* tablero;/** Tablero del juego*/
+	AGladiator* glad1;
+	AGladiator* glad2;
+	AMyCameraActor* airCam;
+	USpringArmComponent* CameraBoom; /**Resorte para la camara*/
 };

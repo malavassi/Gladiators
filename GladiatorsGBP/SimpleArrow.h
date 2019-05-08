@@ -22,6 +22,7 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
+	void OnOverlapBegin(AActor * OverlappedActor, AActor * OtherActor);
 
 	UFUNCTION()
 	void setTarget(FVector target);

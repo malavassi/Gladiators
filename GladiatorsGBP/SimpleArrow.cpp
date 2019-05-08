@@ -44,11 +44,12 @@ ASimpleArrow::ASimpleArrow(){
 		// Set the shiet
 		UE_LOG(LogTemp, Warning, TEXT("Arrow created"));
 		mesh->SetStaticMesh(meshAsset.Object);
-		mesh->SetWorldScale3D(FVector(20.f,20.f,8.f));
+		mesh->SetWorldScale3D(FVector(30.f,30.f,12.f));
 		mesh->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
 		mesh->SetSimulatePhysics(true);
 
 		OnActorHit.AddDynamic(this, &ASimpleArrow::OnHit);
+		OnActorBeginOverlap.AddDynamic(this, &ASimpleArrow::OnOverlapBegin);
 
 	}
 
@@ -91,5 +92,17 @@ void ASimpleArrow::Tick(float DeltaTime)
 void ASimpleArrow::OnHit(AActor * SelfActor, class AActor * OtherActor, FVector NormalImpulse, const FHitResult &Hit){
 	print("hit");
 	Destroy();
+}
+
+void ASimpleArrow::OnOverlapBegin(AActor * OverlappedActor, AActor * OtherActor)
+{
+	// check if Actors do not equal nullptr and that 
+
+	ASimpleArrow* flechilla = Cast<ASimpleArrow>(OtherActor);
+	if (OtherActor && (OtherActor != this)) {
+		// print to screen using above defined method when actor enters trigger box
+		print("Overlap Begin hit");
+		printFString("Overlapped Actor = %s", *OverlappedActor->GetName());
+	}
 }
 

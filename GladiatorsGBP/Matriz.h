@@ -41,8 +41,9 @@ public:
 	Agrega un gladiador en la casilla especificada
 	@param i i de la casilla a agregar el gladiador
 	@param j j de la casilla a agregar el gladiador
+	@returns Puntero al nuevo gladiador
 	*/
-	void addGladiador(int i, int j);
+	AGladiator* addGladiador(int i, int j);
 
 	/**
 	Teleporta el actor que haya en la casilla ii, ij a la casilla fi,fj

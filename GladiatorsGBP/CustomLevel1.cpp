@@ -28,8 +28,23 @@ void ACustomLevel1::BeginPlay() {
 	tablero = GetWorld()->SpawnActor<AMatriz>(Location,Rotation, SpawnInfo);
 	tablero->setUp();
 
-	tablero->addTower(0, 0, 0);
-	tablero->addGladiador(1, 1);
+	airCam = GetWorld()->SpawnActor<AMyCameraActor>(FVector(-160,710,3780),FRotator(0,0,0),SpawnInfo);
+	airCam->GetCameraComponent()->SetRelativeRotation(FRotator(-90,-90.f,-90));
+	
+
+	//tablero->addTower(0, 0, 0);
+	glad1 = tablero->addGladiador(0, 1);
+	glad2 = tablero->addGladiador(0,0);
+	
+	airCam->setCam();
+	//tablero->mover(0,0,9,9);
+
+	//FViewTargetTransitionParams Params;
+	//Cast<APlayerController>(glad1->GetController())->SetViewTarget(glad1, Params);
+
+	//glad1->getCamera()->SetActive(true);
+	//glad1->setResistencia(1);
+	//tablero->mover(1, 1, 0, 1);
 	//tablero->teleportActor(1, 1, 9, 9);
 	// Nota, los movimientos se sobreescriben, solucion:
 	// Crear una cola de movimientos, utilizar GetMoveStatus()
@@ -54,4 +69,7 @@ void ACustomLevel1::BeginDestroy() {
 
 void ACustomLevel1::Tick(float DeltaSeconds) {
 	Super::Tick(DeltaSeconds);
+	if (!glad1 && !glad2) {
+		UGameplayStatics::OpenLevel(GetWorld(), "ThirdPersonExampleMap");  // Reinicia nivel
+	}
 }

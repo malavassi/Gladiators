@@ -16,11 +16,13 @@
 #include "DrawDebugHelpers.h"
 #include "Kismet/KismetMathLibrary.h"
 #include <typeinfo>
+#include "Gladiator.h"
+#include "GladiatorsGBPCharacter.h"
 #include "SimpleArrow.h"
 
 #define print(text) if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 1.5, FColor::Green,text)
 #define printFString(text, fstring) if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, FString::Printf(TEXT(text), fstring))
-
+#define COLLISION_WEAPON		ECC_GameTraceChannel1
 
 // Sets default values
 ASimpleTower::ASimpleTower()
@@ -87,21 +89,27 @@ void ASimpleTower::Fire(AActor *Objective)
 	{
 		if (OutHit.bBlockingHit)
 		{
+			FHitResult impact = WeaponTrace(Start, End);
 			print("Fire!");
+			AActor* damaged = impact.GetActor();
+			if (Cast<AGladiator>(damaged) || Cast<AGladiatorsGBPCharacter>(damaged)) {
+				print("Gladiador hitted");
+			}
+			
 			FActorSpawnParameters SpawnInfo;
 			//FQuat myquat = FQuat(End-Start,1);
 			
 
-			ASimpleArrow* arrow = GetWorld()->SpawnActor<ASimpleArrow>(GetActorLocation()+(End-Start)/2, FRotator::ZeroRotator, SpawnInfo);
+			//ASimpleArrow* arrow = GetWorld()->SpawnActor<ASimpleArrow>(GetActorLocation()+(End-Start)/2, FRotator::ZeroRotator, SpawnInfo);
 			
 			
-			arrow->setType(type);
+			/*arrow->setType(type);
 			FRotator rotator = UKismetMathLibrary::FindLookAtRotation(arrow->GetActorLocation(), End);
 			arrow->SetActorRotation(rotator + FRotator(FQuat(FVector(0, 1, 0), PI / 2)));
 
-			arrow->getMesh()->AddForce((End-Start)*1000);
+			arrow->getMesh()->AddForce((End-Start)*10000);
 			
-			arrow->setTarget(End);
+			arrow->setTarget(End);*/
 
 		}
 	}
@@ -163,3 +171,14 @@ void ASimpleTower::OnOverlapEnd(UPrimitiveComponent* OverlappedComp, AActor* Oth
 	}
 }
 
+FHitResult ASimpleTower::WeaponTrace(const FVector& StartTrace, const FVector& EndTrace) const
+{
+	// Perform trace to retrieve hit info
+	FCollisionQueryParams TraceParams(SCENE_QUERY_STAT(WeaponTrace), true, Instigator);
+	TraceParams.bReturnPhysicalMaterial = true;
+
+	FHitResult Hit(ForceInit);
+	GetWorld()->LineTraceSingleByChannel(Hit, StartTrace, EndTrace, COLLISION_WEAPON, TraceParams);
+
+	return Hit;
+}
