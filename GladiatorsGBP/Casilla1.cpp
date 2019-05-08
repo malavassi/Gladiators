@@ -33,8 +33,8 @@ void ACasilla1::OnOverlapBegin(AActor * OverlappedActor, AActor * OtherActor)
 		//print("Overlap Begin");
 		//printFString("Overlapped Actor = %s", *OverlappedActor->GetName());
 		AGladiator* a = Cast<AGladiator>(OtherActor);
-		if (a&&a->getReady()) {
-			a->bajarResistencia(1);
+		if (a) {
+			a->bajarResistencia(5);
 		}
 		
 		triggerTower->Fire(OtherActor);

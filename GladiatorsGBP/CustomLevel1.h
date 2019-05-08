@@ -10,6 +10,9 @@
 #include "Gladiator.h"
 #include "Matriz.h"
 #include "MyCameraActor.h"
+#include "CameraManager.h"
+#include "Animation/AnimSequence.h"
+#include "ConstructorHelpers.h"
 
 #include "CustomLevel1.generated.h"
 
@@ -35,4 +38,10 @@ private:
 	AGladiator* glad2;
 	AMyCameraActor* airCam;
 	USpringArmComponent* CameraBoom; /**Resorte para la camara*/
+	UInputComponent* inputs;
+	ACameraManager* cameraManager;
+	UAnimSequence* anims;
+
+	void cam1();
+	void cam2();
 };

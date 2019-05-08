@@ -10,12 +10,17 @@
 #define print(text) if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 1.5, FColor::Green,text)
 
 ACustomLevel1::ACustomLevel1(const FObjectInitializer & ObjectInitializer) : ALevelScriptActor(ObjectInitializer){
-	  
+	inputs = CreateDefaultSubobject<UInputComponent>(TEXT("InputHandler"));
+	static ConstructorHelpers::FObjectFinder<UAnimSequence> anim(TEXT("/Game/Mannequin/Animations/Falling_Forward_Death.Falling_Forward_Death"));
+	anims = anim.Object;
 }
 
 void ACustomLevel1::BeginPlay() {
 	Super::ReceiveBeginPlay();
 
+	
+	inputs->BindAction("Cam1", EInputEvent::IE_Pressed, this, &ACustomLevel1::cam1);
+	inputs->BindAction("Cam2", EInputEvent::IE_Pressed, this, &ACustomLevel1::cam2);
 	UE_LOG(LogTemp, Warning, TEXT("Hello World!"));
 
 	//Spawn the shiet
@@ -30,13 +35,23 @@ void ACustomLevel1::BeginPlay() {
 
 	airCam = GetWorld()->SpawnActor<AMyCameraActor>(FVector(-160,710,3780),FRotator(0,0,0),SpawnInfo);
 	airCam->GetCameraComponent()->SetRelativeRotation(FRotator(-90,-90.f,-90));
-	
 
 	//tablero->addTower(0, 0, 0);
-	glad1 = tablero->addGladiador(0, 1);
+	glad1 = tablero->addGladiador(1, 0);
 	glad2 = tablero->addGladiador(0,0);
-	
-	airCam->setCam();
+
+	cameraManager = GetWorld()->SpawnActor<ACameraManager>(SpawnInfo);
+	cameraManager->init(glad1, glad2, airCam);
+
+	glad1->setCamara();
+	//glad1->bajarResistencia(1);
+	//glad1->GetMesh()->PlayAnimation(anims, false);
+
+	tablero->addTower(0, 5,5);
+
+	tablero->mover(1, 0, 4, 5);
+	//tablero->mover(0, 9, 9, 9);
+	//glad1->setCamara();
 	//tablero->mover(0,0,9,9);
 
 	//FViewTargetTransitionParams Params;
@@ -60,6 +75,18 @@ void ACustomLevel1::BeginPlay() {
 
 	cont = 1;
 
+}
+
+void ACustomLevel1::cam1() {
+	if (glad1) {
+		glad1->setCamara();
+	}
+}
+
+void ACustomLevel1::cam2() {
+	if (glad2) {
+		glad2->setCamara();
+	}
 }
 
 void ACustomLevel1::BeginDestroy() {

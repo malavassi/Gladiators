@@ -6,6 +6,8 @@
 #include "GameFramework/Character.h"
 #include "GameFramework/SpringArmComponent.h"
 #include "Camera/CameraComponent.h"
+#include "MyAnimInstance.h"
+
 #include "Gladiator.generated.h"
 
 UCLASS()
@@ -16,15 +18,22 @@ class GLADIATORSGBP_API AGladiator : public ACharacter
 public:
 	// Sets default values for this character's properties
 	AGladiator();
+	~AGladiator() {AGladiator::cont--;}
 	void setChars(int res, int iq, int cF, int TS, int TI, int edad, int prob, int genEsperadas);
 	bool getReady();
 	void setCamara(); /** Pone la camara en el objetivo actual*/
 
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)  // BlueprintReadONly solo es usable en publicas
+		int resistencia;
+
 	UCameraComponent* getCamera() { return FollowCamera;}
+	USkeletalMeshComponent* getMesh() { return mesh; }
 
 private:
+	USkeletalMeshComponent* mesh;
 	//UStaticMeshComponent* mesh;
-	int resistencia;
+	static int cont;
+	
 	int inteligenciaEmocional;
 	int condicionFisica;
 	int fuerzaTroncoSup;
@@ -32,13 +41,17 @@ private:
 	int edad;
 	int prob;
 	int genEsperadas;
+	int id;
 	bool ready;
+	bool ded;  /**Booleano del gladiador muerto*/
 	USpringArmComponent* CameraBoom; /**Resorte para la camara*/
 	UCameraComponent* FollowCamera;  /**Camara*/
+	UMyAnimInstance* animations; /**Link a las animaciones*/
 
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
+
 
 public:	
 	void setResistencia(int cantidad);

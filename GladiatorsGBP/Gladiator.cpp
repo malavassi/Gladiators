@@ -10,11 +10,19 @@
 #define print(text) if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 1.5, FColor::Green,text)
 #define printFString(text, fstring) if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, FString::Printf(TEXT(text), fstring))
 
+int AGladiator::cont = 0;
 // Sets default values
 AGladiator::AGladiator()
 {
+	ded = false;
+	//AutoPossessPlayer = EAutoReceiveInput::Player0;
+	id = AGladiator::cont;
+	AGladiator::cont++;
  	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
+
+	//animations = CreateDefaultSubobject<UMyAnimInstance>(TEXT("AnimInstance"));
+	//animations->SetupAttachment(RootComponent);
 
 	// Create a camera boom (pulls in towards the player if there is a collision)
 	CameraBoom = CreateDefaultSubobject<USpringArmComponent>(TEXT("CameraBom"));
@@ -32,11 +40,11 @@ AGladiator::AGladiator()
 	OnActorHit.AddDynamic(this, &AGladiator::OnHit);
 
 	// Mesh esqueletico
-	USkeletalMeshComponent *mesh = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("GLAD"));
+	mesh = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("GLAD"));
 	mesh->AttachToComponent(RootComponent, FAttachmentTransformRules::KeepRelativeTransform);
 
 	// Lo busco
-	static ConstructorHelpers::FObjectFinder<USkeletalMesh> meshAsset(TEXT("/Game/Mannequin/Character/Mesh/SK_Mannequin.SK_Mannequin"));
+	static ConstructorHelpers::FObjectFinder<USkeletalMesh> meshAsset(TEXT("/Game/Mannequin/Character/Mesh/uriel_a_plotexia.uriel_a_plotexia"));
 
 	if (meshAsset.Succeeded()) {  // Si lo encuentro, lo seteo
 		mesh->SetSkeletalMesh(meshAsset.Object);
@@ -45,13 +53,16 @@ AGladiator::AGladiator()
 		mesh->SetWorldScale3D(FVector(1.f, 1.f, 1.f));
 	}
 
+	
+
 	// Poseido por una AI desde que aparece
 	AutoPossessAI = EAutoPossessAI::PlacedInWorldOrSpawned;
 	// AI que lo posee es AGladiatorAIController
 	AIControllerClass = AGladiatorAIController::StaticClass();
 
-	static ConstructorHelpers::FObjectFinder<UAnimBlueprint> animAsset(TEXT("/Game/Mannequin/Animations/ThirdPerson_AnimBP.ThirdPerson_AnimBP"));
+	static ConstructorHelpers::FObjectFinder<UAnimBlueprint> animAsset(TEXT("/Game/Mannequin/Animations/GladAnim_BP.GladAnim_BP"));
 	mesh->SetAnimInstanceClass(animAsset.Object->GeneratedClass);
+	
 
 
 }
@@ -67,9 +78,18 @@ bool AGladiator::getReady() {
 
 void AGladiator::bajarResistencia(int cantidad) {
 	resistencia -= cantidad;
-	if (resistencia==0) {
-		//print("Ay perrillo me mori");
-		Destroy();
+	if (resistencia<=0) {
+		print("Ay perrillo me mori");
+		if (animations) {
+			animations->dying = true;
+			ded = true;
+			//Destroy();
+		}
+		else {
+			print("Bad pointer animations");
+		}
+		
+		//Destroy();
 	}
 }
 
@@ -87,6 +107,7 @@ void AGladiator::setChars(int res, int iq, int cF, int TS, int TI, int edad, int
 void AGladiator::BeginPlay()
 {
 	Super::BeginPlay();
+	animations = Cast<UMyAnimInstance>(mesh->GetAnimInstance());
 }
 
 void AGladiator::setCamara() {
@@ -100,6 +121,12 @@ void AGladiator::setCamara() {
 void AGladiator::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+	if (ded) {
+		print("Entrra");
+		if (animations->GetRelevantAnimTimeRemaining(0,2)<0.1) {
+			mesh->bPauseAnims = true;
+		}
+	}
 
 }
 
@@ -115,7 +142,14 @@ void AGladiator::OnHit(AActor * SelfActor, AActor * OtherActor, FVector NormalIm
 void AGladiator::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
-	
+	if (id==1) {
+		//print("1 pressed");
+		//InputComponent->BindAction("Cam1", IE_Pressed, this, &AGladiator::setCamara);
+	}
+	else {
+		//print("1");
+		InputComponent->BindAction("Cam2", IE_Pressed, this, &AGladiator::setCamara);
+	}
 
 }
 
