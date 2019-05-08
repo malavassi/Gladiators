@@ -6,7 +6,7 @@
 #define FABRICAVIRTUAL_LINKEDLIST_H
 
 #include "Node.h"
-
+#include <iostream>
 using namespace std;
 template <typename T>
 
@@ -14,6 +14,7 @@ class LinkedList {
 public:
     LinkedList(){
         head = nullptr;
+        tail = nullptr;
         size = 0;
     }
 
@@ -118,6 +119,12 @@ public:
     tail = value;
     }
 
+    void clearList(){
+        int c = 0;
+        while(c < this->getSize()){
+            this->pop_front();
+        }
+    }
 private:
     Node<T>* head;
     Node<T>* tail;
