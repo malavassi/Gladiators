@@ -8,7 +8,7 @@
 #include "Generacion.h"
 #include <iostream>
 #include "Gladiator.h"
-#include "ZonaIntimidacion.h"
+
 /**
  * Clase representativa de cada poblacion
  * @author Elorim
@@ -23,7 +23,7 @@ public:
     ~Poblacion();
 
     /**
-     * Funcion encargada de seleccionar el mejor gladiador
+     * Selecciona a los diez mejores gladiadores de toda la poblacion para reproducirlos
      * @author Elorim
      * */
     void seleccion();
@@ -41,22 +41,30 @@ public:
 
     // Getters & Setters
     Gladiator* getElegido();
-
-    ZonaIntimidacion *getZonaIntimidacion() const;
-
-    void setZonaIntimidacion(ZonaIntimidacion *zonaIntimidacion);
-
 private:
-    ZonaIntimidacion * zonaIntimidacion;
     //Atributos
     int generacion_c = 0; /**Contador con el numero de generaciones*/
     LinkedList<Generacion*> generaciones; /** Generaciones de esta poblacion*/
     Gladiator* elegido;  /**Gladiador elegido para la siguiente iteracion*/
-
-
     char id; /**Identificador de la poblacion, A o B*/
+    LinkedList<Gladiator*> reproducibles;
 
     //Funciones
+    /**
+     * Retorna al gladiador con mas probabilidad de supervivencia de la lista dada
+     * @oaram lista Lista de la cual se va a seleccionar al mejor
+     * @returns Mejor gladiador de la lista
+     * */
+     Gladiator* bestG(LinkedList<Gladiator*>* lista);
+
+    /**Bubblesort
+     * De GeeksforGeeks
+     * */
+    void bubbleSort(LinkedList<Gladiator*> lista);
+    /**
+     * Auxiliar para bubblesort
+     * */
+    void swap(int i, int j, LinkedList<Gladiator*> lista);
     /**
      * Muta al gladiador que se le pasa. La mutacion tiene un 10% de probabilidades de darse
      * y consiste en agarrar un valor random del array de atributos y sumarle el 30% de ese atributo
@@ -77,14 +85,6 @@ private:
      * @param gladiador Gladiador a invertir atributos
      * */
     void invertir(Gladiator* gladiador);
-
-
-    /**
-     * Funcion que identifica y retorna al gladiador con mayor resistencia en toda la poblacion
-     * @return gladiador con mayor resistencia en la poblacion
-     */
-    Gladiator* mejorGladiador();
-
 };
 
 
