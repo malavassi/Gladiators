@@ -7,6 +7,7 @@
 #include"Poblacion.h"
 #include "AStar.h"
 #include "Backtracking.h"
+#include "Server.h"
 #include <iostream>
 
 /**
@@ -70,6 +71,7 @@ private:
     int iteration_ctr;
     int matrix_size;
     int tower_ctr;
+    Server server;
 
     //Metodos
     void siguienteIteracion();

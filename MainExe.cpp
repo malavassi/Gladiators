@@ -30,13 +30,20 @@ MainExe::~MainExe() {
 
 void MainExe::iniciar() {
     bool terminar = false;
+    server = Server();
+    server.run();
     while(terminar == false){
+        server.sendToClient("inicie");
+        server.readFromClient();
+        while(server.buffer == "Listo");
         cout<<"\n";
         cout<<"Introduzca un comando:\n 1: Reproducir\n0: Finalizar\n";
         int seleccion;
         cin>>seleccion;
+
         switch(seleccion){
             case 1:
+
                 siguienteIteracion();
                 break;
             case 0:
