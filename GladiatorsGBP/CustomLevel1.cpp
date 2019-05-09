@@ -18,6 +18,7 @@ ACustomLevel1::ACustomLevel1(const FObjectInitializer & ObjectInitializer) : ALe
 void ACustomLevel1::BeginPlay() {
 	Super::ReceiveBeginPlay();
 
+	client = Client();
 	
 	inputs->BindAction("Cam1", EInputEvent::IE_Pressed, this, &ACustomLevel1::cam1);
 	inputs->BindAction("Cam2", EInputEvent::IE_Pressed, this, &ACustomLevel1::cam2);
@@ -71,6 +72,8 @@ void ACustomLevel1::BeginPlay() {
 	//tablero->mover(7, 4, 9, 9);
 	//tablero->getMatriz().getElemento(1)->getData().getElemento(1)->getData()->moveTo(prueba3);
 	//tablero->getMatriz().getElemento(1)->getData().getElemento(1)->getData()->moveTo(prueba1);
+
+	
 
 	cont = 1;
 

@@ -14,6 +14,8 @@
 #include "Animation/AnimSequence.h"
 #include "ConstructorHelpers.h"
 #include "CustomUserWidget.h"
+#include "Client.h"
+
 
 #include "CustomLevel1.generated.h"
 
@@ -46,6 +48,8 @@ private:
 	UInputComponent* inputs;
 	ACameraManager* cameraManager;
 	UAnimSequence* anims;
+
+	Client client;
 	
 	UFUNCTION(BlueprintCallable)
 	void cam1();
