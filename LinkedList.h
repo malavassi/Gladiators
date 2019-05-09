@@ -20,6 +20,7 @@ public:
         size = 0;
     }
 
+
     void push_front(T value){
         Node<T>* nuevoNod = new Node<T>(value);
         if(head== nullptr){
@@ -33,27 +34,6 @@ public:
         }
         size+=1;
     };
-
-    void addPos(int i, T value){
-        Node<T>* nuevoNod = new Node<T>(value);
-        if(i==0){  // head
-            nuevoNod->setNext(head);
-            head = nuevoNod;
-        }else if(i==size-1){  // tail
-            tail->setNext(nuevoNod);
-            nuevoNod->setNext(nullptr);
-        }else{  // middle
-            Node<T>* temp = head;
-            int j = 0;
-            while(temp->getNext()!=nullptr && j+1!=i){
-                temp = temp->getNext();
-                j++;
-            }
-                nuevoNod->setNext(temp->getNext());
-                temp->setNext(nuevoNod);
-        }
-        size++;
-    }
 
     void push_back(T value){
         Node<T>* nuevoNod = new Node<T>(value);
@@ -104,17 +84,16 @@ public:
         Node<T>* returnin = head;
         Node<T>* tmp = head;
         if(pos==0){
+            size--;
             return pop_front();
-        }else{
-            int c = 0;
-            while(tmp->getNext()!= nullptr && c+1!=pos){
+        }
+        else{
+            while((pos-=1)>0 && tmp->getNext()!= nullptr){
                 tmp=tmp->getNext();
-                c++;
+                pos--;
             }
             returnin = tmp->getNext();
-            if(tmp->getNext()!=nullptr){
-                tmp->setNext(tmp->getNext()->getNext());
-            }
+            tmp->setNext(tmp->getNext()->getNext());
         }
         size--;
         return returnin->getData();
