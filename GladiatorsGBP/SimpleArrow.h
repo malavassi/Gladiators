@@ -54,6 +54,6 @@ private:
 	FVector currentPos; /**Posicion de la flecha*/
 	UPROPERTY()
 	float speed; /**Velocidad de la flecha*/
-	int type; /**Tipo de flecha. 0 normal, 1 fuego, 2 explosiva*/
+	int type; /**Tipo de flecha. 1 normal, 2 fuego, 3 explosiva*/
 
 };

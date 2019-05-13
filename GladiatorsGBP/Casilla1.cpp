@@ -131,7 +131,7 @@ ASimpleTower* ACasilla1::spawnTower(int type) {
 	if(type==1){
 	}else if(type==2){
 	cls = StaticLoadObject(UObject::StaticClass(), nullptr, TEXT("/Game/Torre/FireTower.FireTower"));
-	}else{
+	}else if(type == 3){
 	cls = StaticLoadObject(UObject::StaticClass(), nullptr, TEXT("/Game/Torre/ExplosiveTower.ExplosiveTower"));
 	}
 	// Trying to spawn BP
@@ -157,7 +157,9 @@ ASimpleTower* ACasilla1::spawnTower(int type) {
          FActorSpawnParameters SpawnParams;
          //SpawnParams.Instigator = this;
          ASimpleTower* torre = World->SpawnActor<ASimpleTower>(MyItemBlueprint, Location,Rotation,SpawnParams);
+		 torre->setType(type);
 		 this->tower = torre;
+
  
      }
      else {

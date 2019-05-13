@@ -34,6 +34,7 @@ public:
 
 	UCameraComponent* getCamera() { return FollowCamera;}
 	USkeletalMeshComponent* getMesh() { return mesh; }
+	void fire();
 
 private:
 	USkeletalMeshComponent* mesh;
@@ -49,6 +50,7 @@ private:
 	int genEsperadas;
 	int id;
 	bool ready;
+	bool onFire;
 	bool ded;  /**Booleano del gladiador muerto*/
 	USpringArmComponent* CameraBoom; /**Resorte para la camara*/
 	UCameraComponent* FollowCamera;  /**Camara*/

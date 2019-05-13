@@ -14,6 +14,7 @@ int AGladiator::cont = 0;
 // Sets default values
 AGladiator::AGladiator()
 {
+	onFire = false;
 	ded = false;
 	//AutoPossessPlayer = EAutoReceiveInput::Player0;
 	id = AGladiator::cont;
@@ -79,24 +80,33 @@ bool AGladiator::getReady() {
 	return ready;
 }
 
+void AGladiator::fire(){
+	if(!onFire){
+		UGameplayStatics::SpawnEmitterAttached(
+			 fayafaya,                   //particle system
+			 mesh,      //mesh to attach to
+			 FName("Torso"),   //socket name
+			 FVector(0,0,64),  //location relative to socket
+			 FRotator(0,0,0), //rotation 
+			 EAttachLocation::KeepRelativeOffset, 
+			 true //will be deleted automatically
+			 );
+			 onFire = true;
+	 }
+}
+
 void AGladiator::bajarResistencia(int cantidad) {
 	resistencia -= cantidad;
 	// Encender en fuego alv
-	UGameplayStatics::SpawnEmitterAttached(
-     fayafaya,                   //particle system
-     mesh,      //mesh to attach to
-     FName("Torso"),   //socket name
-     FVector(0,0,64),  //location relative to socket
-     FRotator(0,0,0), //rotation 
-     EAttachLocation::KeepRelativeOffset, 
-     true //will be deleted automatically
-	 );
+
+	
 
 	if (resistencia<=0) {
 		print("Ay perrillo me mori");
 		if (animations) {
 			animations->dying = true;
 			ded = true;
+			GetController()->StopMovement();
 			//Destroy();
 		}
 		else {

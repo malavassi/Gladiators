@@ -93,6 +93,42 @@ void ASimpleArrow::OnHit(AActor * SelfActor, class AActor * OtherActor, FVector 
 	AGladiator* a = Cast<AGladiator>(OtherActor);
 	if(a){
 		a->bajarResistencia(5);
+		if(type==2){
+			a->fire();
+		}else if(type==3){
+			mesh->SetSimulatePhysics(true);
+			auto cls = StaticLoadObject(UObject::StaticClass(), nullptr, TEXT("Blueprint'/Game/StarterContent/Blueprints/Blueprint_Effect_Explosion.Blueprint_Effect_Explosion'"));
+			// Trying to spawn BP
+	
+     if (!cls)
+         GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, TEXT("Failed to load UClass "));
+     else
+         GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, TEXT("UClass LOADED!!!!"));
+ 
+     UBlueprint * bp = Cast<UBlueprint>(cls);
+ 
+     if (!bp)
+         GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, TEXT("Failed to load UClass 2  "));
+     else
+         GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, TEXT("UClass LOADED!!!! 2 " + bp->GetName()));
+ 
+     TSubclassOf<class UObject> MyItemBlueprint;
+ 
+     MyItemBlueprint = (UClass*)bp->GeneratedClass;
+     UWorld* const World = GWorld->GetWorld();
+     if (World){
+ 
+         FActorSpawnParameters SpawnParams;
+         //SpawnParams.Instigator = this;
+         GetWorld()->SpawnActor<UObject>(MyItemBlueprint, OtherActor->GetActorLocation(),FRotator(0,0,0),SpawnParams);
+     }
+     else {
+         GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, TEXT("NO WORLD!!!!"));
+     }
+
+
+
+		}
 	}
 	Destroy();
 }
