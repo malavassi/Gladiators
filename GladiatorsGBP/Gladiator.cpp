@@ -78,6 +78,23 @@ bool AGladiator::getReady() {
 
 void AGladiator::bajarResistencia(int cantidad) {
 	resistencia -= cantidad;
+	// Encender en fuego alv
+	
+	 ConstructorHelpers::FObjectFinder<UParticleSystem> faya(TEXT("ParticleSystem'/Game/Fire.Fire'"));
+	 UParticleSystem* fayafaya = faya.Object;
+	  if(faya.Succeeded()){
+
+	UGameplayStatics::SpawnEmitterAttached(
+     fayafaya,                   //particle system
+     mesh,      //mesh to attach to
+     FName("Torso"),   //socket name
+     FVector(0,0,64),  //location relative to socket
+     FRotator(0,0,0), //rotation 
+     EAttachLocation::KeepRelativeOffset, 
+     true //will be deleted automatically
+	 );
+	 }
+
 	if (resistencia<=0) {
 		print("Ay perrillo me mori");
 		if (animations) {

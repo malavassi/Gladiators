@@ -5,6 +5,9 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
 #include "Gladiator.h"
+#include "Kismet/GameplayStatics.h"
+ //All particle definitions for using functions of UParticleSystemComponent
+ #include "ParticleDefinitions.h"
 #include "SimpleArrow.generated.h"
 
 UCLASS()

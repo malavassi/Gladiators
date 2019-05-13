@@ -17,5 +17,4 @@ class GLADIATORSGBP_API UMyAnimInstance : public UAnimInstance
 public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 	bool dying; /**Indica si el personaje esta muriendo*/
-	
 };

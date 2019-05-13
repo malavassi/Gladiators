@@ -7,6 +7,12 @@
 #include "GameFramework/SpringArmComponent.h"
 #include "Camera/CameraComponent.h"
 #include "MyAnimInstance.h"
+#include "Particles/ParticleSystem.h"
+//For the UGameplayStatics::SpawnEmitterAttached
+#include "Kismet/GameplayStatics.h"
+ 
+ //All particle definitions for using functions of UParticleSystemComponent
+ #include "ParticleDefinitions.h"
 
 #include "Gladiator.generated.h"
 

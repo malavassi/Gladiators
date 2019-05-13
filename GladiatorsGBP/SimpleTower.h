@@ -5,7 +5,12 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
 #include "DrawDebugHelpers.h"
-#include "Components/SphereComponent.h"
+#include "Components/SphereComponent.h"\
+//For the UGameplayStatics::SpawnEmitterAttached
+#include "Kismet/GameplayStatics.h"
+ 
+ //All particle definitions for using functions of UParticleSystemComponent
+ #include "ParticleDefinitions.h"
 #include "LinkedList.h"
 
 #include "SimpleTower.generated.h"
