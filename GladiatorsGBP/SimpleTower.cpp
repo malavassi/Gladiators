@@ -80,10 +80,10 @@ void ASimpleTower::Fire(AActor *Objective)
 	FHitResult OutHit;
 	FVector Start = GetActorLocation()+FVector(0,0,440);
 
-	FVector End = Objective->GetActorLocation();
+	FVector End = Objective->GetActorLocation() - FVector(0,0,20);
 	FCollisionQueryParams CollisionParams;
 
-	//DrawDebugLine(GetWorld(), Start, End, FColor::Green, true);
+	DrawDebugLine(GetWorld(), Start, End, FColor::Green, true);
 
 	if (GetWorld()->LineTraceSingleByChannel(OutHit, Start, End, ECC_Visibility, CollisionParams))
 	{
@@ -100,7 +100,7 @@ void ASimpleTower::Fire(AActor *Objective)
 			//FQuat myquat = FQuat(End-Start,1);
 			
 
-			ASimpleArrow* arrow = GetWorld()->SpawnActor<ASimpleArrow>(GetActorLocation()+FVector(0,0,440)+(End-Start)/3, FRotator::ZeroRotator, SpawnInfo);
+			ASimpleArrow* arrow = GetWorld()->SpawnActor<ASimpleArrow>(GetActorLocation()+FVector(0,0,440)+(End-Start)/8, FRotator::ZeroRotator, SpawnInfo);
 			
 			
 			arrow->setType(type);

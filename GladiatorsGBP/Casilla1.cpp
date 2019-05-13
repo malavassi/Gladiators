@@ -209,7 +209,7 @@ void ACasilla1::addDependency(ACasilla1 * casilla)
 void ACasilla1::setTriggerTower(ASimpleTower * tower)
 {
 	this->triggerTower = tower;
-	//DrawDebugBox(GetWorld(), GetActorLocation(), GetComponentsBoundingBox().GetExtent(), FColor::Purple, true, -1, 0, 5);
+	DrawDebugBox(GetWorld(), GetActorLocation(), GetComponentsBoundingBox().GetExtent(), FColor::Purple, true, -1, 0, 5);
 }
 
 

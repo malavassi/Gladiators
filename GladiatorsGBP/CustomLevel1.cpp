@@ -49,8 +49,10 @@ void ACustomLevel1::BeginPlay() {
 	//glad1->bajarResistencia(1);
 	//glad1->GetMesh()->PlayAnimation(anims, false);
 
-	tablero->addTower(2, 5,5);
-	tablero->mover(1, 0, 4, 5);
+	tablero->addTower(3, 5,5);
+	tablero->mover(1, 0, 2, 2);
+	tablero->mover(2,2,2,3);
+	tablero->mover(2,3,4,4);
 	//tablero->mover(0, 9, 9, 9);
 	//glad1->setCamara();
 	//tablero->mover(0,0,9,9);

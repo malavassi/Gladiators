@@ -64,7 +64,7 @@ UStaticMeshComponent* ASimpleArrow::getMesh() {
 void ASimpleArrow::BeginPlay()
 {
 	Super::BeginPlay();
-	//DrawDebugSphere(GetWorld(), GetActorLocation(), 20.0f, 50, FColor::Purple, true, -1, 0, 2);
+	DrawDebugSphere(GetWorld(), GetActorLocation(), 20.0f, 50, FColor::Purple, true, -1, 0, 2);
 }
 
 void ASimpleArrow::setType(int type) {
