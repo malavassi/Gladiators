@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
+#include "Gladiator.h"
 #include "SimpleArrow.generated.h"
 
 UCLASS()

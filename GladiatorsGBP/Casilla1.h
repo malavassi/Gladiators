@@ -58,7 +58,7 @@ public:
 	*/
 	void clear(bool all);
 	/** Genera una torre en esta casilla*/
-	ASimpleTower* spawnTower();
+	ASimpleTower* spawnTower(int type);
 	/** Genera un gladiador en esta casilla*/
 	AGladiator* spawnGladiator();
 	/**
@@ -85,4 +85,6 @@ private:
 	ASimpleTower* triggerTower; /** Puntero a la torre que va a disparar*/
 	LinkedList<ACasilla1*> casillasDependientes; /**Lista de punteros a casillas que debo limpiar si limpio la actual*/
 	AGladiatorAIController* controller; /** Controlador del gladiador, si lo hay*/
+	LinkedList<AGladiator*> shooted;
+	bool isShooted(AGladiator* check);
 };

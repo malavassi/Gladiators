@@ -36,10 +36,11 @@ void ACustomLevel1::BeginPlay() {
 
 	airCam = GetWorld()->SpawnActor<AMyCameraActor>(FVector(-160,710,3780),FRotator(0,0,0),SpawnInfo);
 	airCam->GetCameraComponent()->SetRelativeRotation(FRotator(-90,-90.f,-90));
+	airCam->GetCameraComponent()->SetConstraintAspectRatio(false);
 
 	//tablero->addTower(0, 0, 0);
-	glad1 = tablero->addGladiador(1, 0);
-	glad2 = tablero->addGladiador(0,0);
+	glad1 = tablero->addGladiador(1,0);
+	glad2 = tablero->addGladiador(9,8);
 
 	cameraManager = GetWorld()->SpawnActor<ACameraManager>(SpawnInfo);
 	cameraManager->init(glad1, glad2, airCam);
@@ -48,7 +49,7 @@ void ACustomLevel1::BeginPlay() {
 	//glad1->bajarResistencia(1);
 	//glad1->GetMesh()->PlayAnimation(anims, false);
 
-	tablero->addTower(0, 5,5);
+	tablero->addTower(1, 5,5);
 	tablero->mover(1, 0, 4, 5);
 	//tablero->mover(0, 9, 9, 9);
 	//glad1->setCamara();

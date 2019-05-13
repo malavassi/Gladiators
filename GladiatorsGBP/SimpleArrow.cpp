@@ -32,7 +32,7 @@ ASimpleArrow::ASimpleArrow(){
 	 mesh = CreateDefaultSubobject < UStaticMeshComponent>(TEXT("Amesh"));
 	//mesh->SetStaticMesh(StaticMesh'/Game/Geometry/Meshes/1M_Cube_Chamfer.1M_Cube_Chamfer');
 
-	mesh->SetupAttachment(RootComponent);
+	RootComponent = mesh;
 
 	//RootComponent = mesh;
 
@@ -64,8 +64,7 @@ UStaticMeshComponent* ASimpleArrow::getMesh() {
 void ASimpleArrow::BeginPlay()
 {
 	Super::BeginPlay();
-	DrawDebugSphere(GetWorld(), GetActorLocation(), 20.0f, 50, FColor::Purple, true, -1, 0, 2);
-	
+	//DrawDebugSphere(GetWorld(), GetActorLocation(), 20.0f, 50, FColor::Purple, true, -1, 0, 2);
 }
 
 void ASimpleArrow::setType(int type) {
@@ -91,6 +90,10 @@ void ASimpleArrow::Tick(float DeltaTime)
 
 void ASimpleArrow::OnHit(AActor * SelfActor, class AActor * OtherActor, FVector NormalImpulse, const FHitResult &Hit){
 	print("hit");
+	AGladiator* a = Cast<AGladiator>(OtherActor);
+	if(a){
+		a->bajarResistencia(5);
+	}
 	Destroy();
 }
 

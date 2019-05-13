@@ -70,7 +70,7 @@ ACasilla1 * AMatriz::getCasilla(int i, int j)
 }
 
 void AMatriz::addTower(int torr, int i, int j) {
-		ASimpleTower* torre = getMatriz().getElemento(i)->getData().getElemento(j)->getData()->spawnTower();
+		ASimpleTower* torre = getMatriz().getElemento(i)->getData().getElemento(j)->getData()->spawnTower(torr);
 		torre->setType(torr);
 		ACasilla1* actual = getCasilla(i, j);
 		LinkedList<FVector> triggerBoxes = torre->getTriggerBoxes();

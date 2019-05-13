@@ -49,16 +49,16 @@ ASimpleTower::ASimpleTower()
 
 	//RootComponent = effect_area;
 
-	mesh->AttachToComponent(RootComponent, FAttachmentTransformRules::KeepRelativeTransform);
+	//mesh->AttachToComponent(RootComponent, FAttachmentTransformRules::KeepRelativeTransform);
 	
 
-	static ConstructorHelpers::FObjectFinder<UStaticMesh> meshAsset(TEXT("/Game/StarterContent/Shapes/Shape_Cube.Shape_Cube"));
+	//static ConstructorHelpers::FObjectFinder<UStaticMesh> meshAsset(TEXT("/Game/StarterContent/Shapes/Shape_Cube.Shape_Cube"));
 
-	if (meshAsset.Succeeded()) {
-		mesh->SetStaticMesh(meshAsset.Object);
-		mesh->SetRelativeLocation(FVector(0.f, 0.f, 0.f));
-		mesh->SetWorldScale3D(FVector(1.f,1.f,8.f));
-	}
+	//if (meshAsset.Succeeded()) {
+		//mesh->SetStaticMesh(meshAsset.Object);
+		//mesh->SetRelativeLocation(FVector(0.f, 0.f, 0.f));
+		//mesh->SetWorldScale3D(FVector(1.f,1.f,8.f));
+	//}
 
 	type = 0;
 	area = 0;
@@ -68,7 +68,7 @@ ASimpleTower::ASimpleTower()
 
 void ASimpleTower::setType(int type) {
 	this->type = type;
-	area = 1 + type;
+	area = type;
 	setupTriggers();
 
 	// Recalcule mesh
@@ -78,12 +78,12 @@ void ASimpleTower::Fire(AActor *Objective)
 {
 
 	FHitResult OutHit;
-	FVector Start = GetActorLocation();
+	FVector Start = GetActorLocation()+FVector(0,0,440);
 
 	FVector End = Objective->GetActorLocation();
 	FCollisionQueryParams CollisionParams;
 
-	DrawDebugLine(GetWorld(), Start, End, FColor::Green, true);
+	//DrawDebugLine(GetWorld(), Start, End, FColor::Green, true);
 
 	if (GetWorld()->LineTraceSingleByChannel(OutHit, Start, End, ECC_Visibility, CollisionParams))
 	{
@@ -100,16 +100,16 @@ void ASimpleTower::Fire(AActor *Objective)
 			//FQuat myquat = FQuat(End-Start,1);
 			
 
-			//ASimpleArrow* arrow = GetWorld()->SpawnActor<ASimpleArrow>(GetActorLocation()+(End-Start)/2, FRotator::ZeroRotator, SpawnInfo);
+			ASimpleArrow* arrow = GetWorld()->SpawnActor<ASimpleArrow>(GetActorLocation()+FVector(0,0,440)+(End-Start)/3, FRotator::ZeroRotator, SpawnInfo);
 			
 			
-			/*arrow->setType(type);
+			arrow->setType(type);
 			FRotator rotator = UKismetMathLibrary::FindLookAtRotation(arrow->GetActorLocation(), End);
 			arrow->SetActorRotation(rotator + FRotator(FQuat(FVector(0, 1, 0), PI / 2)));
 
 			arrow->getMesh()->AddForce((End-Start)*10000);
 			
-			arrow->setTarget(End);*/
+			arrow->setTarget(End);
 
 		}
 	}
