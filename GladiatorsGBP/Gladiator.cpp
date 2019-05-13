@@ -62,7 +62,10 @@ AGladiator::AGladiator()
 
 	static ConstructorHelpers::FObjectFinder<UAnimBlueprint> animAsset(TEXT("/Game/Mannequin/Animations/GladAnim_BP.GladAnim_BP"));
 	mesh->SetAnimInstanceClass(animAsset.Object->GeneratedClass);
+
+	ConstructorHelpers::FObjectFinder<UParticleSystem> faya(TEXT("ParticleSystem'/Game/FirePJ.FirePJ'"));
 	
+	fayafaya = faya.Object;
 
 
 }
@@ -79,11 +82,6 @@ bool AGladiator::getReady() {
 void AGladiator::bajarResistencia(int cantidad) {
 	resistencia -= cantidad;
 	// Encender en fuego alv
-	
-	 ConstructorHelpers::FObjectFinder<UParticleSystem> faya(TEXT("ParticleSystem'/Game/Fire.Fire'"));
-	 UParticleSystem* fayafaya = faya.Object;
-	  if(faya.Succeeded()){
-
 	UGameplayStatics::SpawnEmitterAttached(
      fayafaya,                   //particle system
      mesh,      //mesh to attach to
@@ -93,7 +91,6 @@ void AGladiator::bajarResistencia(int cantidad) {
      EAttachLocation::KeepRelativeOffset, 
      true //will be deleted automatically
 	 );
-	 }
 
 	if (resistencia<=0) {
 		print("Ay perrillo me mori");

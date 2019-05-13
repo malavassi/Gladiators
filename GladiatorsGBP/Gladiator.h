@@ -53,6 +53,7 @@ private:
 	USpringArmComponent* CameraBoom; /**Resorte para la camara*/
 	UCameraComponent* FollowCamera;  /**Camara*/
 	UMyAnimInstance* animations; /**Link a las animaciones*/
+	UParticleSystem* fayafaya;
 
 protected:
 	// Called when the game starts or when spawned
