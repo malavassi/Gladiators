@@ -59,5 +59,10 @@ void Generacion::avanzarEdad() {
         gladiadores.getElemento(i)->getData()->avanzarEdad();
     }
 
+
+}
+
+int Generacion::getEdad() {
+    return average_age;
 }
 

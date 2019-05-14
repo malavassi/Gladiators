@@ -85,7 +85,7 @@ Gladiator::Gladiator() {
     this->iQemocional=0;
     this->probabilidadSupervivencia=0;
     this->resistencia=0;
-    this->generacionesEsperadas = 0;
+    this->generacionesEsperadas = 4;
     padre1 = nullptr;
     padre2 = nullptr;
     for(int i=0;i<4;i++){
@@ -111,7 +111,7 @@ Gladiator::Gladiator(int iq, int cf, int fs, int fi) {  // Este constructor solo
     cout<<"        Con atributos: IQ:"<<iQemocional<<", CF:"<<condicionFisica<<", FTI:"<<fuerzaTInferior<<", FTS:"<<fuerzaTSuperior<<endl;
 
     // Inicializando en nulos
-    generacionesEsperadas = 0;
+    generacionesEsperadas = 4;
     probabilidadSupervivencia = 0.f;
     edad = 0;
     resistencia = 0;
@@ -196,6 +196,7 @@ void Gladiator::setAtributesF(int *arrAttr) {
 
 void Gladiator::avanzarEdad() {
     edad+=20;
+    generacionesEsperadas--;
 
 }
 
