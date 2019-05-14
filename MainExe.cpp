@@ -3,6 +3,9 @@
 //
 
 #include "MainExe.h"
+#include <stdio.h>
+#include "Sendable.h"
+#include <string>
 
 MainExe::MainExe(int game_size) {  // Ya creo la oleada inicial
     cout<<"Creando oleadas iniciales\n";
@@ -30,8 +33,15 @@ MainExe::~MainExe() {
 
 void MainExe::iniciar() {
     bool terminar = false;
+    Sendable paquete = Sendable();
     server = Server();
-    server.run();
+    server.run();  // Inicializa el server
+    server.sendToClient("Start");
+    server.readFromClient();
+    while(strcmp(server.buffer, "inicio")==0){
+        paquete.setGlad1();
+        paquete.setGlad2();
+    }
     while(terminar == false){
         server.sendToClient("inicie");
         server.readFromClient();

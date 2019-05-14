@@ -135,4 +135,15 @@ void Sendable::setGlad2(int glad2[4]) {
     for(int i=0;i<4;i++){
         this->glad2[i] = glad2[i];
     }
+}
+
+void Sendable::clear() {
+
+   for(int i=0;i<4;i++){
+       glad1[i] = 0;
+       glad2[i] = 0;
+   }
+   mensaje = "";
+   movimientos = LinkedList<LinkedList<int>>();
+
 };

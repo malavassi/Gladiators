@@ -34,6 +34,12 @@ public:
      * */
     static Sendable toObj(const char json[]);
 
+    /**
+     * Limpia los datos que contiene la clase
+     * @author elorim
+     * */
+     void clear();
+
     // Getters & Setters
     LinkedList<LinkedList<int>> getMovimientos(){return movimientos;}
     string getMensaje(){return mensaje;}
