@@ -38,10 +38,6 @@ void MainExe::iniciar() {
     server.run();  // Inicializa el server
 
     while (terminar == false) {
-        server.readFromClient();  // Espera a que el cliente este listo
-        while (strcmp(server.buffer,"Listo")!=0) {
-
-        }
         Sendable sendable = Sendable();
         LinkedList<LinkedList<int>> enviar = LinkedList<LinkedList<int>>();  // Lista a enviar, 000, tipo,x,y
         LinkedList<int> list2 = LinkedList<int>();
@@ -57,6 +53,7 @@ void MainExe::iniciar() {
         }
         enviar.push_back(list2);
         sendable.setMovimientos(enviar);
+        server.sendToClient(sendable.toJson());
         server.readFromClient();  // Espera a que el cliente este listo
         while (strcmp(server.buffer,"Listo")!=0) {
 
