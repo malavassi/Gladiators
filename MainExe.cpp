@@ -45,7 +45,14 @@ void MainExe::iniciar() {
     while(terminar == false){
         server.sendToClient("inicie");
         server.readFromClient();
-        while(server.buffer == "Listo");
+        while(server.buffer == "Listo"){
+            if(iteration_ctr%3==0){
+                //mensaje con server
+            }
+            else{
+                
+            }
+        }
         cout<<"\n";
         cout<<"Introduzca un comando:\n 1: Reproducir\n0: Finalizar\n";
         int seleccion;

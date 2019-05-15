@@ -42,6 +42,7 @@ private:
     int goal_y;
     int size;
     LinkedList<LinkedList<int>>* map_matrix;
+    LinkedList<int> generated_path;
 };
 
 

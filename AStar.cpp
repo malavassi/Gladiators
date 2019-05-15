@@ -39,6 +39,7 @@ double AStar::calcH(int pos_x, int pos_y) {
 
 LinkedList<Quadrant*> AStar::generatePath(LinkedList<LinkedList<Quadrant*>>* search_matrix, int goalx, int goaly) {
     LinkedList<Quadrant*> path;
+    LinkedList<int> resultant_path;
     int col = goalx;
     int line = goaly;
     cout<<"The path is"<<endl;
@@ -58,9 +59,11 @@ LinkedList<Quadrant*> AStar::generatePath(LinkedList<LinkedList<Quadrant*>>* sea
     path.push_front(last);
     LinkedList<Quadrant*> tmp_path = path;
     while(tmp_path.getSize()>0){
+        resultant_path.push_back(tmp_path.getHead()->getData()->getPosX()*10 + tmp_path.getHead()->getData()->getPosY());
         cout<<tmp_path.getHead()->getData()->getPosX()*10 + tmp_path.getHead()->getData()->getPosY()<<endl;
         tmp_path.pop_front();
     }
+    generated_path=resultant_path;
     return path;
 }
 

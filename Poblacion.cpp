@@ -294,6 +294,6 @@ Gladiator *Poblacion::bestG(LinkedList<Gladiator*>* lista) {
                 }// Si no pues no hace nada
             }
         }
-        return lista->pop_element(best_pos);
+        return lista->pop_element(best_pos)->getData();
 }
 
