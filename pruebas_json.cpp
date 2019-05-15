@@ -7,7 +7,7 @@
 #include <iostream>
 
 using namespace std;
-int main(){
+int amain(){
     Sendable prueba = Sendable();
     LinkedList<LinkedList<int>> pl= LinkedList<LinkedList<int>>();
     LinkedList<int> pp = LinkedList<int>();
