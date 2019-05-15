@@ -149,10 +149,10 @@ void Poblacion::fitness_local() {
     for(int generacion_c=0;generacion_c<generaciones.getSize();generacion_c++){ // Iterador de generaciones
         Generacion* genActual = generaciones.getElemento(generacion_c)->getData(); // Generacion actual sobre la que se trabaja
         genActual->avanzarEdad(); // Avanza la edad de todas las generaciones, menos de las recien nacidas
-        if(genActual->getEdad()>=100){
+        /*if(genActual->getEdad()>=100){
             cout<<"Rezamos porque "<<generacion_c<<" vaya con Noguera\n";
              (generaciones.pop_element(generacion_c));
-        }
+        }*/
 
         for(int gladiador_c=0;gladiador_c<genActual->getGladiadores().getSize();gladiador_c++){ // Iterador de gladiadores
             // Logica de fitness starts
@@ -184,6 +184,10 @@ void Poblacion::fitness_local() {
                     gladiador->getCondicionFisica()*3;  // Agregar porcentajes si es necesario
             gladiador->setResistencia(nuevRes);  // Setteo la res
             cout<<"    Basado en sus atributos, el gladiador "<<gladiador->getIdUnico()<<" posee una resistencia de:"<<gladiador->getResistencia()<<endl;
+
+            if(genActual->getEdad()==20){
+                genActual->addProm(nuevRes);
+            }
 
             //Tercero, calculo la nueva probabilidad de supervivencia
             int nuevProb = gladiador->getResistencia();  // Por el momento es llanamente la resistencia
@@ -243,13 +247,13 @@ void Poblacion::reproduccion() {
             Gladiator *nuevo1 = new Gladiator(); // Creo un nuevo gladiador en blanco
             Gladiator* nuevo2 = new Gladiator();
             //cout << "      El bebe gladiador es: " << nuevo1->getIdUnico() << endl;
-
             // Genero dos numeros random que van a ser los atributos que el primer padre va a pasar al hijo 1
             int veces = 0;
             int attr_pasar1[] = {-1, -1, -1, -1}; // Inicializo en -1 para indicar que no se han asignado
             int attr_pasar2[] = {-1, -1, -1, -1}; // Inicializo en -1 para indicar que no se han asignado
             int pasado = -1; // Aqui guardo el atributo que ya asigno para que no asigne el mismo de nuevo
             while (veces != 2) {  // Termina cuando se ejecuta dos veces
+                
                 int attr = rand() % 4; // Numero random del 0 al 4
                 while (pasado == attr) {  // Se fija que no sea el mismo numero que el pasado, si lo es, cambia
                     attr = rand() % 4;  // Recalculo
@@ -280,6 +284,7 @@ void Poblacion::reproduccion() {
             // FIN CROSSOVER
 
             // MUTACION 1
+            
             int mutacion = rand() % 100 + 1; // tira los dados del destino
             int inversion = rand() % 100 + 1;
             if (mutacion <= 20) { // 10% de probabilidades de mutar
@@ -299,8 +304,9 @@ void Poblacion::reproduccion() {
             nuevos.push_front(nuevo1);  // Agrega a la lista de la nueva generacion
 
             // MUTACION 2
-             mutacion = rand() % 100 + 1; // tira los dados del destino
-             inversion = rand() % 100 + 1;
+            
+            mutacion = rand() % 100 + 1; // tira los dados del destino
+            inversion = rand() % 100 + 1;
             if (mutacion <= 20) { // 10% de probabilidades de mutar
                 cout << "       El bebe tuvo suerte, sucedera mutacion\n";
                 mutar(nuevo2);  // Muto
@@ -320,13 +326,14 @@ void Poblacion::reproduccion() {
 
     }  // Repite
 
-    generaciones.push_front(new Generacion(nuevos, generacion_c));  // Crea la nueva generacion y la agrega a la lista de generaciones
+    generaciones.push_back(new Generacion(nuevos, generacion_c));  // Crea la nueva generacion y la agrega a la lista de generaciones
     cout<<"Nacio una bella nueva generacion de: "<<generaciones.front()->getGladiadores().getSize()<<" bebes!\n";
     generacion_c++;
 
 }
 
 void Poblacion::mutar(Gladiator *gladiador) {
+    
     int attrMutar = rand()%4; // Aleatoriza el atributo a mutar
     switch(attrMutar){
         case 0:
@@ -356,6 +363,7 @@ void Poblacion::mutar(Gladiator *gladiador) {
 }
 
 void Poblacion::invertir(Gladiator *gladiador) {
+    
     int inicio = rand()%4; // inicio a invertir
     while(inicio==3){  // Evitar que sea el final, porque si no no hay que invertir
         inicio = rand()%4;

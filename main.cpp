@@ -13,9 +13,11 @@ int main(int argc, char *argv[]) {
     MainWindow A,B;
     for(int i = 0; i < juego.getPoblacionA()->getGeneraciones().getSize(); i++){
         A.addPoint(i,juego.getPoblacionA()->getGeneraciones().getElemento(i)->getData()->getPromedioSupervivencia());
+        cout << "Promedio de supervivencia de "<< i <<"A: " << juego.getPoblacionA()->getGeneraciones().getElemento(i)->getData()->getPromedioSupervivencia() << endl;
     }
     for(int i = 0; i < juego.getPoblacionB()->getGeneraciones().getSize(); i++){
         B.addPoint(i,juego.getPoblacionB()->getGeneraciones().getElemento(i)->getData()->getPromedioSupervivencia());
+        cout << "Promedio de supervivencia de "<< i <<"B: " << juego.getPoblacionB()->getGeneraciones().getElemento(i)->getData()->getPromedioSupervivencia() << endl;
     }
     A.show();
     B.show();

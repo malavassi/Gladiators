@@ -2,6 +2,7 @@
 // Created by kevin on 05/05/19.
 //
 
+#include <unistd.h>
 #include "Simulacion.h"
 #include "mainwindow.h"
 
@@ -42,7 +43,10 @@ Simulacion::~Simulacion() {
 
 void Simulacion::siguienteIteracion() {
     cout<<"Los gladiadores han vuelto de sus combates, no comieron ceviche\n";
+    srand(time(NULL));
     poblacionA->reproduccion();
+    usleep(100000);
+    srand(time(NULL)*time(NULL)*time(NULL)*time(NULL)*time(NULL)*time(NULL)*time(NULL)*2);
     poblacionB->reproduccion();
     cout<<"Veinte annos han pasado y es hora de hacer tribulaciones a Noguera, quienes seran los elegidos?\n";
     poblacionA->fitness_local();

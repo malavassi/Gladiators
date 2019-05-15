@@ -20,7 +20,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->Plot->graph()->setBrush(QBrush(QColor(255,200,20,70)));
     ui->Plot->setInteractions(QCP::iRangeDrag | QCP::iRangeZoom | QCP::iSelectPlottables);
     ui->Plot->xAxis->setRange(0, 100);
-    ui->Plot->yAxis->setRange(0, 1000);
+    ui->Plot->yAxis->setRange(0, 100);
 
 
 }
