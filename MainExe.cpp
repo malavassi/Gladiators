@@ -8,6 +8,7 @@
 #include <string>
 
 MainExe::MainExe(int game_size) {  // Ya creo la oleada inicial
+    arduinoManager = new ArduinoManager();
     cout<<"Creando oleadas iniciales\n";
     this->poblacionA = new Poblacion('A');
     this->poblacionB = new Poblacion('B');
@@ -16,7 +17,9 @@ MainExe::MainExe(int game_size) {  // Ya creo la oleada inicial
         poblacionA->getElegido()->getProbabilidadSupervivencia()<<"% y gladiador "<<
         poblacionB->getElegido()->getIdUnico()<<" de la poblacion B con "<<poblacionB->getElegido()->getProbabilidadSupervivencia()
         <<"% que Noguera bendiga su sacrificio\n";
-
+    arduinoManager->inicializar();
+    arduinoManager->enviarEstadoGladiador(poblacionA->getElegido(),1);
+    arduinoManager->enviarEstadoGladiador(poblacionB->getElegido(),2);
     //Arma los algoritmos de busqueda con sus parametros necesarios
     createMap(game_size);
 aStar = new AStar(game_size, game_size-1, game_size-1);
@@ -26,6 +29,7 @@ aStar = new AStar(game_size, game_size-1, game_size-1);
     iteration_ctr=0;
     matrix_size=game_size;
     tower_ctr=0;
+
 }
 
 MainExe::~MainExe() {
@@ -83,6 +87,9 @@ void MainExe::siguienteIteracion() {
     poblacionA->getElegido()->getProbabilidadSupervivencia()<<"% y gladiador "<<
         poblacionB->getElegido()->getIdUnico()<<" de la poblacion B con "<<poblacionB->getElegido()->getProbabilidadSupervivencia()
         <<"% que Noguera bendiga su sacrificio\n";
+    arduinoManager->enviarEstadoGladiador(poblacionA->getElegido(),1);
+    arduinoManager->enviarEstadoGladiador(poblacionB->getElegido(),2);
+
     if(tower_ctr<(matrix_size*matrix_size-matrix_size)){
         for(int i=0; i<3; i++){
             int type = (int) (rand()%3);

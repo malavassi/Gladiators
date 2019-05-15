@@ -9,7 +9,7 @@
 #include "Backtracking.h"
 #include "Server.h"
 #include <iostream>
-
+#include "ArduinoManager.h"
 /**
  * Clase encargada del flow del programa
  * @author elorim
@@ -72,6 +72,7 @@ private:
     int matrix_size;
     int tower_ctr;
     Server server;
+    ArduinoManager *arduinoManager;
 
     //Metodos
     void siguienteIteracion();
