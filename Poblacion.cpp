@@ -39,23 +39,43 @@ void Poblacion::generarTXT_gladiadortop(Gladiator gladiador) {
     nombreArchivo.push_back(this->id);
     salida.open(nombreArchivo, ios::out);
     salida.trunc;
-    cout << "El fichero esta abierto: " << salida.is_open() << endl;
-    salida << "                     MEJOR GLADIADOR                       " << endl;
-    salida << "-----------------------------------------------------------" << endl;
-    salida << "-----------------------  GLADIADOR  -----------------------" << endl;
-    salida << "-----------------------------------------------------------" << endl << endl;
-    salida << "Identificador unico: " << gladiador.getIdUnico() << endl << endl;
-    salida << "Edad: " << gladiador.getEdad() << endl << endl;
-    salida << "Probabilidad de supervivencia: " << gladiador.getProbabilidadSupervivencia() << endl << endl;
-    salida << "Generaciones esperadas de supervivencia: " << gladiador.getGeneracionesEsperadas() << endl << endl;
-    salida << "Inteligencia emocional: " << gladiador.getIQemocional() << endl << endl;
-    salida << "Condicion fisica: " << gladiador.getCondicionFisica() << endl << endl;
-    salida << "Fuerza en tronco superior: " << gladiador.getFuerzaTSuperior() << endl << endl;
-    salida << "Fuerza en tronco inferior: " << gladiador.getFuerzaTInferior() << endl << endl;
-    salida << "Resistencia: " << gladiador.getResistencia() << endl << endl;
-    salida << "Padre 1: " << gladiador.getPadre1()->getIdUnico() << endl << endl;
-    salida << "Padre 2: " << gladiador.getPadre2()->getIdUnico() << endl << endl;
-    salida << "-----------------------------------------------------------" << endl;
+    if(this->generacion_c != 1) {
+        cout << "El fichero esta abierto: " << salida.is_open() << endl;
+        salida << "                     MEJOR GLADIADOR                       " << endl;
+        salida << "-----------------------------------------------------------" << endl;
+        salida << "-----------------------  GLADIADOR  -----------------------" << endl;
+        salida << "-----------------------------------------------------------" << endl << endl;
+        salida << "Identificador unico: " << gladiador.getIdUnico() << endl << endl;
+        salida << "Edad: " << gladiador.getEdad() << endl << endl;
+        salida << "Probabilidad de supervivencia: " << gladiador.getProbabilidadSupervivencia() << endl << endl;
+        salida << "Generaciones esperadas de supervivencia: " << gladiador.getGeneracionesEsperadas() << endl << endl;
+        salida << "Inteligencia emocional: " << gladiador.getIQemocional() << endl << endl;
+        salida << "Condicion fisica: " << gladiador.getCondicionFisica() << endl << endl;
+        salida << "Fuerza en tronco superior: " << gladiador.getFuerzaTSuperior() << endl << endl;
+        salida << "Fuerza en tronco inferior: " << gladiador.getFuerzaTInferior() << endl << endl;
+        salida << "Resistencia: " << gladiador.getResistencia() << endl << endl;
+        salida << "Padre 1: " << gladiador.getPadre1()->getIdUnico() << endl << endl;
+        salida << "Padre 2: " << gladiador.getPadre2()->getIdUnico() << endl << endl;
+        salida << "-----------------------------------------------------------" << endl;
+    }else{
+        cout << "El fichero esta abierto: " << salida.is_open() << endl;
+        salida << "                     MEJOR GLADIADOR                       " << endl;
+        salida << "-----------------------------------------------------------" << endl;
+        salida << "-----------------------  GLADIADOR  -----------------------" << endl;
+        salida << "-----------------------------------------------------------" << endl << endl;
+        salida << "Identificador unico: " << gladiador.getIdUnico() << endl << endl;
+        salida << "Edad: " << gladiador.getEdad() << endl << endl;
+        salida << "Probabilidad de supervivencia: " << gladiador.getProbabilidadSupervivencia() << endl << endl;
+        salida << "Generaciones esperadas de supervivencia: " << gladiador.getGeneracionesEsperadas() << endl << endl;
+        salida << "Inteligencia emocional: " << gladiador.getIQemocional() << endl << endl;
+        salida << "Condicion fisica: " << gladiador.getCondicionFisica() << endl << endl;
+        salida << "Fuerza en tronco superior: " << gladiador.getFuerzaTSuperior() << endl << endl;
+        salida << "Fuerza en tronco inferior: " << gladiador.getFuerzaTInferior() << endl << endl;
+        salida << "Resistencia: " << gladiador.getResistencia() << endl << endl;
+        salida << "Padre 1: " << "No posee" << endl << endl;
+        salida << "Padre 2: " << "No posee" << endl;
+        salida << "-----------------------------------------------------------" << endl;
+    }
     salida.close();
 }
 
@@ -251,6 +271,11 @@ void Poblacion::reproduccion() {
             // Setteo los atributos al bebe
             nuevo1->setAtributesI(attr_pasar1); // Setteo los atributos iniciales
             nuevo2->setAtributesI(attr_pasar2);
+            nuevo1->setPadre1(padre1);
+            nuevo1->setPadre2(padre2);
+            nuevo2->setPadre1(padre1);
+            nuevo2->setPadre2(padre2);
+
 
             // FIN CROSSOVER
 
