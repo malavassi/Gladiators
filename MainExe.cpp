@@ -19,7 +19,7 @@ MainExe::MainExe(int game_size) {  // Ya creo la oleada inicial
 
     //Arma los algoritmos de busqueda con sus parametros necesarios
     createMap(game_size);
-    AStar* aStar = new AStar(game_size, game_size-1, game_size-1);
+    aStar = new AStar(game_size, game_size-1, game_size-1);
     aStar->setMapMatrix(map_matrix);
     Backtracking* backtracking = new Backtracking();
     backtracking->setMatrix(map_matrix);
@@ -37,21 +37,45 @@ void MainExe::iniciar() {
     server = Server();
     server.run();  // Inicializa el server
 
-    while(terminar == false){
-        server.readFromClient();
-        while(server.buffer == "Listo"){
-            Sendable sendable = Sendable();
-            sendable.setGlad1(atributeArray(poblacionA->getElegido(), 0));     //PoblacionA = A* = 0 & PoblacionB = Backtracking = 1
-            sendable.setGlad2(atributeArray(poblacionB->getElegido(), 1));
-            sendable.setMovimientos(formatMovements(iteration_ctr));
+    while (terminar == false) {
+        server.readFromClient();  // Espera a que el cliente este listo
+        while (strcmp(server.buffer,"Listo")!=0) {
+
+        }
+        Sendable sendable = Sendable();
+        LinkedList<LinkedList<int>> enviar = LinkedList<LinkedList<int>>();  // Lista a enviar, 000, tipo,x,y
+        LinkedList<int> list2 = LinkedList<int>();
+        list2.push_back(0);
+        list2.push_back(0);
+        for(int i=0;i<map_matrix->getSize();i++){
+            for(int j=0;j<map_matrix->getElemento(i)->getData().getSize();j++){
+                int elemento = map_matrix->getElemento(i)->getData().getElemento(j)->getData();
+                if(elemento == 0 || elemento == 1 || elemento == 2){
+                    list2.push_back(elemento*100+i*10+j);
+                }
+            }
+        }
+        enviar.push_back(list2);
+        sendable.setMovimientos(enviar);
+        server.readFromClient();  // Espera a que el cliente este listo
+        while (strcmp(server.buffer,"Listo")!=0) {
+
         }
 
-        cout<<"\n";
-        cout<<"Introduzca un comando:\n 1: Reproducir\n0: Finalizar\n";
-        int seleccion;
-        cin>>seleccion;
+        // Envia los spawns
 
-        switch(seleccion){
+        // Envia los movimientos
+        sendable = Sendable();
+        int *arr = atributeArray(poblacionA->getElegido(), 0);
+        sendable.setGlad1(arr);     //PoblacionA = A* = 0 & PoblacionB = Backtracking = 1
+        sendable.setGlad2(atributeArray(poblacionB->getElegido(), 1));
+        sendable.setMovimientos(formatMovements(iteration_ctr));
+        cout << sendable.toJson();
+        cout << "\n";
+        cout << "Introduzca un comando:\n 1: Reproducir\n0: Finalizar\n";
+        int seleccion;
+        cin >> seleccion;
+        switch (seleccion) {
             case 1:
 
                 siguienteIteracion();
@@ -60,8 +84,10 @@ void MainExe::iniciar() {
                 terminar = true;
                 break;
         }
+
     }
 }
+
 
 void MainExe::siguienteIteracion() {
     iteration_ctr++;
@@ -172,7 +198,7 @@ int main(){
 };
 
 int *MainExe::atributeArray(Gladiator *glad, int poblacion){
-    int result[10];
+    int *result = new int[10];
     result[0] = glad->getIdUnico();
     result[1] = glad->getEdad();
     result[2] = glad->getProbabilidadSupervivencia();
@@ -192,7 +218,7 @@ LinkedList<LinkedList<int>> MainExe::formatMovements(int counter) {
     int backtracking_current = 0;
     int a_star_next = 0;
     int backtracking_next = 0;
-    if(counter%3==0){       //Si se trata de la tercer iteración relativa
+    if(counter%3==0 && counter!=0){       //Si se trata de la tercer iteración relativa
         while(a_star_current!=99 && backtracking_current!=99){
             LinkedList<int> tmp_movements = LinkedList<int>();
             aStar->aStarSearch(a_star_current/10, a_star_current%10);
@@ -211,22 +237,25 @@ LinkedList<LinkedList<int>> MainExe::formatMovements(int counter) {
         }
     }
     else{
-        while(a_star_current!=99 && backtracking_current!=99){
+        while(a_star_current!=99){
             LinkedList<int> tmp_movements = LinkedList<int>();
-            aStar->aStarSearch(0, 0);
+            aStar->aStarSearch(0, 0);  // Realiza la busqueda del camino
             LinkedList<int> aStarPath = aStar->getGeneratedPath();
-            if(aStar->aStarSearch(0, 0)){
-                a_star_next = aStarPath.getHead()->getData();
-                aStarPath.pop_front();
-                while(a_star_next!=99){
-                    tmp_movements.push_back(a_star_current*100 + a_star_next);
-                    a_star_current=a_star_next;
-                    a_star_next=aStarPath.getHead()->getData();
+            if(aStar->aStarSearch(0, 0)){  // Si hay camino
+                a_star_next = aStarPath.getHead()->getData();  // Asigno la primera
+                aStarPath.pop_front();  // La quito
+                while(a_star_next!=99) {
+                    tmp_movements.push_back(a_star_current * 100 + a_star_next);
+                    a_star_current = a_star_next;
+                    a_star_next = aStarPath.getHead()->getData();
+                    aStarPath.pop_front();
                 }
+                tmp_movements.push_back(a_star_current*100+a_star_next);  // Asigno la ultima
+                a_star_current = a_star_next;
                 result.push_back(tmp_movements);
             }
             else{
-                rearrangeTowers();
+                rearrangeTowers();  // Si no
             }
         }
     }
