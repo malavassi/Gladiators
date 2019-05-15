@@ -163,3 +163,8 @@ void MainExe::moveTowers() {
         }
     }
 }
+
+int main(){
+    MainExe* mainExe = new MainExe(10);
+    mainExe->iniciar();
+};
