@@ -34,14 +34,13 @@ MainExe::~MainExe() {
 void MainExe::iniciar() {
     bool terminar = false;
     Sendable paquete = Sendable();
-    server = Server();
-    server.run();  // Inicializa el server
+   // server = Server();
+   // server.run();  // Inicializa el server
 
     while (terminar == false) {
-        server.readFromClient();  // Espera a que el cliente este listo
-        while (strcmp(server.buffer,"Listo")!=0) {
-
-        }
+     //   server.readFromClient();  // Espera a que el cliente este listo
+       // while (strcmp(server.buffer,"Listo")!=0) {
+        //}
         Sendable sendable = Sendable();
         LinkedList<LinkedList<int>> enviar = LinkedList<LinkedList<int>>();  // Lista a enviar, 000, tipo,x,y
         LinkedList<int> list2 = LinkedList<int>();
@@ -50,17 +49,17 @@ void MainExe::iniciar() {
         for(int i=0;i<map_matrix->getSize();i++){
             for(int j=0;j<map_matrix->getElemento(i)->getData().getSize();j++){
                 int elemento = map_matrix->getElemento(i)->getData().getElemento(j)->getData();
-                if(elemento == 0 || elemento == 1 || elemento == 2){
+                if(elemento == 1 || elemento == 2 || elemento == 3){
                     list2.push_back(elemento*100+i*10+j);
                 }
             }
         }
         enviar.push_back(list2);
         sendable.setMovimientos(enviar);
-        server.readFromClient();  // Espera a que el cliente este listo
-        while (strcmp(server.buffer,"Listo")!=0) {
+        //server.readFromClient();  // Espera a que el cliente este listo
+        //while (strcmp(server.buffer,"Listo")!=0) {
 
-        }
+        //}
 
         // Envia los spawns
 
