@@ -19,7 +19,7 @@ MainExe::MainExe(int game_size) {  // Ya creo la oleada inicial
 
     //Arma los algoritmos de busqueda con sus parametros necesarios
     createMap(game_size);
-    AStar* aStar = new AStar(game_size, game_size-1, game_size-1);
+aStar = new AStar(game_size, game_size-1, game_size-1);
     aStar->setMapMatrix(map_matrix);
     Backtracking* backtracking = new Backtracking();
     backtracking->setMatrix(map_matrix);
@@ -33,22 +33,22 @@ MainExe::~MainExe() {
 
 void MainExe::iniciar() {
     bool terminar = false;
-    Sendable paquete = Sendable();
-    server = Server();
-    server.run();  // Inicializa el server
-    server.sendToClient("Start");
-    server.readFromClient();
+    //Sendable paquete = Sendable();
+    //server = Server();
+    //server.run();  // Inicializa el server
+    //server.sendToClient("Start");
+    //server.readFromClient();
     while(terminar == false){
-        server.sendToClient("inicie");
-        server.readFromClient();
-        while(server.buffer == "Listo"){
+        //server.sendToClient("inicie");
+        //server.readFromClient();
+        /*while(server.buffer == "Listo"){
             if(iteration_ctr%3==0){
                 //mensaje con server
             }
             else{
                 
             }
-        }
+        }*/
         cout<<"\n";
         cout<<"Introduzca un comando:\n 1: Reproducir\n0: Finalizar\n";
         int seleccion;

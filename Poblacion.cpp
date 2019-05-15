@@ -28,12 +28,12 @@ Poblacion::~Poblacion() {
 }
 
 void Poblacion::fitness_local() {
-    for(int generacion_c=0;generacion_c<generaciones.getSize();generacion_c++){ // Iterador de generaciones
-        Generacion* genActual = generaciones.getElemento(generacion_c)->getData(); // Generacion actual sobre la que se trabaja
+    for(int generacion_ca=0;generacion_ca<generaciones.getSize();generacion_ca++){ // Iterador de generaciones
+        Generacion* genActual = generaciones.getElemento(generacion_ca)->getData(); // Generacion actual sobre la que se trabaja
         genActual->avanzarEdad(); // Avanza la edad de todas las generaciones, menos de las recien nacidas
         if(genActual->getEdad()>=100){
-            cout<<"Rezamos porque "<<generacion_c<<" vaya con Noguera\n";
-             (generaciones.pop_element(generacion_c));
+            cout<<"Rezamos porque "<<generacion_ca<<" vaya con Noguera\n";
+             (generaciones.pop_element(generacion_ca));
         }
 
         for(int gladiador_c=0;gladiador_c<genActual->getGladiadores().getSize();gladiador_c++){ // Iterador de gladiadores
@@ -51,7 +51,7 @@ void Poblacion::fitness_local() {
                 cout << "      Su FTS pasa de: " << gladiador->getFuerzaTSuperior();
                 int nuevFS = gladiador->getFuerzaTSuperior() - gladiador->getFuerzaTSuperior() * reduce / 100;
                 cout << " a " << nuevFS << endl;
-                cout << "      Su FTI pasa de: " << gladiador->getCondicionFisica();
+                cout << "      Su FTI pasa de: " << gladiador->getFuerzaTInferior();
                 int nuevFI = gladiador->getFuerzaTInferior() - gladiador->getFuerzaTInferior() * reduce / 100;
                 cout<<" a "<<nuevFI<<endl;
                 // Settea nuevos atributos
@@ -116,9 +116,16 @@ void Poblacion::reproduccion() {
     while(to_reproduce.getSize()>0){ // Se mantiene siempre que hayan elementos en la lista
 
         // Elijo dos padres (esta asegurado que sera random porque la lista se aleatoriza cada vez que corre la funcion)
-        Gladiator* padre1 = to_reproduce.pop_front()->getData();
-        Gladiator* padre2 = to_reproduce.pop_front()->getData();
-        if(padre1 && padre2) {  // Revisa que ambos existan, si no existe uno o ambos, no reproduce, esto porque algunas veces puede que no hayan parejas
+        Node<Gladiator*> *nodoPadre1 = to_reproduce.pop_front();
+        Node<Gladiator*> *nodoPadre2 = to_reproduce.pop_front();
+
+
+        if(nodoPadre1 && nodoPadre2) {  // Revisa que ambos existan, si no existe uno o ambos, no reproduce, esto porque algunas veces puede que no hayan parejas
+
+
+            Gladiator* padre1 = nodoPadre1->getData();
+            Gladiator* padre2 = nodoPadre2->getData();
+
             Gladiator *nuevo1 = new Gladiator(); // Creo un nuevo gladiador en blanco
             Gladiator* nuevo2 = new Gladiator();
             //cout << "      El bebe gladiador es: " << nuevo1->getIdUnico() << endl;
