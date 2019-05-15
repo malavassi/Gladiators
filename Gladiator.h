@@ -30,6 +30,12 @@ private:
     int arr_atributos_mod_mutacion[4]; /**Array de atributos despues de pasar por mutacion*/
     int arr_atributos_mod_inversion[4]; /**Array de atributos despues de invertir*/
     Gladiator* padre1;
+public:
+    Gladiator *getPadre1() const;
+
+    Gladiator *getPadre2() const;
+
+private:
     Gladiator* padre2;
 
 public:

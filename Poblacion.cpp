@@ -5,7 +5,9 @@
 #include <cstdlib>
 #include <tgmath.h>
 #include "Poblacion.h"
-
+#include <fstream>
+#include <string>
+using namespace std;
 Poblacion::Poblacion(char id) { // Se ejecuta solo una vez, en la primera generacion, cuando all inicia
     cout<<"  Creando la poblacion "<< id<<endl;
     generaciones = LinkedList<Generacion*>();  // Inicializa la lista de generaciones
@@ -25,6 +27,102 @@ Poblacion::Poblacion(char id) { // Se ejecuta solo una vez, en la primera genera
 
 Poblacion::~Poblacion() {
     delete elegido;
+}
+
+void Poblacion::generarTXT_gladiadortop(Gladiator gladiador) {
+    fstream salida;
+    string nombreArchivo = "TopGladiador - Generacion";
+    string num = to_string(this->generacion_c);
+    for(int i = 0; i < num.size(); i++){
+        nombreArchivo.push_back(num[i]);
+    }
+    nombreArchivo.push_back(this->id);
+    salida.open(nombreArchivo, ios::out);
+    salida.trunc;
+    cout << "El fichero esta abierto: " << salida.is_open() << endl;
+    salida << "                     MEJOR GLADIADOR                       " << endl;
+    salida << "-----------------------------------------------------------" << endl;
+    salida << "-----------------------  GLADIADOR  -----------------------" << endl;
+    salida << "-----------------------------------------------------------" << endl << endl;
+    salida << "Identificador unico: " << gladiador.getIdUnico() << endl << endl;
+    salida << "Edad: " << gladiador.getEdad() << endl << endl;
+    salida << "Probabilidad de supervivencia: " << gladiador.getProbabilidadSupervivencia() << endl << endl;
+    salida << "Generaciones esperadas de supervivencia: " << gladiador.getGeneracionesEsperadas() << endl << endl;
+    salida << "Inteligencia emocional: " << gladiador.getIQemocional() << endl << endl;
+    salida << "Condicion fisica: " << gladiador.getCondicionFisica() << endl << endl;
+    salida << "Fuerza en tronco superior: " << gladiador.getFuerzaTSuperior() << endl << endl;
+    salida << "Fuerza en tronco inferior: " << gladiador.getFuerzaTInferior() << endl << endl;
+    salida << "Resistencia: " << gladiador.getResistencia() << endl << endl;
+    salida << "Padre 1: " << gladiador.getPadre1()->getIdUnico() << endl << endl;
+    salida << "Padre 2: " << gladiador.getPadre2()->getIdUnico() << endl << endl;
+    salida << "-----------------------------------------------------------" << endl;
+    salida.close();
+}
+
+void Poblacion::generarTXT_top10(LinkedList<Gladiator*> lista) {
+    fstream salida1;
+    string nombreArchivo = "Top10 - Generacion";
+    string num = to_string(this->generacion_c);
+    for(int i = 0; i < num.size(); i++){
+        nombreArchivo.push_back(num[i]);
+    }
+    nombreArchivo.push_back(this->id);
+    salida1.open(nombreArchivo, ios::out);
+    salida1.trunc;
+    cout << "El fichero esta abierto: " << salida1.is_open() << endl;
+    salida1 << "                     TOP 10 GLADIADORES" << endl;
+    salida1 << "-----------------------------------------------------------" << endl;
+    salida1 << "----------------------- GLADIADOR 1 -----------------------" << endl;
+    salida1 << "-----------------------------------------------------------" << endl << endl;
+    salida1 << "Identificador unico: " << lista.getElemento(0)->getData()->getIdUnico() << endl << endl;
+    salida1 << "Resistencia: " << lista.getElemento(0)->getData()->getResistencia() << endl << endl;
+    salida1 << "-----------------------------------------------------------" << endl;
+    salida1 << "----------------------- GLADIADOR 2 -----------------------" << endl;
+    salida1 << "-----------------------------------------------------------" << endl << endl;
+    salida1 << "Identificador unico: " << lista.getElemento(1)->getData()->getIdUnico() << endl << endl;
+    salida1 << "Resistencia: " << lista.getElemento(1)->getData()->getResistencia() << endl << endl;
+    salida1 << "-----------------------------------------------------------" << endl;
+    salida1 << "----------------------- GLADIADOR 3 -----------------------" << endl;
+    salida1 << "-----------------------------------------------------------" << endl << endl;
+    salida1 << "Identificador unico: " << lista.getElemento(2)->getData()->getIdUnico() << endl << endl;
+    salida1 << "Resistencia: " << lista.getElemento(2)->getData()->getResistencia() << endl << endl;
+    salida1 << "-----------------------------------------------------------" << endl;
+    salida1 << "----------------------- GLADIADOR 4 -----------------------" << endl;
+    salida1 << "-----------------------------------------------------------" << endl << endl;
+    salida1 << "Identificador unico: " << lista.getElemento(3)->getData()->getIdUnico() << endl << endl;
+    salida1 << "Resistencia: " << lista.getElemento(3)->getData()->getResistencia() << endl << endl;
+    salida1 << "-----------------------------------------------------------" << endl;
+    salida1 << "----------------------- GLADIADOR 5 -----------------------" << endl;
+    salida1 << "-----------------------------------------------------------" << endl << endl;
+    salida1 << "Identificador unico: " << lista.getElemento(4)->getData()->getIdUnico() << endl << endl;
+    salida1 << "Resistencia: " << lista.getElemento(4)->getData()->getResistencia() << endl << endl;
+    salida1 << "-----------------------------------------------------------" << endl;
+    salida1 << "----------------------- GLADIADOR 6 -----------------------" << endl;
+    salida1 << "-----------------------------------------------------------" << endl << endl;
+    salida1 << "Identificador unico: " << lista.getElemento(5)->getData()->getIdUnico() << endl << endl;
+    salida1 << "Resistencia: " << lista.getElemento(5)->getData()->getResistencia() << endl << endl;
+    salida1 << "-----------------------------------------------------------" << endl;
+    salida1 << "----------------------- GLADIADOR 7 -----------------------" << endl;
+    salida1 << "-----------------------------------------------------------" << endl << endl;
+    salida1 << "Identificador unico: " << lista.getElemento(6)->getData()->getIdUnico() << endl << endl;
+    salida1 << "Resistencia: " << lista.getElemento(6)->getData()->getResistencia() << endl << endl;
+    salida1 << "-----------------------------------------------------------" << endl;
+    salida1 << "----------------------- GLADIADOR 8 -----------------------" << endl;
+    salida1 << "-----------------------------------------------------------" << endl << endl;
+    salida1 << "Identificador unico: " << lista.getElemento(7)->getData()->getIdUnico() << endl << endl;
+    salida1 << "Resistencia: " << lista.getElemento(7)->getData()->getResistencia() << endl << endl;
+    salida1 << "-----------------------------------------------------------" << endl;
+    salida1 << "----------------------- GLADIADOR 9 -----------------------" << endl;
+    salida1 << "-----------------------------------------------------------" << endl << endl;
+    salida1 << "Identificador unico: " << lista.getElemento(8)->getData()->getIdUnico() << endl << endl;
+    salida1 << "Resistencia: " << lista.getElemento(8)->getData()->getResistencia() << endl << endl;
+    salida1 << "-----------------------------------------------------------" << endl;
+    salida1 << "----------------------- GLADIADOR 10 -----------------------" << endl;
+    salida1 << "-----------------------------------------------------------" << endl << endl;
+    salida1 << "Identificador unico: " << lista.getElemento(9)->getData()->getIdUnico() << endl << endl;
+    salida1 << "Resistencia: " << lista.getElemento(9)->getData()->getResistencia() << endl << endl;
+    salida1 << "-----------------------------------------------------------" << endl;
+    salida1.close();
 }
 
 void Poblacion::fitness_local() {
@@ -84,12 +182,15 @@ void Poblacion::seleccion() {
         }
     }
     reproducibles = LinkedList<Gladiator*>();
-    for(int c=0;c<9;c++){
+    for(int c = 0;c < 10;c++){
         reproducibles.push_back(bestG(gladiadores));
     }
-
+    //Aqui generar txt 10 mejores con la lista reproducibles
     cout<<"    Gladiador "<<reproducibles.getElemento(0)->getData()->getIdUnico()<<" se ha coronado campeon, es el elegido por Dios Noguera para entrar a la zona de intimidacion, que su sacrificio no sea en vano\n";
     elegido = reproducibles.getElemento(0)->getData();  // Setteo al mejor como el elegido
+    //Aqui generar txt del mejor de cada poblacion
+    generarTXT_top10(reproducibles);
+    generarTXT_gladiadortop(*elegido);
 }
 
 Gladiator *Poblacion::getElegido() {

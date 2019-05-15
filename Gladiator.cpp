@@ -200,3 +200,11 @@ void Gladiator::avanzarEdad() {
 
 }
 
+Gladiator *Gladiator::getPadre1() const {
+    return padre1;
+}
+
+Gladiator *Gladiator::getPadre2() const {
+    return padre2;
+}
+

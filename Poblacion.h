@@ -22,6 +22,8 @@ public:
     Poblacion(char id);
     ~Poblacion();
 
+    void generarTXT_top10(LinkedList<Gladiator*> lista);
+    void generarTXT_gladiadortop(Gladiator gladiador);
     /**
      * Selecciona a los diez mejores gladiadores de toda la poblacion para reproducirlos
      * @author Elorim
