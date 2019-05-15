@@ -73,7 +73,7 @@ void Poblacion::generarTXT_gladiadortop(Gladiator gladiador) {
         salida << "Fuerza en tronco inferior: " << gladiador.getFuerzaTInferior() << endl << endl;
         salida << "Resistencia: " << gladiador.getResistencia() << endl << endl;
         salida << "Padre 1: " << "No posee" << endl << endl;
-        salida << "Padre 2: " << "No posee" << endl;
+        salida << "Padre 2: " << "No posee" << endl << endl;
         salida << "-----------------------------------------------------------" << endl;
     }
     salida.close();

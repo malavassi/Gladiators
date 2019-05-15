@@ -37,6 +37,10 @@ public:
 
 private:
     Gladiator* padre2;
+public:
+    void setPadre1(Gladiator *padre1);
+
+    void setPadre2(Gladiator *padre2);
 
 public:
     static int cont; /**Estatica para llevar el control de los ids*/

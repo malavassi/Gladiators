@@ -208,3 +208,11 @@ Gladiator *Gladiator::getPadre2() const {
     return padre2;
 }
 
+void Gladiator::setPadre1(Gladiator *padre1) {
+    Gladiator::padre1 = padre1;
+}
+
+void Gladiator::setPadre2(Gladiator *padre2) {
+    Gladiator::padre2 = padre2;
+}
+
