@@ -34,8 +34,8 @@ MainExe::~MainExe() {
 void MainExe::iniciar() {
     bool terminar = false;
     Sendable paquete = Sendable();
-   // server = Server();
-   // server.run();  // Inicializa el server
+     server = Server();
+     server.run();  // Inicializa el server
 
     while (terminar == false) {
         Sendable sendable = Sendable();
@@ -43,11 +43,11 @@ void MainExe::iniciar() {
         LinkedList<int> list2 = LinkedList<int>();
         list2.push_back(0);
         list2.push_back(0);
-        for(int i=0;i<map_matrix->getSize();i++){
-            for(int j=0;j<map_matrix->getElemento(i)->getData().getSize();j++){
+        for (int i = 0; i < map_matrix->getSize(); i++) {
+            for (int j = 0; j < map_matrix->getElemento(i)->getData().getSize(); j++) {
                 int elemento = map_matrix->getElemento(i)->getData().getElemento(j)->getData();
-                if(elemento == 1 || elemento == 2 || elemento == 3){
-                    list2.push_back(elemento*100+i*10+j);
+                if (elemento == 1 || elemento == 2 || elemento == 3) {
+                    list2.push_back(elemento * 100 + i * 10 + j);
                 }
             }
         }
@@ -55,33 +55,33 @@ void MainExe::iniciar() {
         sendable.setMovimientos(enviar);
         server.sendToClient(sendable.toJson());
         server.readFromClient();  // Espera a que el cliente este listo
-        while (strcmp(server.buffer,"Listo")!=0) {
+        while (strcmp(server.buffer, "Listo") != 0) {
 
-        //}
+            //}
 
-        // Envia los spawns
+            // Envia los spawns
 
-        // Envia los movimientos
-        sendable = Sendable();
-        int *arr = atributeArray(poblacionA->getElegido(), 0);
-        sendable.setGlad1(arr);     //PoblacionA = A* = 0 & PoblacionB = Backtracking = 1
-        sendable.setGlad2(atributeArray(poblacionB->getElegido(), 1));
-        sendable.setMovimientos(formatMovements(iteration_ctr));
-        cout << sendable.toJson();
-        cout << "\n";
-        cout << "Introduzca un comando:\n 1: Reproducir\n0: Finalizar\n";
-        int seleccion;
-        cin >> seleccion;
-        switch (seleccion) {
-            case 1:
+            // Envia los movimientos
+            sendable = Sendable();
+            int *arr = atributeArray(poblacionA->getElegido(), 0);
+            sendable.setGlad1(arr);     //PoblacionA = A* = 0 & PoblacionB = Backtracking = 1
+            sendable.setGlad2(atributeArray(poblacionB->getElegido(), 1));
+            sendable.setMovimientos(formatMovements(iteration_ctr));
+            cout << sendable.toJson();
+            cout << "\n";
+            cout << "Introduzca un comando:\n 1: Reproducir\n0: Finalizar\n";
+            int seleccion;
+            cin >> seleccion;
+            switch (seleccion) {
+                case 1:
 
-                siguienteIteracion();
-                break;
-            case 0:
-                terminar = true;
-                break;
+                    siguienteIteracion();
+                    break;
+                case 0:
+                    terminar = true;
+                    break;
+            }
         }
-
     }
 }
 
