@@ -37,22 +37,15 @@ void MainExe::iniciar() {
     server = Server();
     server.run();  // Inicializa el server
 
-
-
-    server.sendToClient("Start");
-    server.readFromClient();
-
     while(terminar == false){
-        server.sendToClient("inicie");
         server.readFromClient();
         while(server.buffer == "Listo"){
-            if(iteration_ctr%3==0){
-                //mensaje con server
-            }
-            else{
-                
-            }
+            Sendable sendable = Sendable();
+            sendable.setGlad1(atributeArray(poblacionA->getElegido(), 0));     //PoblacionA = A* = 0 & PoblacionB = Backtracking = 1
+            sendable.setGlad2(atributeArray(poblacionB->getElegido(), 1));
+            sendable.setMovimientos(formatMovements(iteration_ctr));
         }
+
         cout<<"\n";
         cout<<"Introduzca un comando:\n 1: Reproducir\n0: Finalizar\n";
         int seleccion;
@@ -134,7 +127,8 @@ void MainExe::checkAvailability() {
     }
 }
 
-void MainExe::moveTowers() {
+LinkedList<int> MainExe::moveTowers() {
+    LinkedList<int> movimientos = LinkedList<int>();
     for(int i=0; i<matrix_size; i++){
         for(int j=0; j<matrix_size; j++){
             if(map_matrix->getElemento(i)->getData().getElemento(j)->getData()!=(0 and 4)){
@@ -145,29 +139,101 @@ void MainExe::moveTowers() {
                         if(j-1>=0 and map_matrix->getElemento(i)->getData().getElemento(j-1)->getData()==0){
                             map_matrix->getElemento(i)->getData().getElemento(j)->setData(0);
                             map_matrix->getElemento(i)->getData().getElemento(j-1)->setData(tower_type);
+                            movimientos.push_back((i*1000)+(j*100)+(i*10)+(j-1));
                         }
                     case 1:
                         if(j+1<matrix_size and map_matrix->getElemento(i)->getData().getElemento(j+1)->getData()==0){
                             map_matrix->getElemento(i)->getData().getElemento(j)->setData(0);
                             map_matrix->getElemento(i)->getData().getElemento(j+1)->setData(tower_type);
+                            movimientos.push_back((i*1000)+(j*100)+(i*10)+(j+1));
                         }
                     case 2:
                         if(i-1>=0 and map_matrix->getElemento(i-1)->getData().getElemento(j)->getData()==0){
                             map_matrix->getElemento(i)->getData().getElemento(j)->setData(0);
                             map_matrix->getElemento(i-1)->getData().getElemento(j)->setData(tower_type);
+                            movimientos.push_back((i*1000)+(j*100)+((i-1)*10)+(j));
                         }
                     case 3:
                         if(i+1<matrix_size and map_matrix->getElemento(i+1)->getData().getElemento(j)->getData()==0){
                             map_matrix->getElemento(i)->getData().getElemento(j)->setData(0);
                             map_matrix->getElemento(i+1)->getData().getElemento(j)->setData(tower_type);
+                            movimientos.push_back((i*1000)+(j*100)+((i+1)*10)+(j));
                         }
                 }
             }
         }
     }
+    return movimientos;
 }
 
 int main(){
     MainExe* mainExe = new MainExe(10);
     mainExe->iniciar();
 };
+
+int *MainExe::atributeArray(Gladiator *glad, int poblacion){
+    int result[10];
+    result[0] = glad->getIdUnico();
+    result[1] = glad->getEdad();
+    result[2] = glad->getProbabilidadSupervivencia();
+    result[3] = glad->getGeneracionesEsperadas();
+    result[4] = glad->getIQemocional();
+    result[5] = glad->getCondicionFisica();
+    result[6] = glad->getFuerzaTSuperior();
+    result[7] = glad->getFuerzaTInferior();
+    result[8] = glad->getResistencia();
+    result[9] = poblacion;
+    return result;
+}
+
+LinkedList<LinkedList<int>> MainExe::formatMovements(int counter) {
+    LinkedList<LinkedList<int>> result = LinkedList<LinkedList<int>>();
+    int a_star_current = 0;
+    int backtracking_current = 0;
+    int a_star_next = 0;
+    int backtracking_next = 0;
+    if(counter%3==0){       //Si se trata de la tercer iteración relativa
+        while(a_star_current!=99 && backtracking_current!=99){
+            LinkedList<int> tmp_movements = LinkedList<int>();
+            aStar->aStarSearch(a_star_current/10, a_star_current%10);
+            a_star_next = aStar->getGeneratedPath().getHead()->getData();
+            moveGladiator(a_star_current/10, a_star_current%10, a_star_next/10, a_star_next%10);
+            tmp_movements.push_back(a_star_current*100+a_star_next);
+
+            LinkedList<int> tower_movements = moveTowers();
+            while(tower_movements.getSize()>0){
+                tmp_movements.push_back(tower_movements.getHead()->getData());
+                tower_movements.pop_front();
+            }
+            a_star_current = a_star_next;
+            backtracking_current = backtracking_next;
+            result.push_back(tmp_movements);
+        }
+    }
+    else{
+        while(a_star_current!=99 && backtracking_current!=99){
+            LinkedList<int> tmp_movements = LinkedList<int>();
+            aStar->aStarSearch(0, 0);
+            LinkedList<int> aStarPath = aStar->getGeneratedPath();
+            if(aStar->aStarSearch(0, 0)){
+                a_star_next = aStarPath.getHead()->getData();
+                aStarPath.pop_front();
+                while(a_star_next!=99){
+                    tmp_movements.push_back(a_star_current*100 + a_star_next);
+                    a_star_current=a_star_next;
+                    a_star_next=aStarPath.getHead()->getData();
+                }
+                result.push_back(tmp_movements);
+            }
+            else{
+                rearrangeTowers();
+            }
+        }
+    }
+    return result;
+}
+
+void MainExe::moveGladiator(int x_i, int y_i, int x_f, int y_f) {
+    map_matrix->getElemento(x_i)->getData().getElemento(y_i)->setData(0);
+    map_matrix->getElemento(x_f)->getData().getElemento(y_f)->setData(4);
+}

@@ -59,7 +59,21 @@ public:
     * Mueve las torres en direcciones aleatorias
     * @author Cvaztian
     * */
-    void moveTowers();
+    LinkedList<int> moveTowers();
+
+    /**
+    * Crea un array con los atributos ordenados de cada gladiador
+    * @author Cvaztian
+    * */
+    int *atributeArray(Gladiator *glad, int poblacion);
+
+    /**
+    * Crea una lista enlazada de los movimientos de cada gladiador en formato
+    * @author Cvaztian
+    * */
+    LinkedList<LinkedList<int>> formatMovements(int counter);
+
+    void moveGladiator(int x_i, int y_i, int x_f, int y_f);
 
 private:
     //Atributos

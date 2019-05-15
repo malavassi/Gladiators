@@ -423,3 +423,7 @@ void AStar::setMapMatrix(LinkedList<LinkedList<int>> *mapMatrix) {
     map_matrix = mapMatrix;
 }
 
+const LinkedList<int> &AStar::getGeneratedPath() const {
+    return generated_path;
+}
+

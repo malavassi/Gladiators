@@ -52,7 +52,7 @@ private:
 
     LinkedList<LinkedList<int>> movimientos; /** La lista de movimientos a enviar con formato, 0000 : (xf)(yf)(xi)(yi)*/
     string mensaje;  /**Un mensaje*/
-    int glad1[10]; /** Array de integers del gladiador 1, A**/
+    int glad1[10]; /** Array de integers del gladiador 1, A**/  //1-id, 2-edad, 3-probabilidadSupervivencia, 4-generacionesEsperadas, 5-iQemocional, 6-condicionFisica, 7-fuerzaTSuperior, 8-fuerzaTInferior, 9-resistencia, 10-algoritmoBusqueda
     int glad2[10]; /**Array de integers del gladiador 2, Backtracking*/
 };
 

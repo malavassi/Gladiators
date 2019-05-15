@@ -37,6 +37,8 @@ public:
 
     void setMapMatrix(LinkedList<LinkedList<int>> *mapMatrix);
 
+    const LinkedList<int> &getGeneratedPath() const;
+
 private:
     int goal_x;
     int goal_y;
