@@ -36,6 +36,9 @@ void MainExe::iniciar() {
     Sendable paquete = Sendable();
     server = Server();
     server.run();  // Inicializa el server
+
+
+
     server.sendToClient("Start");
     server.readFromClient();
 

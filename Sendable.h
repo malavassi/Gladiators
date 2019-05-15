@@ -45,15 +45,15 @@ public:
     string getMensaje(){return mensaje;}
     void setMovimientos(LinkedList<LinkedList<int>> lista){movimientos=lista;}
     void setMensaje(string msj){mensaje=msj;}
-    void setGlad1(int glad1[4]);
-    void setGlad2(int glad2[4]);
+    void setGlad1(int glad1[10]);
+    void setGlad2(int glad2[10]);
 
 private:
 
     LinkedList<LinkedList<int>> movimientos; /** La lista de movimientos a enviar con formato, 0000 : (xf)(yf)(xi)(yi)*/
     string mensaje;  /**Un mensaje*/
-    int glad1[4]; /** Array de integers del gladiador 1, A**/
-    int glad2[4]; /**Array de integers del gladiador 2, Backtracking*/
+    int glad1[10]; /** Array de integers del gladiador 1, A**/
+    int glad2[10]; /**Array de integers del gladiador 2, Backtracking*/
 };
 
 
