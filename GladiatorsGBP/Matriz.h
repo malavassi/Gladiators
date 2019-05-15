@@ -53,10 +53,21 @@ public:
 	@param fj j final
 	*/
 	void teleportActor(int ii, int ij, int fi, int fj);
-
+	
+	/**
+	Inicia el record de los movimientos en la matriz
+	@autor elorim
+	*/
+	void init();
+	/*Getters & setters*/
+	void addMovimientosS(LinkedList<int> movs);  /**Agrega movimientos sincronos*/
 	LinkedList<LinkedList<ACasilla1*>> getMatriz();
 	ACasilla1* getCasilla(int i, int j);
+	ACasilla1* getDestino() { return casillaDestino; };
 private:
-	LinkedList<LinkedList<ACasilla1*>> matriz;
+	ACasilla1* casillaDestino; /**Casilla destino de un gladiador, cuando se alcance esta casilla hay que ejecutar el siguiente nodo de animaciones.*/
+	LinkedList<LinkedList<ACasilla1*>> matriz;  /** Matriz donde se va a llevar a cabo del juego*/
+	LinkedList<LinkedList<int>> movimientosPendientes;  /**Lista doblemente enlazada encargada de controlar todos los movimientos en la matriz*/
+
 };
 

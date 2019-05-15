@@ -15,7 +15,7 @@
 #include "ConstructorHelpers.h"
 #include "CustomUserWidget.h"
 #include "Client.h"
-
+#include "Sendable.h"
 
 #include "CustomLevel1.generated.h"
 

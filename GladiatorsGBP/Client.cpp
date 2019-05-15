@@ -31,10 +31,10 @@ void Client::sendS(FString message) {
 	send(server, buffer, sizeof(buffer), 0);
 }
 
-FString Client::receiveS() {
+string Client::receiveS() {
 	char buffer[2048];
 	recv(server, buffer, sizeof(buffer), 0);
-	FString Fs = FString(ANSI_TO_TCHAR(buffer));
+	string Fs = buffer;
 	return Fs;
 }
 

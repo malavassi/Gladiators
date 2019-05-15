@@ -93,14 +93,19 @@ void AGladiator::bajarResistencia(int cantidad) {
 	}
 }
 
-void AGladiator::setChars(int res, int iq, int cF, int TS, int TI, int edad, int prob, int genEsperadas)
+void AGladiator::setChars(int res, int iq, int cF, int TS, int TI, int edad, int prob, int genEsperadas, int algor, int id)
 {
+
 	resistencia = res;
 	inteligenciaEmocional = iq;
 	condicionFisica = cF;
+	fuerzaTroncoInf = TI;
+	fuerzaTroncoSup = TS;
 	this->edad = edad;
 	this->prob = prob;
 	this->genEsperadas = genEsperadas;
+	algoritmo_busqueda = algor;
+	this->id = id;
 }
 
 // Called when the game starts or when spawned

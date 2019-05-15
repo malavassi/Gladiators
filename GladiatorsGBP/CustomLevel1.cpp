@@ -13,12 +13,12 @@ ACustomLevel1::ACustomLevel1(const FObjectInitializer & ObjectInitializer) : ALe
 	inputs = CreateDefaultSubobject<UInputComponent>(TEXT("InputHandler"));
 	static ConstructorHelpers::FObjectFinder<UAnimSequence> anim(TEXT("/Game/Mannequin/Animations/Falling_Forward_Death.Falling_Forward_Death"));
 	anims = anim.Object;
+	client = Client();
 }
 
 void ACustomLevel1::BeginPlay() {
 	Super::ReceiveBeginPlay();
-
-	client = Client();
+	
 	
 	inputs->BindAction("Cam1", EInputEvent::IE_Pressed, this, &ACustomLevel1::cam1);
 	inputs->BindAction("Cam2", EInputEvent::IE_Pressed, this, &ACustomLevel1::cam2);
@@ -38,8 +38,26 @@ void ACustomLevel1::BeginPlay() {
 	airCam->GetCameraComponent()->SetRelativeRotation(FRotator(-90,-90.f,-90));
 
 	//tablero->addTower(0, 0, 0);
+
+	// Aqui tengo que leer el buffer dos veces, la primera va a tener el camino del primer gladiador y sus atributos, el segundo lo mismo para el segundo gladiador
+	Sendable paqueteGlad = Sendable::toObj(client.receiveS().c_str());
+	glad1->setChars(paqueteGlad.getGlad1()[8],paqueteGlad.getGlad1()[4],paqueteGlad.getGlad1()[5],paqueteGlad.getGlad1()[6], paqueteGlad.getGlad1()[7],
+		paqueteGlad.getGlad1()[1],paqueteGlad.getGlad1()[2],paqueteGlad.getGlad1()[3],paqueteGlad.getGlad1()[9],paqueteGlad.getGlad1()[0]);
+	glad2->setChars(paqueteGlad.getGlad2()[8], paqueteGlad.getGlad2()[4], paqueteGlad.getGlad2()[5], paqueteGlad.getGlad2()[6], paqueteGlad.getGlad2()[7],
+		paqueteGlad.getGlad2()[1], paqueteGlad.getGlad2()[2], paqueteGlad.getGlad2()[3], paqueteGlad.getGlad2()[9], paqueteGlad.getGlad2()[0]);
+
 	glad1 = tablero->addGladiador(1, 0);
-	glad2 = tablero->addGladiador(0,0);
+	glad2 = tablero->addGladiador(0, 0);
+
+	// Descompongo la lista de movimientos
+	LinkedList<LinkedList<int>> movimientos = paqueteGlad.getMovimientos();
+	for (int i = 0; i < movimientos.getSize();i++) {
+		tablero->addMovimientosS(movimientos.getElemento(i)->getData());
+	}
+	// La matriz va a tener una linkedlist movimientosPendientes que va a ir ejecutando los movimientos poco a poco
+	// la matriz va a guardar un atributo con la posicion final de un gladiador, cada tick va a revisar si el gladiador llego a esa posicion, cuando llegue ejecuta el siguiente nodo de animacion
+
+	//id, edad,prob,genera,iq,cond,fts,fti,res, busqueda
 
 	cameraManager = GetWorld()->SpawnActor<ACameraManager>(SpawnInfo);
 	cameraManager->init(glad1, glad2, airCam);
@@ -48,8 +66,8 @@ void ACustomLevel1::BeginPlay() {
 	//glad1->bajarResistencia(1);
 	//glad1->GetMesh()->PlayAnimation(anims, false);
 
-	tablero->addTower(0, 5,5);
-	tablero->mover(1, 0, 4, 5);
+	//tablero->addTower(0, 5,5);
+	//tablero->mover(1, 0, 4, 5);
 	//tablero->mover(0, 9, 9, 9);
 	//glad1->setCamara();
 	//tablero->mover(0,0,9,9);
@@ -76,6 +94,7 @@ void ACustomLevel1::BeginPlay() {
 	
 
 	cont = 1;
+	tablero->init();
 
 }
 
@@ -100,6 +119,9 @@ void ACustomLevel1::Tick(float DeltaSeconds) {
 	Super::Tick(DeltaSeconds);
 	if (!glad1 && !glad2) {
 		UGameplayStatics::OpenLevel(GetWorld(), "ThirdPersonExampleMap");  // Reinicia nivel
+	}
+	if (glad1->GetActorLocation().X==tablero->getDestino()->getX() && glad1->GetActorLocation().Y == tablero->getDestino()->getY()) {
+		tablero->init();
 	}
 }
 

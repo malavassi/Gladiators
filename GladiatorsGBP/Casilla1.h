@@ -75,14 +75,20 @@ public:
 	void setTriggerTower(ASimpleTower* tower);
 	int getX();
 	int getY();
+	ASimpleTower* getOldTower() { return oldTower; };
+	void setOldTower(ASimpleTower* torre) { oldTower=torre; };
+	AGladiator* getGladSec() { return gladSec; }
+	void setGladSec(AGladiator*secun) { gladSec = secun; }
 private:
 	int x; /** Posicion real en x en la interfaz */
 	int y; /** Posicion real en y en la interfaz*/
 	int i; /** Posicion en la matriz en x, empieza en 0*/
 	int j; /** Posicion en la matriz en y, empieza en 0 */
 	ASimpleTower* tower; /**Torre en esta casilla, si hay una*/
+	ASimpleTower* oldTower; /**Torre que estaba antes en esta casilla, se usa cuando hay dos torres en un mismo momento en un mismo lugar, al mover una torre siempre me fijo primero si este elemento tiene algo.*/
 	AGladiator* gladiator; /** Gladiador en esta casilla, si hay uno*/
 	ASimpleTower* triggerTower; /** Puntero a la torre que va a disparar*/
 	LinkedList<ACasilla1*> casillasDependientes; /**Lista de punteros a casillas que debo limpiar si limpio la actual*/
 	AGladiatorAIController* controller; /** Controlador del gladiador, si lo hay*/
+	AGladiator* gladSec;
 };

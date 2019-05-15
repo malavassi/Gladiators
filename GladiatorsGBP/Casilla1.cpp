@@ -80,7 +80,12 @@ ACasilla1::~ACasilla1()
 }
 
 void ACasilla1::setActor(AGladiator* gladiador) {
-	this->gladiator = gladiador;
+	if (this->gladiator) {  // si le estoy cayendo encima a un gladiador
+		this->gladSec = gladiador;
+	}
+	else {
+		this->gladiator = gladiador;
+	}
 	this->tower = nullptr;
 	if (gladiador) {
 		controller = Cast<AGladiatorAIController>(gladiator->GetController());
@@ -88,6 +93,10 @@ void ACasilla1::setActor(AGladiator* gladiador) {
 }
 
 void ACasilla1::setActor(ASimpleTower* torre) {
+	if (this->tower) {  // Si le estoy cayendo encima a una torre
+		this->oldTower = this->tower;
+		oldTower->SetActorLocation(oldTower->GetActorLocation()+FVector(0,0,1000));
+	}
 	this->gladiator = nullptr;
 	this->tower = torre;
 	controller = nullptr;
@@ -168,11 +177,21 @@ void ACasilla1::moveTo(ACasilla1* casilla) {
 		//AAIController *controller = gladiator->GetController<AAIController>();
 		if (controller) {
 			if (controller->GetMoveStatus() == EPathFollowingStatus::Moving) {
-				controller->enqueue(FVector(casilla->getX(), casilla->getY(), 230));
+				if (casilla->getGladiator()) {  // Si ya hay un gladiador
+					controller->enqueue(FVector(casilla->getX()+20, casilla->getY()+20, 230));
+				}
+				else {  // si no
+					controller->enqueue(FVector(casilla->getX(), casilla->getY(), 230));
+				}
 			}
 			else {
-				controller->MoveToLocation(FVector(casilla->getX(), casilla->getY(), 230));
-			}
+				if (casilla->getGladiator()) {  // Si ya hay un gladiador
+					controller->MoveToLocation(FVector(casilla->getX()+20, casilla->getY()+20, 230));
+				}
+				else {  // si no
+					controller->MoveToLocation(FVector(casilla->getX(), casilla->getY(), 230));
+				}
+				}
 		}
 		//AddMovementInput(GetActorForwardVector(), 20000);
 	}

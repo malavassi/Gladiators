@@ -19,7 +19,7 @@ public:
 	// Sets default values for this character's properties
 	AGladiator();
 	~AGladiator() {AGladiator::cont--;}
-	void setChars(int res, int iq, int cF, int TS, int TI, int edad, int prob, int genEsperadas);
+	void setChars(int res, int iq, int cF, int TS, int TI, int edad, int prob, int genEsperadas, int algor, int id);
 	bool getReady();
 	void setCamara(); /** Pone la camara en el objetivo actual*/
 
@@ -28,12 +28,16 @@ public:
 
 	UCameraComponent* getCamera() { return FollowCamera;}
 	USkeletalMeshComponent* getMesh() { return mesh; }
+	int getX() { return x; }
+	int getY() { return y; }
+	void setX(int x) { this->x = x; }
+	void setY(int y) { this->y = y; }
 
 private:
 	USkeletalMeshComponent* mesh;
 	//UStaticMeshComponent* mesh;
 	static int cont;
-	
+	int algoritmo_busqueda;
 	int inteligenciaEmocional;
 	int condicionFisica;
 	int fuerzaTroncoSup;
@@ -42,6 +46,8 @@ private:
 	int prob;
 	int genEsperadas;
 	int id;
+	int x;
+	int y;
 	bool ready;
 	bool ded;  /**Booleano del gladiador muerto*/
 	USpringArmComponent* CameraBoom; /**Resorte para la camara*/

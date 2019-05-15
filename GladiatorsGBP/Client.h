@@ -26,7 +26,7 @@ public:
 	Client();
 	~Client();
 	void sendS(FString message);
-	FString receiveS();
+	string receiveS();
 	void close();
 private:
 	//char buffer[2048];
