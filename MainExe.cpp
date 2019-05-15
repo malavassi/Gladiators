@@ -192,7 +192,7 @@ LinkedList<int> MainExe::moveTowers() {
 int main(){
     MainExe* mainExe = new MainExe(10);
     mainExe->iniciar();
-};
+}
 
 int *MainExe::atributeArray(Gladiator *glad, int poblacion){
     int *result = new int[10];
@@ -262,4 +262,8 @@ LinkedList<LinkedList<int>> MainExe::formatMovements(int counter) {
 void MainExe::moveGladiator(int x_i, int y_i, int x_f, int y_f) {
     map_matrix->getElemento(x_i)->getData().getElemento(y_i)->setData(0);
     map_matrix->getElemento(x_f)->getData().getElemento(y_f)->setData(4);
+}
+
+LinkedList<LinkedList<int>> *MainExe::getMapMatrix() const {
+    return map_matrix;
 }

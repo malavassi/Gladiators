@@ -79,7 +79,12 @@ private:
     //Atributos
     Poblacion* poblacionA; /**Poblacion de A*/
     Poblacion* poblacionB; /**Poblacion de Backtracking*/
-    LinkedList<LinkedList<int>>* map_matrix;    /**Tablero matriz del juego, 0 es torre normal, 1 es torre fuego, 2 es torre explosiva*/
+    LinkedList<LinkedList<int>>* map_matrix;
+public:
+    LinkedList<LinkedList<int>> *getMapMatrix() const;
+
+private:
+    /**Tablero matriz del juego, 0 es torre normal, 1 es torre fuego, 2 es torre explosiva*/
     AStar* aStar;    /**Buscador AStar*/
     Backtracking* backtracking;  /**Buscador Backtracking*/
     int iteration_ctr;

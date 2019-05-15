@@ -51,9 +51,13 @@ bool Backtracking::isVisited(int x, int y){
     }
     return booleano;
 }
-Backtracking::posiciones Backtracking::encontrarRuta(LinkedList<LinkedList<int>> matriz) {
-    this->inicio.posx = 0;
-    this->inicio.posy = 0;
+Backtracking::posiciones Backtracking::encontrarRuta(LinkedList<LinkedList<int>> matriz, int salida) {
+    this->visited.posx.clearList();
+    this->visited.posy.clearList();
+    this->path.posx.clearList();
+    this->path.posy.clearList();
+    this->inicio.posx = salida/10;
+    this->inicio.posy = salida%10;
     this->fin.posx = 9;
     this->fin.posy = 9;
     path.posx.push_front(inicio.posx);

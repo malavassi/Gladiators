@@ -21,7 +21,7 @@ public:
         int posy;
     };
 
-    posiciones encontrarRuta(LinkedList<LinkedList<int>> matriz);
+    posiciones encontrarRuta(LinkedList<LinkedList<int>> matriz, int salida);
 
     int codificar(int x, int y);
 
