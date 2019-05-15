@@ -5,6 +5,7 @@
 #ifndef INC_2_SIMULACION_H
 #define INC_2_SIMULACION_H
 #include"Poblacion.h"
+#include "mainwindow.h"
 #include <iostream>
 
 /**
@@ -29,7 +30,14 @@ public:
     void iniciar();
 private:
     //Atributos
-    Poblacion* poblacionA; /**Poblacion de A*/
+    Poblacion* poblacionA;
+public:
+    Poblacion *getPoblacionA() const;
+
+    Poblacion *getPoblacionB() const;
+
+private:
+    /**Poblacion de A*/
     Poblacion* poblacionB; /**Poblacion de Backtracking*/
 
     //Metodos

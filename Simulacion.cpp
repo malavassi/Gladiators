@@ -3,12 +3,15 @@
 //
 
 #include "Simulacion.h"
+#include "mainwindow.h"
 
 void Simulacion::iniciar() {
     bool terminar = false;
     while(terminar == false){
     cout<<"\n";
-    cout<<"Introduzca un comando:\n 1: Reproducir\n0: Finalizar\n";
+    cout<<"Introduzca un comando:\n 1: Reproducir\n "
+          ""
+          "0: Finalizar\n";
     int seleccion;
     cin>>seleccion;
     switch(seleccion){
@@ -54,4 +57,12 @@ void Simulacion::siguienteIteracion() {
         poblacionB->getElegido()->getIdUnico()<<" de la poblacion B con "<<poblacionB->getElegido()->getProbabilidadSupervivencia()
         <<"% que Noguera bendiga su sacrificio\n";
 
+}
+
+Poblacion *Simulacion::getPoblacionA() const {
+    return poblacionA;
+}
+
+Poblacion *Simulacion::getPoblacionB() const {
+    return poblacionB;
 }

@@ -423,3 +423,7 @@ Gladiator *Poblacion::bestG(LinkedList<Gladiator*>* lista) {
         return lista->pop_element(best_pos);
 }
 
+const LinkedList<Generacion *> &Poblacion::getGeneraciones() const {
+    return generaciones;
+}
+
