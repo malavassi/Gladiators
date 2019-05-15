@@ -38,10 +38,6 @@ void MainExe::iniciar() {
     server.run();  // Inicializa el server
     server.sendToClient("Start");
     server.readFromClient();
-    while(strcmp(server.buffer, "inicio")==0){
-        paquete.setGlad1();
-        paquete.setGlad2();
-    }
     while(terminar == false){
         server.sendToClient("inicie");
         server.readFromClient();
