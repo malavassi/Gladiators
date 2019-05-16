@@ -10,6 +10,7 @@
 #include <iostream>
 #include <unistd.h>
 #include <arpa/inet.h>
+#include "MainExe.h"
 
 #define PORT 8080
 
@@ -17,6 +18,7 @@ using namespace std;
 
 int main(int argc, char const *argv[])
 {
+    /*
     struct sockaddr_in address;
     int sock = 0, valread;
     struct sockaddr_in serv_addr;
@@ -62,6 +64,9 @@ int main(int argc, char const *argv[])
         }else if(condition == 3){
             break;
         }else{}
-    }
+    }*/
+    MainExe * mainExe = new MainExe(10);
+    mainExe->iniciar();
+
     return 0;
 }
