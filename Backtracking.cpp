@@ -51,7 +51,7 @@ bool Backtracking::isVisited(int x, int y){
     }
     return booleano;
 }
-Backtracking::posiciones Backtracking::encontrarRuta(LinkedList<LinkedList<int>> matriz, int salida) {
+Backtracking::posiciones Backtracking::encontrarRuta(int salida) {
     this->visited.posx.clearList();
     this->visited.posy.clearList();
     this->path.posx.clearList();
@@ -72,7 +72,7 @@ Backtracking::posiciones Backtracking::encontrarRuta(LinkedList<LinkedList<int>>
     while ((path.posx.getHead()->getData() != 9 || path.posy.getHead()->getData() != 9) &&
            (path.posx.getSize() != 0 && path.posy.getSize() != 0)) {
         cout << "Entre al while del encontrarRuta, cont: " << cont << endl;
-        this->retornarVecino(currentPoint, matriz);
+        this->retornarVecino(currentPoint, *matrix);
         cout << "Ya finalice retornarVecino" << endl;
         cont++;
     }
@@ -101,8 +101,25 @@ Backtracking::posiciones Backtracking::encontrarRuta(LinkedList<LinkedList<int>>
     }
     cout << "---------------------------------" << endl;
     //----------------------------------------------------//
+    posiciones aux_aux;
+    int numero = aux.posx.getSize();
+    for(int i = 0; i<c; i++){
+        aux_aux.posx.push_back(aux.posx.pop_front()->getData());
+        aux_aux.posy.push_back(aux.posy.pop_front()->getData());
+    }
+    return aux_aux;
+}
 
-    return aux;
+LinkedList<int> Backtracking::final_path() {
+    LinkedList<int> auxiliar;
+    int a = path.posx.getSize();
+    int num = 0;
+    for(int i = 0; i < a; i++){
+        num = 10*path.posx.pop_front()->getData()+path.posy.pop_front()->getData();
+        auxiliar.push_front(num);
+        cout << "final_path inserta: " << num << endl;
+    }
+    return auxiliar;
 }
 
 /*
@@ -250,7 +267,7 @@ void Backtracking::setMatrix(LinkedList<LinkedList<int>> *matrix) {
     Backtracking::matrix = matrix;
 }
 
-const Backtracking::posiciones &Backtracking::getPath() const {
+Backtracking::posiciones &Backtracking::getPath(){
     return path;
 }
 

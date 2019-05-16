@@ -73,6 +73,10 @@ public:
     * */
     LinkedList<LinkedList<int>> formatMovements(int counter);
 
+    /**
+    * Mueve un gladiador de una posicion a la siguiente en la matriz
+    * @author Cvaztian
+    * */
     void moveGladiator(int x_i, int y_i, int x_f, int y_f);
 
 private:

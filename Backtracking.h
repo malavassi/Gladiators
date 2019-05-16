@@ -12,6 +12,10 @@
 
 class Backtracking {
 public:
+    Backtracking(){
+        LinkedList<LinkedList<int>>* matrix = new LinkedList<LinkedList<int>>();
+        vecinos = LinkedList<casilla>();
+    }
     struct posiciones {
         LinkedList<int> posx;
         LinkedList<int> posy;
@@ -21,9 +25,11 @@ public:
         int posy;
     };
 
-    posiciones encontrarRuta(LinkedList<LinkedList<int>> matriz, int salida);
+    posiciones encontrarRuta(int salida);
 
     int codificar(int x, int y);
+
+    LinkedList<int> final_path();
 
     casilla decodificar(int x);
 
@@ -41,7 +47,7 @@ public:
 
     void setMatrix(LinkedList<LinkedList<int>> *matrix);
 
-    const posiciones &getPath() const;
+    posiciones &getPath();
 
     void setPath(const posiciones &path);
 
