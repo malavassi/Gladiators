@@ -15,9 +15,9 @@ Client::Client()
 	connect(server, (SOCKADDR *)&addr, sizeof(addr));
 	//cout << "Connected to server!" << endl;
 
-	char buffer[2048] = { 'h', 'e', 'l', 'l', 'o', '.' };
-	send(server, buffer, sizeof(buffer), 0);
-	recv(server, buffer, sizeof(buffer), 0);
+	//char buffer[2048] = { 'h', 'e', 'l', 'l', 'o', '.' };
+	//send(server, buffer, sizeof(buffer), 0);
+	//recv(server, buffer, sizeof(buffer), 0);
 	cout << "Message sent!" << endl;
 }
 

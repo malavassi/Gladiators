@@ -136,8 +136,15 @@ AGladiator* ACasilla1::spawnGladiator() {
 	FVector Location(x, y, 190.f);
 	FRotator Rotation(0.f, 0.f, 0.f);
 	FActorSpawnParameters SpawnInfo;
-	AGladiator* gladiador = GetWorld()->SpawnActor<AGladiator>(Location, Rotation, SpawnInfo);
-	this->gladiator = gladiador;
+	AGladiator* gladiador;
+	if (this->gladiator) {  // si ya hay gladiador
+		gladiador = GetWorld()->SpawnActor<AGladiator>(Location+FVector(20,20,0), Rotation, SpawnInfo);
+		this->gladSec = gladiador;
+	}
+	else {
+		gladiador = GetWorld()->SpawnActor<AGladiator>(Location, Rotation, SpawnInfo);
+		this->gladiator = gladiador;
+	}
 	this -> tower = nullptr;
 	if (gladiador) {
 		controller = Cast<AGladiatorAIController>(gladiator->GetController());

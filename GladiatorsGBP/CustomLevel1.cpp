@@ -19,7 +19,6 @@ ACustomLevel1::ACustomLevel1(const FObjectInitializer & ObjectInitializer) : ALe
 void ACustomLevel1::BeginPlay() {
 	Super::ReceiveBeginPlay();
 	
-	
 	inputs->BindAction("Cam1", EInputEvent::IE_Pressed, this, &ACustomLevel1::cam1);
 	inputs->BindAction("Cam2", EInputEvent::IE_Pressed, this, &ACustomLevel1::cam2);
 	UE_LOG(LogTemp, Warning, TEXT("Hello World!"));
@@ -38,17 +37,25 @@ void ACustomLevel1::BeginPlay() {
 	airCam->GetCameraComponent()->SetRelativeRotation(FRotator(-90,-90.f,-90));
 
 	//tablero->addTower(0, 0, 0);
-
+	client.sendS("Listo");  // Listo para recibir spawns
 	// Aqui tengo que leer el buffer dos veces, la primera va a tener el camino del primer gladiador y sus atributos, el segundo lo mismo para el segundo gladiador
-	Sendable paqueteGlad = Sendable::toObj(client.receiveS().c_str());
+	Sendable paqueteSpawn = Sendable::toObj(client.receiveS().c_str());
+	for (int i = 0; i < paqueteSpawn.getMovimientos().getElemento(0)->getData().getSize();i++) {  // Recorro la lista para spawnear
+		int spawnme = paqueteSpawn.getMovimientos().getElemento(0)->getData().getElemento(i)->getData();
+		if (i==0) {
+			glad1 = tablero->addGladiador(0, 0);
+			glad2 = tablero->addGladiador(0, 0);
+			i++;
+		}
+		else {
+			tablero->addTower(spawnme/100, ((spawnme % 100 - (spawnme % 10)) / 10), spawnme%10);
+		}
+	}
+	Sendable paqueteGlad = Sendable::toObj(client.receiveS().c_str());  // Aqui se detiene a esperar al server
 	glad1->setChars(paqueteGlad.getGlad1()[8],paqueteGlad.getGlad1()[4],paqueteGlad.getGlad1()[5],paqueteGlad.getGlad1()[6], paqueteGlad.getGlad1()[7],
 		paqueteGlad.getGlad1()[1],paqueteGlad.getGlad1()[2],paqueteGlad.getGlad1()[3],paqueteGlad.getGlad1()[9],paqueteGlad.getGlad1()[0]);
 	glad2->setChars(paqueteGlad.getGlad2()[8], paqueteGlad.getGlad2()[4], paqueteGlad.getGlad2()[5], paqueteGlad.getGlad2()[6], paqueteGlad.getGlad2()[7],
 		paqueteGlad.getGlad2()[1], paqueteGlad.getGlad2()[2], paqueteGlad.getGlad2()[3], paqueteGlad.getGlad2()[9], paqueteGlad.getGlad2()[0]);
-
-	glad1 = tablero->addGladiador(1, 0);
-	glad2 = tablero->addGladiador(0, 0);
-
 	// Descompongo la lista de movimientos
 	LinkedList<LinkedList<int>> movimientos = paqueteGlad.getMovimientos();
 	for (int i = 0; i < movimientos.getSize();i++) {
