@@ -67,6 +67,7 @@ int Server::run() {
     puts("Waiting for connections ...");
 
     bool kk;
+    kk=true;
 
     while (kk) {
         //clear the socket set

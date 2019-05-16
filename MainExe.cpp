@@ -145,7 +145,7 @@ void MainExe::moveTowers() {
                 int tower_type = map_matrix->getElemento(i)->getData().getElemento(j)->getData();
                 switch(dir){
                     case 0:
-                        if(j-1>0 and map_matrix->getElemento(i)->getData().getElemento(j-1)->getData()==0){
+                        if(j-1>=0 and map_matrix->getElemento(i)->getData().getElemento(j-1)->getData()==0){
                             map_matrix->getElemento(i)->getData().getElemento(j)->setData(0);
                             map_matrix->getElemento(i)->getData().getElemento(j-1)->setData(tower_type);
                         }
@@ -155,7 +155,7 @@ void MainExe::moveTowers() {
                             map_matrix->getElemento(i)->getData().getElemento(j+1)->setData(tower_type);
                         }
                     case 2:
-                        if(i-1>0 and map_matrix->getElemento(i-1)->getData().getElemento(j)->getData()==0){
+                        if(i-1>=0 and map_matrix->getElemento(i-1)->getData().getElemento(j)->getData()==0){
                             map_matrix->getElemento(i)->getData().getElemento(j)->setData(0);
                             map_matrix->getElemento(i-1)->getData().getElemento(j)->setData(tower_type);
                         }
