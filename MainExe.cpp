@@ -6,6 +6,12 @@
 #include <stdio.h>
 #include "Sendable.h"
 #include <string>
+#include <string.h>
+#include <iostream>
+#include <QApplication>
+#include <QDebug>
+#include "mainwindow.h"
+#include "Simulacion.h"
 
 MainExe::MainExe(int game_size) {  // Ya creo la oleada inicial
     cout<<"Creando oleadas iniciales\n";
@@ -193,13 +199,32 @@ LinkedList<int> MainExe::moveTowers() {
     return movimientos;
 }
 
-int main(){
-    MainExe* mainExe = new MainExe(10);
+int main(int argc, char *argv[]){
+   /* MainExe* mainExe = new MainExe(10);
     //mainExe->iniciar();
 
     Sendable sendable = Sendable();
     sendable.setMovimientos(mainExe->formatMovements(0));
     cout<<sendable.toJson()<<endl;
+    */
+    //---------------------------------------------------------- NO BORRAR
+    Simulacion juego = Simulacion();
+    juego.iniciar();
+    qDebug() << QT_VERSION_STR;
+    QApplication a(argc, argv);
+    MainWindow A,B;
+    for(int i = 0; i < juego.getPoblacionA()->getGeneraciones().getSize(); i++){
+        A.addPoint(i,juego.getPoblacionA()->getGeneraciones().getElemento(i)->getData()->getPromedioSupervivencia());
+        cout << "Promedio de supervivencia de "<< i <<"A: " << juego.getPoblacionA()->getGeneraciones().getElemento(i)->getData()->getPromedioSupervivencia() << endl;
+    }
+    for(int i = 0; i < juego.getPoblacionB()->getGeneraciones().getSize(); i++){
+        B.addPoint(i,juego.getPoblacionB()->getGeneraciones().getElemento(i)->getData()->getPromedioSupervivencia());
+        cout << "Promedio de supervivencia de "<< i <<"B: " << juego.getPoblacionB()->getGeneraciones().getElemento(i)->getData()->getPromedioSupervivencia() << endl;
+    }
+    A.show();
+    B.show();
+    return a.exec();
+    //---------------------------------------------------------- NO BORRAR
 }
 
 int *MainExe::atributeArray(Gladiator *glad, int poblacion){
