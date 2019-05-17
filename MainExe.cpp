@@ -14,6 +14,7 @@
 #include "Simulacion.h"
 
 MainExe::MainExe(int game_size) {  // Ya creo la oleada inicial
+    arduinoManager = new ArduinoManager();
     cout<<"Creando oleadas iniciales\n";
     this->poblacionA = new Poblacion('A');
     this->poblacionB = new Poblacion('B');
@@ -21,6 +22,8 @@ MainExe::MainExe(int game_size) {  // Ya creo la oleada inicial
     createMap(game_size);
     matrix_size=game_size;
     setProbabilidadSuperviencia();
+    poblacionA->seleccion();
+    poblacionB->seleccion();
     cout<<"Oleadas iniciales generadas\n";
     cout<<"Los elegidos son: gladiador "<<poblacionA->getElegido()->getIdUnico()<<" de la poblacion A con "<<
         poblacionA->getElegido()->getProbabilidadSupervivencia()<<"% y gladiador "<<
@@ -28,9 +31,9 @@ MainExe::MainExe(int game_size) {  // Ya creo la oleada inicial
         <<"% que Noguera bendiga su sacrificio\n";
 
     //Arma los algoritmos de busqueda con sus parametros necesarios
-    arduinoManager->inicializar();
-    arduinoManager->enviarEstadoGladiador(poblacionA->getElegido(),1);
-    arduinoManager->enviarEstadoGladiador(poblacionB->getElegido(),2);
+    //arduinoManager->inicializar();
+    //arduinoManager->enviarEstadoGladiador(poblacionA->getElegido(),1);
+    //arduinoManager->enviarEstadoGladiador(poblacionB->getElegido(),2);
 
 
     aStar = new AStar(game_size, game_size-1, game_size-1);
@@ -50,7 +53,7 @@ void MainExe::iniciar() {
     Sendable paquete = Sendable();
     server = Server();
     server.run();
-     //server.run();  // Inicializa el server
+    server.run();  // Inicializa el server
 
     while (terminar == false) {
 
@@ -209,26 +212,26 @@ LinkedList<int> MainExe::moveTowers() {
 }
 
 int main(int argc, char *argv[]){
-   /* MainExe* mainExe = new MainExe(10);
+    MainExe* juego = new MainExe(10);
     //mainExe->iniciar();
 
-    Sendable sendable = Sendable();
-    sendable.setMovimientos(mainExe->formatMovements(0));
-    cout<<sendable.toJson()<<endl;
-    */
+    //Sendable sendable = Sendable();
+    //sendable.setMovimientos(mainExe->formatMovements(0));
+    //cout<<sendable.toJson()<<endl;
+
     //---------------------------------------------------------- NO BORRAR
-    Simulacion juego = Simulacion();
-    juego.iniciar();
+    //Simulacion juego = Simulacion();
+    juego->iniciar();
     qDebug() << QT_VERSION_STR;
     QApplication a(argc, argv);
     MainWindow A,B;
-    for(int i = 0; i < juego.getPoblacionA()->getGeneraciones().getSize(); i++){
-        A.addPoint(i,juego.getPoblacionA()->getGeneraciones().getElemento(i)->getData()->getPromedioSupervivencia());
-        cout << "Promedio de supervivencia de "<< i <<"A: " << juego.getPoblacionA()->getGeneraciones().getElemento(i)->getData()->getPromedioSupervivencia() << endl;
+    for(int i = 0; i < juego->getPoblacionA()->getGeneraciones().getSize(); i++){
+        A.addPoint(i,juego->getPoblacionA()->getGeneraciones().getElemento(i)->getData()->getPromedioSupervivencia());
+        cout << "Promedio de supervivencia de "<< i <<"A: " << juego->getPoblacionA()->getGeneraciones().getElemento(i)->getData()->getPromedioSupervivencia() << endl;
     }
-    for(int i = 0; i < juego.getPoblacionB()->getGeneraciones().getSize(); i++){
-        B.addPoint(i,juego.getPoblacionB()->getGeneraciones().getElemento(i)->getData()->getPromedioSupervivencia());
-        cout << "Promedio de supervivencia de "<< i <<"B: " << juego.getPoblacionB()->getGeneraciones().getElemento(i)->getData()->getPromedioSupervivencia() << endl;
+    for(int i = 0; i < juego->getPoblacionB()->getGeneraciones().getSize(); i++){
+        B.addPoint(i,juego->getPoblacionB()->getGeneraciones().getElemento(i)->getData()->getPromedioSupervivencia());
+        cout << "Promedio de supervivencia de "<< i <<"B: " << juego->getPoblacionB()->getGeneraciones().getElemento(i)->getData()->getPromedioSupervivencia() << endl;
     }
     A.show();
     B.show();
@@ -463,3 +466,28 @@ Gladiator * MainExe::mejorGladiator(Poblacion *poblacion) {
     cout<<"    Gladiador "<<best->getIdUnico()<<" tiene la mayor resistencia en la poblacion\n";// Setteo al mejor como el elegido
     return best;
 }
+
+Poblacion *MainExe::getPoblacionA() const {
+    return poblacionA;
+}
+
+void MainExe::setPoblacionA(Poblacion *poblacionA) {
+    MainExe::poblacionA = poblacionA;
+}
+
+Poblacion *MainExe::getPoblacionB() const {
+    return poblacionB;
+}
+
+void MainExe::setPoblacionB(Poblacion *poblacionB) {
+    MainExe::poblacionB = poblacionB;
+}
+
+LinkedList<LinkedList<int>> *MainExe::getMap_matrix() const {
+    return map_matrix;
+}
+
+void MainExe::setMap_matrix(LinkedList<LinkedList<int>> *map_matrix) {
+    MainExe::map_matrix = map_matrix;
+}
+

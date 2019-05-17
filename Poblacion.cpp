@@ -20,9 +20,6 @@ Poblacion::Poblacion(char id) { // Se ejecuta solo una vez, en la primera genera
     cout<<"  Ejecutando funcion fitness sobre la poblacion "<<id<<" total\n";
     fitness_local();
     cout<<"  Funcion fitness finalizada"<<endl;
-    cout<<"  Ejecutando funcion de seleccion"<<endl;
-    seleccion();
-    cout<<"  Funcion de seleccion finalizada\n";
 }
 
 Poblacion::~Poblacion() {

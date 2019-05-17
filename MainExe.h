@@ -8,6 +8,9 @@
 #include "AStar.h"
 #include "Backtracking.h"
 #include "Server.h"
+
+
+
 #include <iostream>
 #include "ArduinoManager.h"
 /**
@@ -94,6 +97,18 @@ private:
     LinkedList<LinkedList<int>>* map_matrix;
 public:
     LinkedList<LinkedList<int>> *getMapMatrix() const;
+
+    Poblacion *getPoblacionA() const;
+
+    void setPoblacionA(Poblacion *poblacionA);
+
+    Poblacion *getPoblacionB() const;
+
+    void setPoblacionB(Poblacion *poblacionB);
+
+    LinkedList<LinkedList<int>> *getMap_matrix() const;
+
+    void setMap_matrix(LinkedList<LinkedList<int>> *map_matrix);
 
 private:
     /**Tablero matriz del juego, 0 es torre normal, 1 es torre fuego, 2 es torre explosiva*/
