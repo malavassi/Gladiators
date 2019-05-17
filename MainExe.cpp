@@ -125,6 +125,9 @@ void MainExe::print() {
         }
 
     }
+    string a;
+    cout<<"La matriz es:";
+    cin>>a;
 
 }
 
