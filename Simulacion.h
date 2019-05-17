@@ -2,8 +2,8 @@
 // Created by kevin on 05/05/19.
 //
 
-#ifndef INC_2_SIMULACION_H
-#define INC_2_SIMULACION_H
+#ifndef GLADIATORS_SIMULACION_H
+#define GLADIATORS_SIMULACION_H
 #include"Poblacion.h"
 #include "mainwindow.h"
 #include <iostream>
@@ -46,4 +46,4 @@ private:
 };
 
 
-#endif //INC_2_SIMULACION_H
+#endif //GLADIATORS_SIMULACION_H

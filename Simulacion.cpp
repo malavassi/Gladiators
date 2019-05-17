@@ -46,7 +46,7 @@ void Simulacion::siguienteIteracion() {
     srand(time(NULL));
     poblacionA->reproduccion();
     usleep(100000);
-    srand(time(NULL)*time(NULL)*time(NULL)*time(NULL)*time(NULL)*time(NULL)*time(NULL)*2);
+    srand((time(NULL)*time(NULL)*time(NULL)*time(NULL)*time(NULL)*time(NULL)*time(NULL)*2)+time(NULL));
     poblacionB->reproduccion();
     cout<<"Veinte annos han pasado y es hora de hacer tribulaciones a Noguera, quienes seran los elegidos?\n";
     poblacionA->fitness_local();
