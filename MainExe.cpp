@@ -258,8 +258,7 @@ LinkedList<int> MainExe::moveTowers() {
 }
 
 int main(int argc, char *argv[]){
-    MainExe* mainExe = new MainExe(10);
-    mainExe->iniciar();
+
     MainExe* juego = new MainExe(10);
     //mainExe->iniciar();
 
@@ -632,27 +631,5 @@ Gladiator * MainExe::mejorGladiator(Poblacion *poblacion) {
     return best;
 }
 
-Poblacion *MainExe::getPoblacionA() const {
-    return poblacionA;
-}
 
-void MainExe::setPoblacionA(Poblacion *poblacionA) {
-    MainExe::poblacionA = poblacionA;
-}
-
-Poblacion *MainExe::getPoblacionB() const {
-    return poblacionB;
-}
-
-void MainExe::setPoblacionB(Poblacion *poblacionB) {
-    MainExe::poblacionB = poblacionB;
-}
-
-LinkedList<LinkedList<int>> *MainExe::getMap_matrix() const {
-    return map_matrix;
-}
-
-void MainExe::setMap_matrix(LinkedList<LinkedList<int>> *map_matrix) {
-    MainExe::map_matrix = map_matrix;
-}
 

@@ -110,14 +110,9 @@ public:
     Poblacion* getPoblacionA(){return poblacionA;}
     Poblacion* getPoblacionB(){return poblacionB;}
 
-    void print();
-
 private:
     bool final(LinkedList<LinkedList<int>>);
     /**Tablero matriz del juego, 0 es torre normal, 1 es torre fuego, 2 es torre explosiva*/
-    Poblacion* poblacionA; /**Poblacion de A*/
-    Poblacion* poblacionB; /**Poblacion de Backtracking*/
-    LinkedList<LinkedList<int>>* map_matrix;
     Sendable sendable;
     AStar* aStar;    /**Buscador AStar*/
     Backtracking* backtracking;  /**Buscador Backtracking*/
