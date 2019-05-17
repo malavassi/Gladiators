@@ -8,12 +8,13 @@
 #include "Generacion.h"
 //int Generacion::contador = 0; // Es estatica para que sea automatica
 Generacion::Generacion(int numero) {  // Solo ejecutar la primera generacion
+    promedio_supervivencia = 0;
     cout<<"    Creando la primera generacion\n";
     gladiadores = LinkedList<Gladiator*>(); // Crea la lista de generaciones
     this->numero = numero;  // guarda el numero de generacion
     //Generacion::contador++;  // Aumenta la variable estatica
 
-    srand(time(NULL)); // Lo tenia fabian, no se que hace
+     // Lo tenia fabian, no se que hace
 
     if(numero == 0){  // Si es la primera generacion
         while (gladiadores.getSize() < numero_gladiadores) {
@@ -34,9 +35,6 @@ LinkedList<Gladiator *> Generacion::getGladiadores() {
     return gladiadores;
 }
 
-int Generacion::getPromedioSupervivencia() {
-    return promedio_supervivencia;
-}
 
 int Generacion::getNumero() {
     return numero;
@@ -51,6 +49,10 @@ Generacion::Generacion(LinkedList<Gladiator *> gladiadores, int numero) {
     this->numero = numero;
     //Generacion::contador++;
 
+}
+
+void Generacion::addProm(int valor){
+    promedio_supervivencia += (valor/20);
 }
 
 void Generacion::avanzarEdad() {

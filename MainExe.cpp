@@ -21,6 +21,10 @@ MainExe::MainExe(int game_size) {  // Ya creo la oleada inicial
     //arduinoManager->enviarEstadoGladiador(poblacionA->getElegido(),1);
     //arduinoManager->enviarEstadoGladiador(poblacionB->getElegido(),2);
     //Arma los algoritmos de busqueda con sus parametros necesarios
+    arduinoManager->inicializar();
+    arduinoManager->enviarEstadoGladiador(poblacionA->getElegido(),1);
+    arduinoManager->enviarEstadoGladiador(poblacionB->getElegido(),2);
+
     createMap(game_size);
     aStar = new AStar(game_size, game_size-1, game_size-1);
     aStar->setMapMatrix(map_matrix);
