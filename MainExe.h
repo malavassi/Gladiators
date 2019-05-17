@@ -8,6 +8,9 @@
 #include "AStar.h"
 #include "Backtracking.h"
 #include "Server.h"
+
+
+
 #include <iostream>
 #include "ArduinoManager.h"
 /**
@@ -79,6 +82,14 @@ public:
     * */
     void moveGladiator(int x_i, int y_i, int x_f, int y_f);
 
+    int emptySpaces();
+
+    bool isUnblocked(int pos_x, int pos_y);
+
+    void setProbabilidadSuperviencia();
+
+    Gladiator* mejorGladiator(Poblacion * poblacion);
+
 private:
     //Atributos
     Poblacion* poblacionA; /**Poblacion de A*/
@@ -87,6 +98,18 @@ private:
     void print(); /**Metodo que muestra la matriz en consola*/
 public:
     LinkedList<LinkedList<int>> *getMapMatrix() const;
+
+    Poblacion *getPoblacionA() const;
+
+    void setPoblacionA(Poblacion *poblacionA);
+
+    Poblacion *getPoblacionB() const;
+
+    void setPoblacionB(Poblacion *poblacionB);
+
+    LinkedList<LinkedList<int>> *getMap_matrix() const;
+
+    void setMap_matrix(LinkedList<LinkedList<int>> *map_matrix);
 
 private:
     /**Tablero matriz del juego, 0 es torre normal, 1 es torre fuego, 2 es torre explosiva*/
