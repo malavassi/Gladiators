@@ -12,6 +12,10 @@ MainExe::MainExe(int game_size) {  // Ya creo la oleada inicial
     cout<<"Creando oleadas iniciales\n";
     this->poblacionA = new Poblacion('A');
     this->poblacionB = new Poblacion('B');
+
+    createMap(game_size);
+    matrix_size=game_size;
+    setProbabilidadSuperviencia();
     cout<<"Oleadas iniciales generadas\n";
     cout<<"Los elegidos son: gladiador "<<poblacionA->getElegido()->getIdUnico()<<" de la poblacion A con "<<
         poblacionA->getElegido()->getProbabilidadSupervivencia()<<"% y gladiador "<<
@@ -22,13 +26,13 @@ MainExe::MainExe(int game_size) {  // Ya creo la oleada inicial
     arduinoManager->enviarEstadoGladiador(poblacionA->getElegido(),1);
     arduinoManager->enviarEstadoGladiador(poblacionB->getElegido(),2);
 
-    createMap(game_size);
+
     aStar = new AStar(game_size, game_size-1, game_size-1);
     aStar->setMapMatrix(map_matrix);
     backtracking = new Backtracking();
     backtracking->setMatrix(map_matrix);
     iteration_ctr=0;
-    matrix_size=game_size;
+
     tower_ctr=0;
 
 }
@@ -104,6 +108,7 @@ void MainExe::siguienteIteracion() {
     cout<<"Veinte annos han pasado y es hora de hacer tribulaciones a Noguera, quienes seran los elegidos?\n";
     poblacionA->fitness_local();
     poblacionB->fitness_local();
+    setProbabilidadSuperviencia();
     cout<<"Llego la hora de hacer libaciones a Noguera\n";
     cout<<"  Seleccionando en la poblacion A\n";
     poblacionA->seleccion();
@@ -314,4 +319,127 @@ void MainExe::moveGladiator(int x_i, int y_i, int x_f, int y_f) {
 
 LinkedList<LinkedList<int>> *MainExe::getMapMatrix() const {
     return map_matrix;
+}
+
+int MainExe::emptySpaces() {
+    int emptySpaces = 0;
+    for (int i = 0; i < matrix_size; i++) { //por filas
+
+        for (int j = 0; j < matrix_size; j++) { //por columnas de cada fila
+
+            if (isUnblocked(i, j)) {
+                emptySpaces += 1;
+            }
+        }
+    }
+
+    return emptySpaces;
+}
+
+bool MainExe::isUnblocked(int pos_x, int pos_y) {
+        if(map_matrix->getElemento(pos_x)->getData().getElemento(pos_y)->getData()==0){
+            return true;
+        }
+        else{
+            return false;
+        }
+}
+
+void MainExe::setProbabilidadSuperviencia() {
+
+    //para PoblacionA
+    //primero obtengo la mejor resistencia en la poblacion
+    int resistencia_maxima = mejorGladiator(poblacionA)->getResistencia();
+
+    //obtengo la cantidad de espacios sin torre en la matriz
+    int espaciosDisponibles = emptySpaces();
+
+    cout<<"La resistencia maxima en esta poblacion es: " <<resistencia_maxima;
+    cout<<"la cantidad de espacios vacios en la zona de intimidacion es: "<<espaciosDisponibles;
+    double resistenciaRelativaGladidor;
+    double porcentajeGravedadZIntimidacion;
+    int resistenciaGladiador;
+
+    for(int generacion_ca=0;generacion_ca< poblacionA->getGeneraciones().getSize();generacion_ca++) { // Iterador de generaciones
+        Generacion *genActual = poblacionA->getGeneraciones().getElemento(generacion_ca)->getData(); // Generacion actual sobre la que se trabaja
+
+
+        for(int gladiador_c=0;gladiador_c<genActual->getGladiadores().getSize();gladiador_c++) { // Iterador de gladiadores
+            // Logica de fitness starts
+            Gladiator *gladiador = genActual->getGladiadores().getElemento(gladiador_c)->getData(); // Gladiador en el que voy a trabajar
+            if(gladiador == nullptr){  //
+                cout<<"pass";
+            }else{
+                resistenciaGladiador = gladiador->getResistencia();
+                resistenciaRelativaGladidor = (resistenciaGladiador*60/resistencia_maxima); //60% de probabilidad con base en la resistencia de un gladiador respecto a los demas
+                porcentajeGravedadZIntimidacion = (espaciosDisponibles*40/100);
+
+                cout<<"La resistencia relativa del gladiador " << gladiador->getIdUnico() << "es: " << resistenciaRelativaGladidor<<endl;
+
+                gladiador->setProbabilidadSupervivencia(resistenciaRelativaGladidor+porcentajeGravedadZIntimidacion);
+                cout<<"Su probabilidad de supervivencia es: " << gladiador->getProbabilidadSupervivencia()<<endl;
+
+            }
+
+
+        }
+
+    }
+
+    //para PoblacionB
+    //primero obtengo la mejor resistencia en la poblacion
+    resistencia_maxima = mejorGladiator(poblacionB)->getResistencia();
+
+    cout<<"La resistencia maxima en esta poblacion es: " <<resistencia_maxima;
+
+    for(int generacion_ca=0;generacion_ca< poblacionB->getGeneraciones().getSize();generacion_ca++) { // Iterador de generaciones
+        Generacion *genActual = poblacionB->getGeneraciones().getElemento(generacion_ca)->getData(); // Generacion actual sobre la que se trabaja
+
+
+        for(int gladiador_c=0;gladiador_c<genActual->getGladiadores().getSize();gladiador_c++) { // Iterador de gladiadores
+            // Logica de fitness starts
+            Gladiator *gladiador = genActual->getGladiadores().getElemento(gladiador_c)->getData(); // Gladiador en el que voy a trabajar
+            if(gladiador == nullptr){  //
+                cout<<"pass";
+            }else{
+                resistenciaGladiador = gladiador->getResistencia();
+                resistenciaRelativaGladidor = (resistenciaGladiador*60/resistencia_maxima); //60% de probabilidad con base en la resistencia de un gladiador respecto a los demas
+                porcentajeGravedadZIntimidacion = (espaciosDisponibles*40/100);
+
+                cout<<"La resistencia relativa del gladiador " << gladiador->getIdUnico() << "es: " << resistenciaRelativaGladidor<<endl;
+
+                gladiador->setProbabilidadSupervivencia(resistenciaRelativaGladidor+porcentajeGravedadZIntimidacion);
+                cout<<"Su probabilidad de supervivencia es: " << gladiador->getProbabilidadSupervivencia()<<endl;
+
+            }
+
+        }
+
+    }
+
+}
+
+Gladiator * MainExe::mejorGladiator(Poblacion *poblacion) {
+    Gladiator* best = poblacion->getElegido();  // Puntero que apunta al mejor gladiador
+    for(int generacion_c=0;generacion_c< poblacion->getGeneraciones().getSize();generacion_c++){ // Iterador de generaciones
+        Generacion* genActual = poblacion->getGeneraciones().getElemento(generacion_c)->getData(); // Generacion actual sobre la que se trabaja
+        for(int gladiador_c=0;gladiador_c<genActual->getGladiadores().getSize();gladiador_c++){ // Iterador de gladiadores
+            // Logica de seleccion starts
+            Gladiator* gladiador = genActual->getGladiadores().getElemento(gladiador_c)->getData(); // Gladiador en el que voy a trabajar
+            if(best == nullptr){  // Si no hay un best aun
+                cout<<"    Debido a que no existe un campeon, gladiador "<<gladiador->getIdUnico()<<" tomara la vacante, con una probabilidad de supervivencia de:"
+                    <<gladiador->getProbabilidadSupervivencia()<<endl;
+                best = gladiador;
+            }else{
+                if(gladiador->getResistencia()>best->getResistencia()){  // Si la probabilidad de superviviencia del actual es mejor que la del mejor, reemplace
+                    cout<<"    Gladiador "<<gladiador->getIdUnico()<<" con su resistencia de: "<<gladiador->getResistencia()<<
+                        " ha mejorado al previo campeon, gladiador "<<best->getIdUnico()<< "de resistencia:"<<best->getResistencia()
+                        <<" tenemos nuevo campeon.\n";
+                    best = gladiador;
+                }// Si no pues no hace nada
+            }
+        }
+    }
+    cout<<"    Gladiador "<<best->getIdUnico()<<" tiene la mayor resistencia en la poblacion\n";// Setteo al mejor como el elegido
+    return best;
 }

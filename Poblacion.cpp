@@ -188,11 +188,6 @@ void Poblacion::fitness_local() {
             if(genActual->getEdad()==20){
                 genActual->addProm(nuevRes);
             }
-
-            //Tercero, calculo la nueva probabilidad de supervivencia
-            int nuevProb = gladiador->getResistencia();  // Por el momento es llanamente la resistencia
-            gladiador->setProbabilidadSupervivencia(nuevProb);  // Setteo la probabilidad
-            cout<<"    La probabilidad de supervivencia es de:"<<gladiador->getProbabilidadSupervivencia()<<endl;
         }
     }
 }

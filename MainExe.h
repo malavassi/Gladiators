@@ -79,6 +79,14 @@ public:
     * */
     void moveGladiator(int x_i, int y_i, int x_f, int y_f);
 
+    int emptySpaces();
+
+    bool isUnblocked(int pos_x, int pos_y);
+
+    void setProbabilidadSuperviencia();
+
+    Gladiator* mejorGladiator(Poblacion * poblacion);
+
 private:
     //Atributos
     Poblacion* poblacionA; /**Poblacion de A*/
