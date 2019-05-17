@@ -97,124 +97,130 @@ Gladiator *Poblacion::getElegido() {
 }
 
 void Poblacion::reproduccion() {
-    cout<<"  Inicia la reproduccion de la poblacion "<<id<<endl;
+    cout << "  Inicia la reproduccion de la poblacion " << id << endl;
     // Crea la nueva generacion
-    LinkedList<Gladiator*> nuevos = LinkedList<Gladiator*>();
+    LinkedList<Gladiator *> nuevos = LinkedList<Gladiator *>();
 
     // CROSSOVER
-    LinkedList<Gladiator*> to_reproduce = reproducibles;  // Lista en la que se va a guardar a los menes que hay que reproducir
-    cout<<"  Las parejas son las siguientes:\n";
-    for(int i=0;i<to_reproduce.getSize();i+=2){
-        if(i+1<to_reproduce.getSize()) {
+    LinkedList<Gladiator *> to_reproduce = reproducibles;  // Lista en la que se va a guardar a los menes que hay que reproducir
+    cout << "  Las parejas son las siguientes:\n";
+    for (int i = 0; i < to_reproduce.getSize(); i += 2) {
+        if (i + 1 < to_reproduce.getSize()) {
             cout << "    Gladiador " << to_reproduce.getElemento(i)->getData()->getResistencia() << " con gladiador "
                  << to_reproduce.getElemento(i + 1)->getData()->getIdUnico() << endl;
-        }else{
-            cout<<"      Gladiador "<<to_reproduce.getElemento(i)->getData()->getResistencia() << " no tiene pareja";
+        } else {
+            cout << "      Gladiador " << to_reproduce.getElemento(i)->getData()->getResistencia()
+                 << " no tiene pareja";
         }
     }
 
-    while(to_reproduce.getSize()>0){ // Se mantiene siempre que hayan elementos en la lista
+    while (to_reproduce.getSize() > 0) { // Se mantiene siempre que hayan elementos en la lista
 
         // Elijo dos padres (esta asegurado que sera random porque la lista se aleatoriza cada vez que corre la funcion)
-        Node<Gladiator*>* p1 = to_reproduce.pop_front();
-        Node<Gladiator*>* p2 = to_reproduce.pop_front();
+        Node<Gladiator *> *p1 = to_reproduce.pop_front();
+        Node<Gladiator *> *p2 = to_reproduce.pop_front();
 
-        if(p1 && p2) {  // Revisa que ambos existan, si no existe uno o ambos, no reproduce, esto porque algunas veces puede que no hayan parejas
-            Gladiator* padre1 = to_reproduce.pop_front()->getData();
-            Gladiator* padre2 = to_reproduce.pop_front()->getData();
+        if (p1 &&
+            p2) {  // Revisa que ambos existan, si no existe uno o ambos, no reproduce, esto porque algunas veces puede que no hayan parejas
+            Gladiator *padre1 = to_reproduce.pop_front()->getData();
+            Gladiator *padre2 = to_reproduce.pop_front()->getData();
 
-        Node<Gladiator*> *nodoPadre1 = to_reproduce.pop_front();
-        Node<Gladiator*> *nodoPadre2 = to_reproduce.pop_front();
-
-
-        if(nodoPadre1 && nodoPadre2) {  // Revisa que ambos existan, si no existe uno o ambos, no reproduce, esto porque algunas veces puede que no hayan parejas
+            Node<Gladiator *> *nodoPadre1 = to_reproduce.pop_front();
+            Node<Gladiator *> *nodoPadre2 = to_reproduce.pop_front();
 
 
-            Gladiator* padre1 = nodoPadre1->getData();
-            Gladiator* padre2 = nodoPadre2->getData();
+            if (nodoPadre1 &&
+                nodoPadre2) {  // Revisa que ambos existan, si no existe uno o ambos, no reproduce, esto porque algunas veces puede que no hayan parejas
 
-            Gladiator *nuevo1 = new Gladiator(); // Creo un nuevo gladiador en blanco
-            Gladiator* nuevo2 = new Gladiator();
-            //cout << "      El bebe gladiador es: " << nuevo1->getIdUnico() << endl;
 
-            // Genero dos numeros random que van a ser los atributos que el primer padre va a pasar al hijo 1
-            int veces = 0;
-            int attr_pasar1[] = {-1, -1, -1, -1}; // Inicializo en -1 para indicar que no se han asignado
-            int attr_pasar2[] = {-1, -1, -1, -1}; // Inicializo en -1 para indicar que no se han asignado
-            int pasado = -1; // Aqui guardo el atributo que ya asigno para que no asigne el mismo de nuevo
-            while (veces != 2) {  // Termina cuando se ejecuta dos veces
-                int attr = rand() % 4; // Numero random del 0 al 4
-                while (pasado == attr) {  // Se fija que no sea el mismo numero que el pasado, si lo es, cambia
-                    attr = rand() % 4;  // Recalculo
+                Gladiator *padre1 = nodoPadre1->getData();
+                Gladiator *padre2 = nodoPadre2->getData();
+
+                Gladiator *nuevo1 = new Gladiator(); // Creo un nuevo gladiador en blanco
+                Gladiator *nuevo2 = new Gladiator();
+                //cout << "      El bebe gladiador es: " << nuevo1->getIdUnico() << endl;
+
+                // Genero dos numeros random que van a ser los atributos que el primer padre va a pasar al hijo 1
+                int veces = 0;
+                int attr_pasar1[] = {-1, -1, -1, -1}; // Inicializo en -1 para indicar que no se han asignado
+                int attr_pasar2[] = {-1, -1, -1, -1}; // Inicializo en -1 para indicar que no se han asignado
+                int pasado = -1; // Aqui guardo el atributo que ya asigno para que no asigne el mismo de nuevo
+                while (veces != 2) {  // Termina cuando se ejecuta dos veces
+                    int attr = rand() % 4; // Numero random del 0 al 4
+                    while (pasado == attr) {  // Se fija que no sea el mismo numero que el pasado, si lo es, cambia
+                        attr = rand() % 4;  // Recalculo
+                    }
+                    attr_pasar1[attr] = padre1->getAttr(attr);
+                    attr_pasar2[attr] = padre2->getAttr(attr);
+                    pasado = attr; // guardo el pasado
+                    veces++;  // itero
                 }
-                attr_pasar1[attr] = padre1->getAttr(attr);
-                attr_pasar2[attr] = padre2->getAttr(attr);
-                pasado = attr; // guardo el pasado
-                veces++;  // itero
-            }
 
-            //Asigno los dos atributos que no fueron asignados antes
-            for (int i = 0; i < 4; i++) {
-                if (attr_pasar1[i] == -1) {  // Si el atributo i es -1 (no fue asignado)
-                    attr_pasar1[i] = padre2->getAttr(i);  // Le asigna el atributo i del padre2
-                    attr_pasar2[i] = padre1->getAttr(i);
+                //Asigno los dos atributos que no fueron asignados antes
+                for (int i = 0; i < 4; i++) {
+                    if (attr_pasar1[i] == -1) {  // Si el atributo i es -1 (no fue asignado)
+                        attr_pasar1[i] = padre2->getAttr(i);  // Le asigna el atributo i del padre2
+                        attr_pasar2[i] = padre1->getAttr(i);
+                    }
                 }
-            }
 
-            // Setteo los atributos al bebe
-            nuevo1->setAtributesI(attr_pasar1); // Setteo los atributos iniciales
-            nuevo2->setAtributesI(attr_pasar2);
+                // Setteo los atributos al bebe
+                nuevo1->setAtributesI(attr_pasar1); // Setteo los atributos iniciales
+                nuevo2->setAtributesI(attr_pasar2);
 
-            // FIN CROSSOVER
+                // FIN CROSSOVER
 
-            // MUTACION 1
-            int mutacion = rand() % 100 + 1; // tira los dados del destino
-            int inversion = rand() % 100 + 1;
-            if (mutacion <= 20) { // 10% de probabilidades de mutar
-                cout << "       El bebe tuvo suerte, sucedera mutacion\n";
-                mutar(nuevo1);  // Muto
-                cout << "      Fin de mutacion\n";
-            }
-            if (inversion <= 10) {  // 5% de probabilidades de inversion
-                cout << "      El bebe tuvo suerte, sucedera inversion\n";
-                invertir(nuevo1); // Invierto
-                cout << "      Fin de inversion\n";
-            }
+                // MUTACION 1
+                int mutacion = rand() % 100 + 1; // tira los dados del destino
+                int inversion = rand() % 100 + 1;
+                if (mutacion <= 20) { // 10% de probabilidades de mutar
+                    cout << "       El bebe tuvo suerte, sucedera mutacion\n";
+                    mutar(nuevo1);  // Muto
+                    cout << "      Fin de mutacion\n";
+                }
+                if (inversion <= 10) {  // 5% de probabilidades de inversion
+                    cout << "      El bebe tuvo suerte, sucedera inversion\n";
+                    invertir(nuevo1); // Invierto
+                    cout << "      Fin de inversion\n";
+                }
 /*            cout << "        Atributos finales del bebe:" << " IQ:" << nuevo->getIQemocional() << " FS:"
                  << nuevo1->getFuerzaTSuperior() <<
                  " FI:" << nuevo1->getFuerzaTInferior() << " CF:" << nuevo->getCondicionFisica() << endl;*/
 
-            nuevos.push_front(nuevo1);  // Agrega a la lista de la nueva generacion
+                nuevos.push_front(nuevo1);  // Agrega a la lista de la nueva generacion
 
-            // MUTACION 2
-             mutacion = rand() % 100 + 1; // tira los dados del destino
-             inversion = rand() % 100 + 1;
-            if (mutacion <= 20) { // 10% de probabilidades de mutar
-                cout << "       El bebe tuvo suerte, sucedera mutacion\n";
-                mutar(nuevo2);  // Muto
-                cout << "      Fin de mutacion\n";
+                // MUTACION 2
+                mutacion = rand() % 100 + 1; // tira los dados del destino
+                inversion = rand() % 100 + 1;
+                if (mutacion <= 20) { // 10% de probabilidades de mutar
+                    cout << "       El bebe tuvo suerte, sucedera mutacion\n";
+                    mutar(nuevo2);  // Muto
+                    cout << "      Fin de mutacion\n";
+                }
+                if (inversion <= 10) {  // 5% de probabilidades de inversion
+                    cout << "      El bebe tuvo suerte, sucedera inversion\n";
+                    invertir(nuevo2); // Invierto
+                    cout << "      Fin de inversion\n";
+                }
+                /*cout << "        Atributos finales del bebe:" << " IQ:" << nuevo->getIQemocional() << " FS:"
+                     << nuevo->getFuerzaTSuperior() <<
+                     " FI:" << nuevo->getFuerzaTInferior() << " CF:" << nuevo->getCondicionFisica() << endl;*/
+
+                nuevos.push_front(nuevo2);  // Agrega a la lista de la nueva generacion
             }
-            if (inversion <= 10) {  // 5% de probabilidades de inversion
-                cout << "      El bebe tuvo suerte, sucedera inversion\n";
-                invertir(nuevo2); // Invierto
-                cout << "      Fin de inversion\n";
-            }
-            /*cout << "        Atributos finales del bebe:" << " IQ:" << nuevo->getIQemocional() << " FS:"
-                 << nuevo->getFuerzaTSuperior() <<
-                 " FI:" << nuevo->getFuerzaTInferior() << " CF:" << nuevo->getCondicionFisica() << endl;*/
 
-            nuevos.push_front(nuevo2);  // Agrega a la lista de la nueva generacion
-        }
+        }  // Repite
 
-    }  // Repite
+        generaciones.push_front(new Generacion(nuevos,
+                                               generacion_c));  // Crea la nueva generacion y la agrega a la lista de generaciones
+        cout << "Nacio una bella nueva generacion de: " << generaciones.front()->getGladiadores().getSize()
+             << " bebes!\n";
+        generacion_c++;
 
-    generaciones.push_front(new Generacion(nuevos, generacion_c));  // Crea la nueva generacion y la agrega a la lista de generaciones
-    cout<<"Nacio una bella nueva generacion de: "<<generaciones.front()->getGladiadores().getSize()<<" bebes!\n";
-    generacion_c++;
-
+    }
 }
 
-void Poblacion::mutar(Gladiator *gladiador) {
+void Poblacion::mutar(Gladiator *gladiador){
     int attrMutar = rand()%4; // Aleatoriza el atributo a mutar
     switch(attrMutar){
         case 0:

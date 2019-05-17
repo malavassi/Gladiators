@@ -17,9 +17,9 @@ MainExe::MainExe(int game_size) {  // Ya creo la oleada inicial
         poblacionA->getElegido()->getProbabilidadSupervivencia()<<"% y gladiador "<<
         poblacionB->getElegido()->getIdUnico()<<" de la poblacion B con "<<poblacionB->getElegido()->getProbabilidadSupervivencia()
         <<"% que Noguera bendiga su sacrificio\n";
-    arduinoManager->inicializar();
-    arduinoManager->enviarEstadoGladiador(poblacionA->getElegido(),1);
-    arduinoManager->enviarEstadoGladiador(poblacionB->getElegido(),2);
+    //arduinoManager->inicializar();
+    //arduinoManager->enviarEstadoGladiador(poblacionA->getElegido(),1);
+    //arduinoManager->enviarEstadoGladiador(poblacionB->getElegido(),2);
     //Arma los algoritmos de busqueda con sus parametros necesarios
     createMap(game_size);
     aStar = new AStar(game_size, game_size-1, game_size-1);
@@ -37,6 +37,7 @@ MainExe::~MainExe() {
 
 void MainExe::iniciar() {
     bool terminar = false;
+
     Sendable paquete = Sendable();
     server = Server();
     server.run();
