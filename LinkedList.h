@@ -96,7 +96,10 @@ public:
             while(pos<0 && pos>=size){
                 pos = (int) (rand()%size);
             }
-            push_back(pop_element(pos)->getData());
+            if(!getElemento(pos)){
+                push_back(pop_element(pos)->getData());
+            }
+
         }
     }
 

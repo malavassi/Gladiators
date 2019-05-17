@@ -12,6 +12,7 @@
 
 
 #include <iostream>
+#include "Sendable.h"
 #include "ArduinoManager.h"
 /**
  * Clase encargada del flow del programa
@@ -81,6 +82,11 @@ public:
     * @author Cvaztian
     * */
     void moveGladiator(int x_i, int y_i, int x_f, int y_f);
+    /**
+    * Obtiene la lista de todos los movimientos secuenciales de los gladiadores segun su algoritmo y el tipo de iteracion
+    * @author Cvaztian
+    * */
+    LinkedList<LinkedList<int>> getRutasAlgoritmos();
 
     int emptySpaces();
 
@@ -99,20 +105,20 @@ private:
 public:
     LinkedList<LinkedList<int>> *getMapMatrix() const;
 
-    Poblacion *getPoblacionA() const;
+    void showRutas(LinkedList<LinkedList<int>> Rutas);
 
-    void setPoblacionA(Poblacion *poblacionA);
+    Poblacion* getPoblacionA(){return poblacionA;}
+    Poblacion* getPoblacionB(){return poblacionB;}
 
-    Poblacion *getPoblacionB() const;
-
-    void setPoblacionB(Poblacion *poblacionB);
-
-    LinkedList<LinkedList<int>> *getMap_matrix() const;
-
-    void setMap_matrix(LinkedList<LinkedList<int>> *map_matrix);
+    void print();
 
 private:
+    bool final(LinkedList<LinkedList<int>>);
     /**Tablero matriz del juego, 0 es torre normal, 1 es torre fuego, 2 es torre explosiva*/
+    Poblacion* poblacionA; /**Poblacion de A*/
+    Poblacion* poblacionB; /**Poblacion de Backtracking*/
+    LinkedList<LinkedList<int>>* map_matrix;
+    Sendable sendable;
     AStar* aStar;    /**Buscador AStar*/
     Backtracking* backtracking;  /**Buscador Backtracking*/
     int iteration_ctr;
@@ -128,3 +134,4 @@ private:
 
 
 #endif //INC_2_SIMULACION_H
+

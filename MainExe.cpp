@@ -50,14 +50,26 @@ MainExe::~MainExe() {
 
 void MainExe::iniciar() {
     bool terminar = false;
-    Sendable paquete = Sendable();
-    server = Server();
-    server.run();
-    server.run();  // Inicializa el server
-
-    while (terminar == false) {
-
-        Sendable sendable = Sendable();
+    //Sendable paquete = Sendable();
+    //server = Server();
+    //server.run();
+    for(int i=0; i<3; i++){
+        int type = (int) (rand()%3);
+        int pos_x = (int) (rand()%(matrix_size-1));
+        int pos_y = (int) (rand()%(matrix_size-1));
+        while(map_matrix->getElemento(pos_x)->getData().getElemento(pos_y)->getData()!=0){
+            pos_x = (int) (rand()%(matrix_size-1));
+            pos_y = (int) (rand()%(matrix_size-1));
+        }
+        addTower(type, pos_x, pos_y);
+        tower_ctr++;
+    }
+    while (!terminar) {
+        LinkedList<LinkedList<int>> rutas = getRutasAlgoritmos();
+        showRutas(rutas);
+        terminar = final(rutas);
+        //siguienteIteracion();
+        /*Sendable sendable = Sendable();
         LinkedList<LinkedList<int>> enviar = LinkedList<LinkedList<int>>();  // Lista a enviar, 000, tipo,x,y
         LinkedList<int> list2 = LinkedList<int>();
         list2.push_back(0);
@@ -69,10 +81,10 @@ void MainExe::iniciar() {
                     list2.push_back(elemento * 100 + i * 10 + j);
                 }
             }
-        }
+        }*/
         print();
-        enviar.push_back(list2);
-        sendable.setMovimientos(enviar);
+       // enviar.push_back(list2);
+       // sendable.setMovimientos(enviar);
         //cout<<sendable.toJson()<<flush;
        // server.sendToClient(sendable.toJson());
         //server.readFromClient();  // Espera a que el cliente este listo
@@ -84,26 +96,14 @@ void MainExe::iniciar() {
             sendable.setGlad1(arr);     //PoblacionA = A* = 0 & PoblacionB = Backtracking = 1
             sendable.setGlad2(atributeArray(poblacionB->getElegido(), 1));
             sendable.setMovimientos(formatMovements(iteration_ctr));/*
-            server.sendToClient(sendable.toJson());
+            /*server.sendToClient(sendable.toJson());
             server.readFromClient();
             if(strcmp(server.buffer, "nueva")==0){
                 siguienteIteracion();
-            }
-            */
-            cout << sendable.toJson();
-            cout << "\n";
-            cout << "Introduzca un comando:\n 1: Reproducir\n0: Finalizar\n";
+            }*/
 
-             int seleccion;
-            cin >> seleccion;
-            switch (seleccion) {
-                case 1:
-                    siguienteIteracion();
-                    break;
-                case 0:
-                    terminar = true;
-                    break;
-            }
+
+            siguienteIteracion();
         }
     }
 
@@ -178,6 +178,10 @@ void MainExe::siguienteIteracion() {
     }
     checkAvailability();
     print();
+    for(int i=0;i<map_matrix->getSize();i++){
+        map_matrix->getElemento(i)->getData().randomize();
+    }
+    map_matrix->randomize();
 }
 
 void MainExe::createMap(int size) {
@@ -254,6 +258,8 @@ LinkedList<int> MainExe::moveTowers() {
 }
 
 int main(int argc, char *argv[]){
+    MainExe* mainExe = new MainExe(10);
+    mainExe->iniciar();
     MainExe* juego = new MainExe(10);
     //mainExe->iniciar();
 
@@ -280,56 +286,147 @@ int main(int argc, char *argv[]){
     return a.exec();
     //return 0;
     //---------------------------------------------------------- NO BORRAR
+
+
+
 }
 
 int *MainExe::atributeArray(Gladiator *glad, int poblacion){
-    int *result = new int[10];
-    result[0] = glad->getIdUnico();
-    result[1] = glad->getEdad();
-    result[2] = glad->getProbabilidadSupervivencia();
-    result[3] = glad->getGeneracionesEsperadas();
-    result[4] = glad->getIQemocional();
-    result[5] = glad->getCondicionFisica();
-    result[6] = glad->getFuerzaTSuperior();
-    result[7] = glad->getFuerzaTInferior();
-    result[8] = glad->getResistencia();
-    result[9] = poblacion;
-    return result;
+ int *result = new int[10];
+ result[0] = glad->getIdUnico();
+ result[1] = glad->getEdad();
+ result[2] = glad->getProbabilidadSupervivencia();
+ result[3] = glad->getGeneracionesEsperadas();
+ result[4] = glad->getIQemocional();
+ result[5] = glad->getCondicionFisica();
+ result[6] = glad->getFuerzaTSuperior();
+ result[7] = glad->getFuerzaTInferior();
+ result[8] = glad->getResistencia();
+ result[9] = poblacion;
+ return result;
 }
 
 LinkedList<LinkedList<int>> MainExe::formatMovements(int counter) {
+ LinkedList<LinkedList<int>> result = LinkedList<LinkedList<int>>();
+ int a_star_current = 0;
+ int backtracking_current = 0;
+ int a_star_next = 0;
+ int backtracking_next = 0;
+ if(counter%3==0 && counter!=0){       //Si se trata de la tercer iteración relativa
+     while(a_star_next!=99 && backtracking_next!=99){
+         LinkedList<int> tmp_movements = LinkedList<int>();
+
+         //Astar movements
+         aStar->aStarSearch(a_star_current/10, a_star_current%10);
+         a_star_next = aStar->getGeneratedPath().getHead()->getData();
+         moveGladiator(a_star_current/10, a_star_current%10, a_star_next/10, a_star_next%10);
+         tmp_movements.push_back(a_star_current*100+a_star_next);
+
+         //Backtracking movements
+         backtracking->encontrarRuta(backtracking_current);
+         backtracking_current = backtracking->getPath().posx.front()*10 + backtracking->getPath().posy.front();
+         backtracking_next = backtracking->getPath().posx.getElemento(1)->getData()*10 + backtracking->getPath().posy.getElemento(1)->getData();
+         moveGladiator(backtracking_current/10, backtracking_current%10, backtracking_next/10, backtracking_next%10);
+         tmp_movements.push_back(backtracking_current*100 + backtracking_next);
+
+         //Tower movements
+         LinkedList<int> tower_movements = moveTowers();
+         while(tower_movements.getSize()>0){
+             tmp_movements.push_back(tower_movements.getHead()->getData());
+             tower_movements.pop_front();
+         }
+         a_star_current = a_star_next;
+         backtracking_current = backtracking_next;
+         result.push_back(tmp_movements);
+     }
+     cout<<"Yaaa";
+ }
+ else{
+     bool rutasCalculadas = false;
+     while(!rutasCalculadas){
+         LinkedList<int> astar_movements = LinkedList<int>();
+         aStar->aStarSearch(0, 0);  // Realiza la busqueda del camino
+         LinkedList<int> aStarPath = aStar->getGeneratedPath();
+         LinkedList<int> backtracking_movements = LinkedList<int>();
+         backtracking->encontrarRuta(0);
+         LinkedList<int> backtracking_path = backtracking->final_path();
+         if(aStar->aStarSearch(0,0)){
+             while(a_star_current != 99){
+                 a_star_next = aStarPath.getHead()->getData();  // Asigno la primera
+                 aStarPath.pop_front();  // La quito
+                 while(a_star_next!=99) {
+                     astar_movements.push_back(a_star_current * 100 + a_star_next);
+                     a_star_current = a_star_next;
+                     a_star_next = aStarPath.getHead()->getData();
+                     aStarPath.pop_front();
+                 }
+                 astar_movements.push_back(a_star_current*100+a_star_next);  // Asigno la ultima
+                 a_star_current = a_star_next;
+                 result.push_back(astar_movements);
+             }
+             while(backtracking_current!=99){
+                 backtracking_next = backtracking_path.pop_front()->getData();
+                 while(backtracking_next != 99){
+                     backtracking_movements.push_back(backtracking_current*100 + backtracking_next);
+                     backtracking_current = backtracking_next;
+                     backtracking_next = backtracking_path.getHead()->getData();
+                     backtracking_path.pop_front();
+                 }
+                 backtracking_movements.push_back(backtracking_current*100 + backtracking_next);
+                 backtracking_current=backtracking_next;
+                 result.push_back(backtracking_movements);
+             }
+             rutasCalculadas=true;
+         }
+         else{
+             rearrangeTowers();
+         }
+
+     }
+
+ }
+ return result;
+}
+
+LinkedList<LinkedList<int>> *MainExe::getMapMatrix() const {
+ return map_matrix;
+}
+
+LinkedList<LinkedList<int>> MainExe::getRutasAlgoritmos(){
     LinkedList<LinkedList<int>> result = LinkedList<LinkedList<int>>();
     int a_star_current = 0;
     int backtracking_current = 0;
     int a_star_next = 0;
     int backtracking_next = 0;
-    if(counter%3==0 && counter!=0){       //Si se trata de la tercer iteración relativa
+    if(iteration_ctr%3==0 && iteration_ctr!=0){       //Si se trata de la tercer iteración relativa
+        LinkedList<int> a_star_movements = LinkedList<int>();
+        a_star_movements.push_back(0);
+        LinkedList<int> backtracking_movements = LinkedList<int>();
+        backtracking_movements.push_back(backtracking_next);
         while(a_star_current!=99 && backtracking_current!=99){
-            LinkedList<int> tmp_movements = LinkedList<int>();
 
             //Astar movements
             aStar->aStarSearch(a_star_current/10, a_star_current%10);
             a_star_next = aStar->getGeneratedPath().getHead()->getData();
             moveGladiator(a_star_current/10, a_star_current%10, a_star_next/10, a_star_next%10);
-            tmp_movements.push_back(a_star_current*100+a_star_next);
+            a_star_movements.push_back(a_star_next);
 
             //Backtracking movements
             backtracking->encontrarRuta(backtracking_current);
             backtracking_current = backtracking->getPath().posx.front()*10 + backtracking->getPath().posy.front();
             backtracking_next = backtracking->getPath().posx.getElemento(1)->getData()*10 + backtracking->getPath().posy.getElemento(1)->getData();
             moveGladiator(backtracking_current/10, backtracking_current%10, backtracking_next/10, backtracking_next%10);
-            tmp_movements.push_back(backtracking_current*100 + backtracking_next);
+            backtracking_movements.push_back(backtracking_next);
 
             //Tower movements
-            LinkedList<int> tower_movements = moveTowers();
-            while(tower_movements.getSize()>0){
-                tmp_movements.push_back(tower_movements.getHead()->getData());
-                tower_movements.pop_front();
-            }
+            rearrangeTowers();
+
             a_star_current = a_star_next;
             backtracking_current = backtracking_next;
-            result.push_back(tmp_movements);
         }
+        result.push_back(a_star_movements);
+        result.push_back(backtracking_movements);
+        return result;
     }
     else{
         bool rutasCalculadas = false;
@@ -341,31 +438,8 @@ LinkedList<LinkedList<int>> MainExe::formatMovements(int counter) {
             backtracking->encontrarRuta(0);
             LinkedList<int> backtracking_path = backtracking->final_path();
             if(aStar->aStarSearch(0,0)){
-                while(a_star_current != 99){
-                    a_star_next = aStarPath.getHead()->getData();  // Asigno la primera
-                    aStarPath.pop_front();  // La quito
-                    while(a_star_next!=99) {
-                        astar_movements.push_back(a_star_current * 100 + a_star_next);
-                        a_star_current = a_star_next;
-                        a_star_next = aStarPath.getHead()->getData();
-                        aStarPath.pop_front();
-                    }
-                    astar_movements.push_back(a_star_current*100+a_star_next);  // Asigno la ultima
-                    a_star_current = a_star_next;
-                    result.push_back(astar_movements);
-                }
-                while(backtracking_current!=99){
-                    backtracking_next = backtracking_path.pop_front()->getData();
-                    while(backtracking_next != 99){
-                        backtracking_movements.push_back(backtracking_current*100 + backtracking_next);
-                        backtracking_current = backtracking_next;
-                        backtracking_next = backtracking_path.getHead()->getData();
-                        backtracking_path.pop_front();
-                    }
-                    backtracking_movements.push_back(backtracking_current*100 + backtracking_next);
-                    backtracking_current=backtracking_next;
-                    result.push_back(backtracking_movements);
-                }
+                result.push_back(aStarPath);
+                result.push_back(backtracking_path);
                 rutasCalculadas=true;
             }
             else{
@@ -375,17 +449,64 @@ LinkedList<LinkedList<int>> MainExe::formatMovements(int counter) {
         }
 
     }
-    return result;
 }
 
+void MainExe::showRutas(LinkedList<LinkedList<int>> Rutas) {
+    cout << "A star: ";
+    for (int i = 0; i < Rutas.getHead()->getData().getSize(); i++) {
+        cout << Rutas.getElemento(0)->getData().getElemento(i)->getData();
+        cout<<"->";
+    }
+    cout << endl;
+    //Rutas.pop_front();
+    cout << "Backtracking: ";
+    for (int i = 0; i < Rutas.getElemento(1)->getData().getSize(); i++) {
+        cout << Rutas.getElemento(1)->getData().getElemento(i)->getData();
+        cout<<"->";
+    }
+}
 void MainExe::moveGladiator(int x_i, int y_i, int x_f, int y_f) {
     map_matrix->getElemento(x_i)->getData().getElemento(y_i)->setData(0);
     map_matrix->getElemento(x_f)->getData().getElemento(y_f)->setData(4);
     print();
 }
 
-LinkedList<LinkedList<int>> *MainExe::getMapMatrix() const {
-    return map_matrix;
+bool MainExe::final(LinkedList<LinkedList<int>> rutas) {
+    int resA = poblacionA->getElegido()->getResistencia();
+    for(int i=0;i<rutas.getElemento(0)->getData().getSize();i++){
+        int casilla = rutas.getElemento(0)->getData().getElemento(i)->getData();
+        int x = casilla/10;
+        int y = casilla%10;
+        for(int j = x-2;j<x+2;j++){
+            if(j>=0 && j<10){
+                for(int k=y-2;k<y+2;k++){
+                    if(k>=0 && k<10){
+                        switch(map_matrix->getElemento(x)->getData().getElemento(y)->getData()){
+                            case 1:
+                                 resA--;
+                                break;
+                            case 2:
+                                 resA-=2;
+                                break;
+                            case 3:
+                                 resA-=2;
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                }
+            }
+        }
+    }
+    if(resA>=0){
+        cout<< "\nHas ganado!";
+    }else{
+        cout<<"\nsYou are dead";
+    }
+    int solicitud;
+    cin>>solicitud;
+    return solicitud==0;
 }
 
 int MainExe::emptySpaces() {
