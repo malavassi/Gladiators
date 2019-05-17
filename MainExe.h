@@ -95,6 +95,7 @@ private:
     int matrix_size;
     int tower_ctr;
     Server server;
+    ArduinoManager *arduinoManager;
 
     //Metodos
     void siguienteIteracion();
