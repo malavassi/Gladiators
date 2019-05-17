@@ -20,9 +20,6 @@ Poblacion::Poblacion(char id) { // Se ejecuta solo una vez, en la primera genera
     cout<<"  Ejecutando funcion fitness sobre la poblacion "<<id<<" total\n";
     fitness_local();
     cout<<"  Funcion fitness finalizada"<<endl;
-    cout<<"  Ejecutando funcion de seleccion"<<endl;
-    seleccion();
-    cout<<"  Funcion de seleccion finalizada\n";
 }
 
 Poblacion::~Poblacion() {
@@ -188,11 +185,6 @@ void Poblacion::fitness_local() {
             if(genActual->getEdad()==20){
                 genActual->addProm(nuevRes);
             }
-
-            //Tercero, calculo la nueva probabilidad de supervivencia
-            int nuevProb = gladiador->getResistencia();  // Por el momento es llanamente la resistencia
-            gladiador->setProbabilidadSupervivencia(nuevProb);  // Setteo la probabilidad
-            cout<<"    La probabilidad de supervivencia es de:"<<gladiador->getProbabilidadSupervivencia()<<endl;
         }
     }
 }

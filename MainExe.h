@@ -8,6 +8,9 @@
 #include "AStar.h"
 #include "Backtracking.h"
 #include "Server.h"
+
+
+
 #include <iostream>
 #include "Sendable.h"
 #include "ArduinoManager.h"
@@ -85,6 +88,21 @@ public:
     * */
     LinkedList<LinkedList<int>> getRutasAlgoritmos();
 
+    int emptySpaces();
+
+    bool isUnblocked(int pos_x, int pos_y);
+
+    void setProbabilidadSuperviencia();
+
+    Gladiator* mejorGladiator(Poblacion * poblacion);
+
+private:
+    //Atributos
+    Poblacion* poblacionA; /**Poblacion de A*/
+    Poblacion* poblacionB; /**Poblacion de Backtracking*/
+    LinkedList<LinkedList<int>>* map_matrix;  /** Matriz a utilizar*/
+    void print(); /**Metodo que muestra la matriz en consola*/
+public:
     LinkedList<LinkedList<int>> *getMapMatrix() const;
 
     void showRutas(LinkedList<LinkedList<int>> Rutas);
@@ -92,14 +110,9 @@ public:
     Poblacion* getPoblacionA(){return poblacionA;}
     Poblacion* getPoblacionB(){return poblacionB;}
 
-    void print();
-
 private:
     bool final(LinkedList<LinkedList<int>>);
     /**Tablero matriz del juego, 0 es torre normal, 1 es torre fuego, 2 es torre explosiva*/
-    Poblacion* poblacionA; /**Poblacion de A*/
-    Poblacion* poblacionB; /**Poblacion de Backtracking*/
-    LinkedList<LinkedList<int>>* map_matrix;
     Sendable sendable;
     AStar* aStar;    /**Buscador AStar*/
     Backtracking* backtracking;  /**Buscador Backtracking*/
