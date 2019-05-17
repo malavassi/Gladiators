@@ -92,9 +92,6 @@ private:
      * @param gladiador Gladiador a invertir atributos
      * */
     void invertir(Gladiator* gladiador);
-
-
-    Gladiator * mejorGladiador();
 };
 
 

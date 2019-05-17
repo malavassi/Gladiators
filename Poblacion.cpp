@@ -241,13 +241,9 @@ void Poblacion::reproduccion() {
     while(to_reproduce.getSize()>0){ // Se mantiene siempre que hayan elementos en la lista
 
         // Elijo dos padres (esta asegurado que sera random porque la lista se aleatoriza cada vez que corre la funcion)
-        Node<Gladiator*>* p1 = to_reproduce.pop_front();
-        Node<Gladiator*>* p2 = to_reproduce.pop_front();
-
-        if(p1 && p2) {  // Revisa que ambos existan, si no existe uno o ambos, no reproduce, esto porque algunas veces puede que no hayan parejas
-            Gladiator* padre1 = to_reproduce.pop_front()->getData();
-            Gladiator* padre2 = to_reproduce.pop_front()->getData();
-
+        Gladiator* padre1 = to_reproduce.pop_front()->getData();
+        Gladiator* padre2 = to_reproduce.pop_front()->getData();
+        if(padre1 && padre2) {  // Revisa que ambos existan, si no existe uno o ambos, no reproduce, esto porque algunas veces puede que no hayan parejas
             Gladiator *nuevo1 = new Gladiator(); // Creo un nuevo gladiador en blanco
             Gladiator* nuevo2 = new Gladiator();
             //cout << "      El bebe gladiador es: " << nuevo1->getIdUnico() << endl;
@@ -257,9 +253,10 @@ void Poblacion::reproduccion() {
             int attr_pasar2[] = {-1, -1, -1, -1}; // Inicializo en -1 para indicar que no se han asignado
             int pasado = -1; // Aqui guardo el atributo que ya asigno para que no asigne el mismo de nuevo
             while (veces != 2) {  // Termina cuando se ejecuta dos veces
-                
+                srand(time(NULL)*144+time(NULL)*0.21);
                 int attr = rand() % 4; // Numero random del 0 al 4
                 while (pasado == attr) {  // Se fija que no sea el mismo numero que el pasado, si lo es, cambia
+                    srand(time(NULL)+4);
                     attr = rand() % 4;  // Recalculo
                 }
                 attr_pasar1[attr] = padre1->getAttr(attr);
@@ -288,7 +285,7 @@ void Poblacion::reproduccion() {
             // FIN CROSSOVER
 
             // MUTACION 1
-            
+            srand(time(NULL)*12);
             int mutacion = rand() % 100 + 1; // tira los dados del destino
             int inversion = rand() % 100 + 1;
             if (mutacion <= 20) { // 10% de probabilidades de mutar
@@ -308,7 +305,7 @@ void Poblacion::reproduccion() {
             nuevos.push_front(nuevo1);  // Agrega a la lista de la nueva generacion
 
             // MUTACION 2
-            
+            srand(time(NULL)+12*time(NULL));
             mutacion = rand() % 100 + 1; // tira los dados del destino
             inversion = rand() % 100 + 1;
             if (mutacion <= 20) { // 10% de probabilidades de mutar
@@ -337,7 +334,7 @@ void Poblacion::reproduccion() {
 }
 
 void Poblacion::mutar(Gladiator *gladiador) {
-    
+    srand(time(NULL)*144+time(NULL)*0.21);
     int attrMutar = rand()%4; // Aleatoriza el atributo a mutar
     switch(attrMutar){
         case 0:
@@ -367,13 +364,16 @@ void Poblacion::mutar(Gladiator *gladiador) {
 }
 
 void Poblacion::invertir(Gladiator *gladiador) {
-    
+    srand(time(NULL)*144+time(NULL)*0.21);
     int inicio = rand()%4; // inicio a invertir
+    srand(time(NULL)*144+time(NULL)*0.21);
     while(inicio==3){  // Evitar que sea el final, porque si no no hay que invertir
         inicio = rand()%4;
     }
+    srand(time(NULL)*144+time(NULL)*0.21);
     int final = rand()%4; // final de la inversion
     while(final<=inicio) { // Evitar que el final sea el inicio o menor, si no no hay que invertir
+        srand(time(NULL)*144+time(NULL)*0.21);
         final = rand() % 4;
     }
 
