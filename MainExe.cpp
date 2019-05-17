@@ -52,7 +52,9 @@ void MainExe::iniciar() {
         tower_ctr++;
     }
     while (!terminar) {
-        showRutas(getRutasAlgoritmos());
+        LinkedList<LinkedList<int>> rutas = getRutasAlgoritmos();
+        showRutas(rutas);
+        terminar = final(rutas);
         //siguienteIteracion();
         /*Sendable sendable = Sendable();
         LinkedList<LinkedList<int>> enviar = LinkedList<LinkedList<int>>();  // Lista a enviar, 000, tipo,x,y
@@ -88,20 +90,7 @@ void MainExe::iniciar() {
             }*/
 
 
-            cout << sendable.toJson();
-            cout << "\n";
-            cout << "Introduzca un comando:\n 1: Reproducir\n0: Finalizar\n";
-
-             int seleccion;
-            cin >> seleccion;
-            switch (seleccion) {
-                case 1:
-                    siguienteIteracion();
-                    break;
-                case 0:
-                    terminar = true;
-                    break;
-            }
+            siguienteIteracion();
         }
     }
 
@@ -175,6 +164,10 @@ void MainExe::siguienteIteracion() {
     }
     checkAvailability();
     print();
+    for(int i=0;i<map_matrix->getSize();i++){
+        map_matrix->getElemento(i)->getData().randomize();
+    }
+    map_matrix->randomize();
 }
 
 void MainExe::createMap(int size) {
@@ -306,7 +299,7 @@ LinkedList<LinkedList<int>> MainExe::formatMovements(int counter) {
  int a_star_next = 0;
  int backtracking_next = 0;
  if(counter%3==0 && counter!=0){       //Si se trata de la tercer iteración relativa
-     while(a_star_current!=99 && backtracking_current!=99){
+     while(a_star_next!=99 && backtracking_next!=99){
          LinkedList<int> tmp_movements = LinkedList<int>();
 
          //Astar movements
@@ -332,6 +325,7 @@ LinkedList<LinkedList<int>> MainExe::formatMovements(int counter) {
          backtracking_current = backtracking_next;
          result.push_back(tmp_movements);
      }
+     cout<<"Yaaa";
  }
  else{
      bool rutasCalculadas = false;
@@ -446,17 +440,57 @@ LinkedList<LinkedList<int>> MainExe::getRutasAlgoritmos(){
 void MainExe::showRutas(LinkedList<LinkedList<int>> Rutas) {
     cout << "A star: ";
     for (int i = 0; i < Rutas.getHead()->getData().getSize(); i++) {
-        cout << Rutas.getHead()->getData().pop_front()->getData();
+        cout << Rutas.getElemento(0)->getData().getElemento(i)->getData();
+        cout<<"->";
     }
     cout << endl;
-    Rutas.pop_front();
+    //Rutas.pop_front();
     cout << "Backtracking: ";
-    for (int i = 0; i < Rutas.getHead()->getData().getSize(); i++) {
-        cout << Rutas.getHead()->getData().pop_front()->getData();
+    for (int i = 0; i < Rutas.getElemento(1)->getData().getSize(); i++) {
+        cout << Rutas.getElemento(1)->getData().getElemento(i)->getData();
+        cout<<"->";
     }
 }
 void MainExe::moveGladiator(int x_i, int y_i, int x_f, int y_f) {
     map_matrix->getElemento(x_i)->getData().getElemento(y_i)->setData(0);
     map_matrix->getElemento(x_f)->getData().getElemento(y_f)->setData(4);
     print();
+}
+
+bool MainExe::final(LinkedList<LinkedList<int>> rutas) {
+    int resA = poblacionA->getElegido()->getResistencia();
+    for(int i=0;i<rutas.getElemento(0)->getData().getSize();i++){
+        int casilla = rutas.getElemento(0)->getData().getElemento(i)->getData();
+        int x = casilla/10;
+        int y = casilla%10;
+        for(int j = x-2;j<x+2;j++){
+            if(j>=0 && j<10){
+                for(int k=y-2;k<y+2;k++){
+                    if(k>=0 && k<10){
+                        switch(map_matrix->getElemento(x)->getData().getElemento(y)->getData()){
+                            case 1:
+                                 resA--;
+                                break;
+                            case 2:
+                                 resA-=2;
+                                break;
+                            case 3:
+                                 resA-=2;
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                }
+            }
+        }
+    }
+    if(resA>=0){
+        cout<< "\nHas ganado!";
+    }else{
+        cout<<"\nsYou are dead";
+    }
+    int solicitud;
+    cin>>solicitud;
+    return solicitud==0;
 }
