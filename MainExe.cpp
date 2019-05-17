@@ -8,8 +8,6 @@
 #include <string>
 #include <string.h>
 #include <iostream>
-#include <QApplication>
-#include <QDebug>
 #include "mainwindow.h"
 #include "Simulacion.h"
 
@@ -69,11 +67,12 @@ void MainExe::iniciar() {
                 }
             }
         }
+        print();
         enviar.push_back(list2);
         sendable.setMovimientos(enviar);
-        cout<<sendable.toJson()<<flush;
-        server.sendToClient(sendable.toJson());
-        server.readFromClient();  // Espera a que el cliente este listo
+        //cout<<sendable.toJson()<<flush;
+       // server.sendToClient(sendable.toJson());
+        //server.readFromClient();  // Espera a que el cliente este listo
             // Envia los spawns
 
             // Envia los movimientos
@@ -81,7 +80,7 @@ void MainExe::iniciar() {
             int *arr = atributeArray(poblacionA->getElegido(), 0);
             sendable.setGlad1(arr);     //PoblacionA = A* = 0 & PoblacionB = Backtracking = 1
             sendable.setGlad2(atributeArray(poblacionB->getElegido(), 1));
-            sendable.setMovimientos(formatMovements(iteration_ctr));
+            sendable.setMovimientos(formatMovements(iteration_ctr));/*
             server.sendToClient(sendable.toJson());
             server.readFromClient();
             if(strcmp(server.buffer, "nueva")==0){
@@ -92,7 +91,7 @@ void MainExe::iniciar() {
             cout << sendable.toJson();
             cout << "\n";
             cout << "Introduzca un comando:\n 1: Reproducir\n0: Finalizar\n";
-             Manual
+
              int seleccion;
             cin >> seleccion;
             switch (seleccion) {
@@ -102,9 +101,46 @@ void MainExe::iniciar() {
                 case 0:
                     terminar = true;
                     break;
-            }*/
+            }
         }
     }
+
+void MainExe::print() {
+    cout<<" _ _ _ _ _ _ _ _ _ _\n"<<flush;
+    for (int i = 0; i < map_matrix->getSize(); i++) {
+        for (int j = 0; j < map_matrix->getElemento(i)->getData().getSize(); j++) {
+            switch (map_matrix->getElemento(i)->getData().getElemento(j)->getData()) {
+                case 0:
+                    cout<<" v"<<flush;
+                    break;
+                case 1:
+                    cout<<" n"<<flush;
+                    break;
+                case 2:
+                    cout<<" f"<<flush;
+                    break;
+                case 3:
+                    cout<<" e"<<flush;
+                    break;
+                case 4:
+                    cout<<" p"<<flush;
+                    break;
+                default:
+                    cout<<" l"<<flush;
+            }
+        }
+        if(i!=9){
+            cout<<endl;
+        }else{
+            cout<<endl;
+        }
+
+    }
+    string a;
+    cout<<"La matriz es:";
+    cin>>a;
+
+}
 
 
 void MainExe::siguienteIteracion() {
@@ -138,6 +174,7 @@ void MainExe::siguienteIteracion() {
         }
     }
     checkAvailability();
+    print();
 }
 
 void MainExe::createMap(int size) {
@@ -153,7 +190,8 @@ void MainExe::createMap(int size) {
 }
 
 void MainExe::addTower(int type, int pos_x, int pos_y) {
-    map_matrix->getElemento(pos_x)->getData().getElemento(pos_y)->setData(type);
+    map_matrix->getElemento(pos_x)->getData().getElemento(pos_y)->setData(type+1);
+    print();
 }
 
 void MainExe::rearrangeTowers(){
@@ -163,6 +201,7 @@ void MainExe::rearrangeTowers(){
         tmp=tmp->getNext();
     }
     map_matrix->randomize();
+    print();
 }
 
 void MainExe::checkAvailability() {
@@ -175,7 +214,7 @@ LinkedList<int> MainExe::moveTowers() {
     LinkedList<int> movimientos = LinkedList<int>();
     for(int i=0; i<matrix_size; i++){
         for(int j=0; j<matrix_size; j++){
-            if(map_matrix->getElemento(i)->getData().getElemento(j)->getData()!=(0 and 4)){
+            if(map_matrix->getElemento(i)->getData().getElemento(j)->getData()!=0 and map_matrix->getElemento(i)->getData().getElemento(j)->getData()!=4){
                 int dir = (int) (rand()%4);     //direccion en la cual se va a mover 0=Arriba, 1=Abajo, 2=Izquierda, 3=Derecha
                 int tower_type = map_matrix->getElemento(i)->getData().getElemento(j)->getData();
                 switch(dir){
@@ -207,6 +246,7 @@ LinkedList<int> MainExe::moveTowers() {
             }
         }
     }
+    print();
     return movimientos;
 }
 
@@ -219,9 +259,9 @@ int main(int argc, char *argv[]){
     cout<<sendable.toJson()<<endl;
     */
     //---------------------------------------------------------- NO BORRAR
-    Simulacion juego = Simulacion();
+    MainExe juego = MainExe(10);
     juego.iniciar();
-    qDebug() << QT_VERSION_STR;
+    /*qDebug() << QT_VERSION_STR;
     QApplication a(argc, argv);
     MainWindow A,B;
     for(int i = 0; i < juego.getPoblacionA()->getGeneraciones().getSize(); i++){
@@ -422,4 +462,8 @@ void MainExe::showRutas(LinkedList<LinkedList<int>> Rutas){
     for(int i = 0; i<Rutas.getHead()->getData().getSize(); i++){
         cout<<Rutas.getHead()->getData().pop_front()->getData();
     }
+void MainExe::moveGladiator(int x_i, int y_i, int x_f, int y_f) {
+    map_matrix->getElemento(x_i)->getData().getElemento(y_i)->setData(0);
+    map_matrix->getElemento(x_f)->getData().getElemento(y_f)->setData(4);
+    print();
 }
