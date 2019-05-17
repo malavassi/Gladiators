@@ -8,25 +8,27 @@
 
 Sendable::Sendable()
 {
-    for(int i=0;i<4;i++){
+    for(int i=0;i<10;i++){
         glad1[i] = 0;
     }
-    for(int i=0;i<4;i++){
+
+    for(int i=0;i<10;i++){
         glad2[i] = 0;
     }
 
 }
 
+
 string Sendable::toJson(){
-    string result = "{glad1:[ "+to_string(glad1[0])+","+to_string(glad1[1])+","+to_string(glad1[2])+","+to_string(glad1[3])+" ]";
-    result += ", glad2:[ "+to_string(glad2[0])+","+to_string(glad2[1])+","+to_string(glad2[2])+","+to_string(glad2[3])+" ]";
+    string result = "{glad1:[ "+to_string(glad1[0])+","+to_string(glad1[1])+","+to_string(glad1[2])+","+to_string(glad1[3])+","+to_string(glad1[4])+","+to_string(glad1[5])+","+to_string(glad1[6])+","+to_string(glad1[7])+","+to_string(glad1[8])+","+to_string(glad1[9])+" ]";
+    result += ", glad2:[ "+to_string(glad2[0])+","+to_string(glad2[1])+","+to_string(glad2[2])+","+to_string(glad2[3])+","+to_string(glad2[4])+","+to_string(glad2[5])+","+to_string(glad2[6])+","+to_string(glad2[7])+","+to_string(glad2[8])+","+to_string(glad2[9])+" ]";
     result += ", mensaje:"+mensaje;
     result += ", movimientos:[";
     for(int i=0;i<movimientos.getSize();i++){
         result+="[";
-        for(int j=0;j<movimientos.getHead()->getData().getSize();j++){
-            result+=to_string(movimientos.getHead()->getData().getHead()->getData());
-            if(j!=movimientos.getHead()->getData().getSize()-1){
+        for(int j=0;j<movimientos.getElemento(i)->getData().getSize();j++){
+            result+=to_string(movimientos.getElemento(i)->getData().getElemento(j)->getData());
+            if(j!=movimientos.getElemento(i)->getData().getSize()-1){
                 result+=",";
             }
         }
@@ -35,7 +37,7 @@ string Sendable::toJson(){
             result+=",";
         }
     }
-    result+="]";
+    result+="]}";
     return result;
 }
 
@@ -43,8 +45,8 @@ Sendable Sendable::toObj(const char json[]) {
     Sendable result = Sendable();
     LinkedList<LinkedList<int>> lista1 = LinkedList<LinkedList<int>>();
     LinkedList<int> lista2 = LinkedList<int>();
-    int gladA[4] = {0,0,0,0};
-    int gladB[4] = {0,0,0,0};
+    int gladA[9] = {0,0,0,0,0,0,0,0,0};
+    int gladB[9] = {0,0,0,0,0,0,0,0,0};
     bool num = true;
     bool msg = false;
     bool mov= false;
@@ -99,6 +101,7 @@ Sendable Sendable::toObj(const char json[]) {
                 lista2.push_back(atoi(num1.c_str()));
                 i++;
             }
+            i++;
             lista1.push_back(lista2);
             if(json[i]==']'){
                 break;  // HALT
@@ -125,14 +128,14 @@ Sendable Sendable::toObj(const char json[]) {
     return result;
 }
 
-void Sendable::setGlad1(int glad1[4]) {
-    for(int i=0;i<4;i++){
+void Sendable::setGlad1(int glad1[10]) {
+    for(int i=0;i<10;i++){
         this->glad1[i] = glad1[i];
     }
 }
 
-void Sendable::setGlad2(int glad2[4]) {
-    for(int i=0;i<4;i++){
+void Sendable::setGlad2(int glad2[10]) {
+    for(int i=0;i<10;i++){
         this->glad2[i] = glad2[i];
     }
 }

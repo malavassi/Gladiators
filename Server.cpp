@@ -15,7 +15,7 @@ int Server::run() {
 //Handle multiple socket connections with select and fd_set on Linux
     int opt = TRUE;
     int master_socket, addrlen, new_socket,
-            max_clients = 5, activity, i, valread, sd;
+            max_clients = 1, activity, i, valread, sd;
     int max_sd;
     struct sockaddr_in address;
     int condicion;
@@ -143,6 +143,9 @@ int Server::run() {
                 else {
                     //set the string terminating NULL byte on the end
                     //of the data read
+                    client_socket = sd;
+                    kk=false;
+                    break;
 
                 }
             }
@@ -151,9 +154,8 @@ int Server::run() {
 }
 
 void Server::sendToClient(string message) {
-    char *buffer = new char[message.length()+1];
-    strcpy(buffer,message.c_str());
-    int valread= read(client_socket, buffer, 1024);
+    const char *a = message.c_str();
+    send(client_socket, a, strlen(message.c_str()), 0);
 }
 
 int Server::readFromClient() {
