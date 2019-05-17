@@ -53,7 +53,7 @@ void MainExe::iniciar() {
     }
     while (!terminar) {
         showRutas(getRutasAlgoritmos());
-        siguienteIteracion();
+        //siguienteIteracion();
         /*Sendable sendable = Sendable();
         LinkedList<LinkedList<int>> enviar = LinkedList<LinkedList<int>>();  // Lista a enviar, 000, tipo,x,y
         LinkedList<int> list2 = LinkedList<int>();
