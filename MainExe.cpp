@@ -71,11 +71,11 @@ void MainExe::iniciar() {
             if(strcmp(server.buffer, "nueva")==0){
                 siguienteIteracion();
             }
-            /*
+
             cout << sendable.toJson();
             cout << "\n";
             cout << "Introduzca un comando:\n 1: Reproducir\n0: Finalizar\n";
-             Manual
+
              int seleccion;
             cin >> seleccion;
             switch (seleccion) {
@@ -85,7 +85,7 @@ void MainExe::iniciar() {
                 case 0:
                     terminar = true;
                     break;
-            }*/
+            }
         }
     }
 
@@ -195,7 +195,7 @@ LinkedList<int> MainExe::moveTowers() {
 
 int main(){
     MainExe* mainExe = new MainExe(10);
-    //mainExe->iniciar();
+    mainExe->iniciar();
 
     Sendable sendable = Sendable();
     sendable.setMovimientos(mainExe->formatMovements(0));
