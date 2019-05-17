@@ -251,7 +251,7 @@ void Poblacion::reproduccion() {
             Gladiator *padre2 = to_reproduce.pop_front()->getData();
 
             Gladiator *nuevo1 = new Gladiator(); // Creo un nuevo gladiador en blanco
-            Gladiator* nuevo2 = new Gladiator();
+            Gladiator *nuevo2 = new Gladiator();
             //cout << "      El bebe gladiador es: " << nuevo1->getIdUnico() << endl;
             // Genero dos numeros random que van a ser los atributos que el primer padre va a pasar al hijo 1
             int veces = 0;
@@ -259,7 +259,7 @@ void Poblacion::reproduccion() {
             int attr_pasar2[] = {-1, -1, -1, -1}; // Inicializo en -1 para indicar que no se han asignado
             int pasado = -1; // Aqui guardo el atributo que ya asigno para que no asigne el mismo de nuevo
             while (veces != 2) {  // Termina cuando se ejecuta dos veces
-                
+
                 int attr = rand() % 4; // Numero random del 0 al 4
                 while (pasado == attr) {  // Se fija que no sea el mismo numero que el pasado, si lo es, cambia
                     attr = rand() % 4;  // Recalculo
@@ -273,61 +273,64 @@ void Poblacion::reproduccion() {
                     }
                 }
 
-            // Setteo los atributos al bebe
-            nuevo1->setAtributesI(attr_pasar1); // Setteo los atributos iniciales
-            nuevo2->setAtributesI(attr_pasar2);
-            nuevo1->setPadre1(padre1);
-            nuevo1->setPadre2(padre2);
-            nuevo2->setPadre1(padre1);
-            nuevo2->setPadre2(padre2);
+                // Setteo los atributos al bebe
+                nuevo1->setAtributesI(attr_pasar1); // Setteo los atributos iniciales
+                nuevo2->setAtributesI(attr_pasar2);
+                nuevo1->setPadre1(padre1);
+                nuevo1->setPadre2(padre2);
+                nuevo2->setPadre1(padre1);
+                nuevo2->setPadre2(padre2);
 
 
-            // FIN CROSSOVER
+                // FIN CROSSOVER
 
-            // MUTACION 1
-            
-            int mutacion = rand() % 100 + 1; // tira los dados del destino
-            int inversion = rand() % 100 + 1;
-            if (mutacion <= 20) { // 10% de probabilidades de mutar
-                cout << "       El bebe tuvo suerte, sucedera mutacion\n";
-                mutar(nuevo1);  // Muto
-                cout << "      Fin de mutacion\n";
-            }
-            if (inversion <= 10) {  // 5% de probabilidades de inversion
-                cout << "      El bebe tuvo suerte, sucedera inversion\n";
-                invertir(nuevo1); // Invierto
-                cout << "      Fin de inversion\n";
-            }
+                // MUTACION 1
+
+                int mutacion = rand() % 100 + 1; // tira los dados del destino
+                int inversion = rand() % 100 + 1;
+                if (mutacion <= 20) { // 10% de probabilidades de mutar
+                    cout << "       El bebe tuvo suerte, sucedera mutacion\n";
+                    mutar(nuevo1);  // Muto
+                    cout << "      Fin de mutacion\n";
+                }
+                if (inversion <= 10) {  // 5% de probabilidades de inversion
+                    cout << "      El bebe tuvo suerte, sucedera inversion\n";
+                    invertir(nuevo1); // Invierto
+                    cout << "      Fin de inversion\n";
+                }
 /*            cout << "        Atributos finales del bebe:" << " IQ:" << nuevo->getIQemocional() << " FS:"
                  << nuevo1->getFuerzaTSuperior() <<
                  " FI:" << nuevo1->getFuerzaTInferior() << " CF:" << nuevo->getCondicionFisica() << endl;*/
 
                 nuevos.push_front(nuevo1);  // Agrega a la lista de la nueva generacion
 
-            // MUTACION 2
-            
-            mutacion = rand() % 100 + 1; // tira los dados del destino
-            inversion = rand() % 100 + 1;
-            if (mutacion <= 20) { // 10% de probabilidades de mutar
-                cout << "       El bebe tuvo suerte, sucedera mutacion\n";
-                mutar(nuevo2);  // Muto
-                cout << "      Fin de mutacion\n";
-            }
+                // MUTACION 2
 
-        }  // Repite
+                mutacion = rand() % 100 + 1; // tira los dados del destino
+                inversion = rand() % 100 + 1;
+                if (mutacion <= 20) { // 10% de probabilidades de mutar
+                    cout << "       El bebe tuvo suerte, sucedera mutacion\n";
+                    mutar(nuevo2);  // Muto
+                    cout << "      Fin de mutacion\n";
+                }
 
-        generaciones.push_front(new Generacion(nuevos,
-                                               generacion_c));  // Crea la nueva generacion y la agrega a la lista de generaciones
-        cout << "Nacio una bella nueva generacion de: " << generaciones.front()->getGladiadores().getSize()
-             << " bebes!\n";
-        generacion_c++;
+            }  // Repite
 
-    generaciones.push_back(new Generacion(nuevos, generacion_c));  // Crea la nueva generacion y la agrega a la lista de generaciones
-    cout<<"Nacio una bella nueva generacion de: "<<generaciones.front()->getGladiadores().getSize()<<" bebes!\n";
-    generacion_c++;
+            generaciones.push_front(new Generacion(nuevos,
+                                                   generacion_c));  // Crea la nueva generacion y la agrega a la lista de generaciones
+            cout << "Nacio una bella nueva generacion de: " << generaciones.front()->getGladiadores().getSize()
+                 << " bebes!\n";
+            generacion_c++;
 
+            generaciones.push_back(new Generacion(nuevos,
+                                                  generacion_c));  // Crea la nueva generacion y la agrega a la lista de generaciones
+            cout << "Nacio una bella nueva generacion de: " << generaciones.front()->getGladiadores().getSize()
+                 << " bebes!\n";
+            generacion_c++;
+
+        }
+    }
 }
-
 void Poblacion::mutar(Gladiator *gladiador) {
     
     int attrMutar = rand()%4; // Aleatoriza el atributo a mutar
