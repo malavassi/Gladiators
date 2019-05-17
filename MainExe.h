@@ -83,7 +83,8 @@ private:
     //Atributos
     Poblacion* poblacionA; /**Poblacion de A*/
     Poblacion* poblacionB; /**Poblacion de Backtracking*/
-    LinkedList<LinkedList<int>>* map_matrix;
+    LinkedList<LinkedList<int>>* map_matrix;  /** Matriz a utilizar*/
+    void print(); /**Metodo que muestra la matriz en consola*/
 public:
     LinkedList<LinkedList<int>> *getMapMatrix() const;
 

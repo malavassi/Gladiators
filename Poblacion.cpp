@@ -245,8 +245,8 @@ void Poblacion::reproduccion() {
         Node<Gladiator*>* p2 = to_reproduce.pop_front();
 
         if(p1 && p2) {  // Revisa que ambos existan, si no existe uno o ambos, no reproduce, esto porque algunas veces puede que no hayan parejas
-            Gladiator* padre1 = to_reproduce.pop_front()->getData();
-            Gladiator* padre2 = to_reproduce.pop_front()->getData();
+            Gladiator* padre1 = p1->getData();
+            Gladiator* padre2 = p2->getData();
 
             Gladiator *nuevo1 = new Gladiator(); // Creo un nuevo gladiador en blanco
             Gladiator* nuevo2 = new Gladiator();

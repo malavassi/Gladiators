@@ -5,7 +5,7 @@
 #ifndef GLADIATORS_ARDUINOMANAGER_H
 #define GLADIATORS_ARDUINOMANAGER_H
 
-#include "SerialStream.h"
+//#include "SerialStream.h"
 #include <iostream>
 #include <unistd.h>
 #include <cstdlib>
@@ -24,8 +24,9 @@ class ArduinoManager {
 
 
 public:
+    /*
     struct termios tty;
-    struct termios tty_old;
+    struct termios tty_old;*/
     int USB = open("/dev/ttyACM0", O_RDWR| O_NOCTTY);
     int n = 0,
             spot = 0;
