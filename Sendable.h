@@ -43,7 +43,7 @@ public:
     // Getters & Setters
     LinkedList<LinkedList<int>> getMovimientos(){return movimientos;}
     string getMensaje(){return mensaje;}
-    void setMovimientos(LinkedList<LinkedList<int>> lista){movimientos=lista;}
+        void setMovimientos(LinkedList<LinkedList<int>> lista){movimientos=lista;}
     void setMensaje(string msj){mensaje=msj;}
     void setGlad1(int glad1[10]);
     void setGlad2(int glad2[10]);

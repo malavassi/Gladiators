@@ -34,10 +34,12 @@ MainExe::~MainExe() {
 void MainExe::iniciar() {
     bool terminar = false;
     Sendable paquete = Sendable();
-     server = Server();
-     server.run();  // Inicializa el server
+    server = Server();
+    server.run();
+     //server.run();  // Inicializa el server
 
     while (terminar == false) {
+
         Sendable sendable = Sendable();
         LinkedList<LinkedList<int>> enviar = LinkedList<LinkedList<int>>();  // Lista a enviar, 000, tipo,x,y
         LinkedList<int> list2 = LinkedList<int>();
@@ -53,12 +55,9 @@ void MainExe::iniciar() {
         }
         enviar.push_back(list2);
         sendable.setMovimientos(enviar);
+        cout<<sendable.toJson()<<flush;
         server.sendToClient(sendable.toJson());
         server.readFromClient();  // Espera a que el cliente este listo
-        while (strcmp(server.buffer, "Listo") != 0) {
-
-            //}
-
             // Envia los spawns
 
             // Envia los movimientos
@@ -67,23 +66,28 @@ void MainExe::iniciar() {
             sendable.setGlad1(arr);     //PoblacionA = A* = 0 & PoblacionB = Backtracking = 1
             sendable.setGlad2(atributeArray(poblacionB->getElegido(), 1));
             sendable.setMovimientos(formatMovements(iteration_ctr));
+            server.sendToClient(sendable.toJson());
+            server.readFromClient();
+            if(strcmp(server.buffer, "nueva")==0){
+                siguienteIteracion();
+            }
+            /*
             cout << sendable.toJson();
             cout << "\n";
             cout << "Introduzca un comando:\n 1: Reproducir\n0: Finalizar\n";
-            int seleccion;
+             Manual
+             int seleccion;
             cin >> seleccion;
             switch (seleccion) {
                 case 1:
-
                     siguienteIteracion();
                     break;
                 case 0:
                     terminar = true;
                     break;
-            }
+            }*/
         }
     }
-}
 
 
 void MainExe::siguienteIteracion() {
