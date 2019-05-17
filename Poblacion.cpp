@@ -241,9 +241,13 @@ void Poblacion::reproduccion() {
     while(to_reproduce.getSize()>0){ // Se mantiene siempre que hayan elementos en la lista
 
         // Elijo dos padres (esta asegurado que sera random porque la lista se aleatoriza cada vez que corre la funcion)
-        Gladiator* padre1 = to_reproduce.pop_front();
-        Gladiator* padre2 = to_reproduce.pop_front();
-        if(padre1 && padre2) {  // Revisa que ambos existan, si no existe uno o ambos, no reproduce, esto porque algunas veces puede que no hayan parejas
+        Node<Gladiator*>* p1 = to_reproduce.pop_front();
+        Node<Gladiator*>* p2 = to_reproduce.pop_front();
+
+        if(p1 && p2) {  // Revisa que ambos existan, si no existe uno o ambos, no reproduce, esto porque algunas veces puede que no hayan parejas
+            Gladiator* padre1 = to_reproduce.pop_front()->getData();
+            Gladiator* padre2 = to_reproduce.pop_front()->getData();
+
             Gladiator *nuevo1 = new Gladiator(); // Creo un nuevo gladiador en blanco
             Gladiator* nuevo2 = new Gladiator();
             //cout << "      El bebe gladiador es: " << nuevo1->getIdUnico() << endl;
@@ -428,7 +432,7 @@ Gladiator *Poblacion::bestG(LinkedList<Gladiator*>* lista) {
                 }// Si no pues no hace nada
             }
         }
-        return lista->pop_element(best_pos);
+        return lista->pop_element(best_pos)->getData();
 }
 
 const LinkedList<Generacion *> &Poblacion::getGeneraciones() const {

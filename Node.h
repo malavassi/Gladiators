@@ -1,11 +1,10 @@
 //
-// Created by fabian152195 on 29/04/19.
+// Created by cvaz on 22/04/19.
 //
 
-#ifndef GLADIATORS_NODE_H
-#define GLADIATORS_NODE_H
+#ifndef FABRICAVIRTUAL_NODE_H
+#define FABRICAVIRTUAL_NODE_H
 
-//using namespace std;
 using namespace std;
 template <typename T>
 
@@ -47,4 +46,5 @@ private:
     Node<T>* next;  /** Puntero al siguiente nodo */
 };
 
-#endif //GLADIATORS_NODE_H
+
+#endif //FABRICAVIRTUAL_NODE_H

@@ -1,5 +1,5 @@
 //
-// Created by fabian152195 on 29/04/19.
+// Created by cvaz on 22/04/19.
 //
 
 #ifndef GLADIATORS_LINKEDLIST_H
@@ -17,6 +17,7 @@ class LinkedList {
 public:
     LinkedList(){
         head = nullptr;
+        tail = nullptr;
         size = 0;
     }
 
@@ -73,7 +74,7 @@ public:
         size++;
     }
 
-    T pop_front(){
+    Node<T>* pop_front(){
         Node<T>* returnin = head;
         if(head==tail){
             head=nullptr;
@@ -83,11 +84,10 @@ public:
         }
         size--;
         if(returnin){
-        return returnin->getData();
+        return returnin;
         }else{
-            return NULL;
+            return nullptr;
         }
-
     }
 
     void randomize(){
@@ -96,11 +96,11 @@ public:
             while(pos<0){
                 pos = (int) (rand()%size);
             }
-            push_back(pop_element(pos));
+            push_back(pop_element(pos)->getData());
         }
     }
 
-    T pop_element(int pos){
+    Node<T>* pop_element(int pos){
         Node<T>* returnin = head;
         Node<T>* tmp = head;
         if(pos==0){
@@ -117,7 +117,7 @@ public:
             }
         }
         size--;
-        return returnin->getData();
+        return returnin;
     }
 
     Node<T>* getElemento(int pos) const {
@@ -129,6 +129,13 @@ public:
         return tmp;
     }
 
+    void clearList(){
+        int c = 0;
+        while(c < this->getSize()){
+            this->pop_front();
+        }
+    }
+
     T front() const
     {
         return head->getData();
@@ -136,32 +143,32 @@ public:
 
     int getSize() const
     {
-        return size;
+    return size;
     }
 
     void setSize(int value)
     {
-        size = value;
+    size = value;
     }
 
     Node<T>* getHead() const
     {
-        return head;
+    return head;
     }
 
     void setHead(Node<T> *value)
     {
-        head = value;
+    head = value;
     }
 
     Node<T>* getTail() const
     {
-        return tail;
+    return tail;
     }
 
     void setTail(Node<T> *value)
     {
-        tail = value;
+    tail = value;
     }
 
 private:
@@ -169,6 +176,5 @@ private:
     Node<T>* tail;
     int size;
 };
-
 
 #endif //GLADIATORS_LINKEDLIST_H
