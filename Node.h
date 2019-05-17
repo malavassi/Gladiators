@@ -44,6 +44,7 @@ public:
 private:
     T data;  /** Dato del nodo*/
     Node<T>* next;  /** Puntero al siguiente nodo */
+
 };
 
 

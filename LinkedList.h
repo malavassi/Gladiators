@@ -93,7 +93,7 @@ public:
     void randomize(){
         for(int i=0; i<size; i++) {
             int pos = (int) (rand()%size);
-            while(pos<0){
+            while(pos<0 && pos>=size){
                 pos = (int) (rand()%size);
             }
             push_back(pop_element(pos)->getData());
@@ -122,7 +122,8 @@ public:
 
     Node<T>* getElemento(int pos) const {
         Node<T>* tmp = head;
-        while(pos>0){
+
+        while(pos>0 && tmp!= nullptr){
             tmp=tmp->getNext();
             pos--;
         }

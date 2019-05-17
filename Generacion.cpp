@@ -18,10 +18,10 @@ Generacion::Generacion(int numero) {  // Solo ejecutar la primera generacion
 
     if(numero == 0){  // Si es la primera generacion
         while (gladiadores.getSize() < numero_gladiadores) {
-            int condicionFisicaRandom = (rand() % 20) + 1;  // Calcula valores random de attrs
-            int fuerzaTInferiorRandom = (rand() % 20) + 1;
-            int fuerzaTSuperiorRandom = (rand() % 20) + 1;
-            int IQEmocional = (rand() % 20) + 1;
+            int condicionFisicaRandom = (rand() % 4) + 1;  // Calcula valores random de attrs
+            int fuerzaTInferiorRandom = (rand() % 4) + 1;
+            int fuerzaTSuperiorRandom = (rand() % 4) + 1;
+            int IQEmocional = (rand() % 4) + 1;
 
             Gladiator* gladiador = new Gladiator(condicionFisicaRandom, fuerzaTInferiorRandom, fuerzaTSuperiorRandom,
                     IQEmocional);  // Crea el gladiador
