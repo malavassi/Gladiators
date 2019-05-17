@@ -6,9 +6,14 @@
 #include <stdio.h>
 #include "Sendable.h"
 #include <string>
+#include <string.h>
+#include <iostream>
+#include <QApplication>
+#include <QDebug>
+#include "mainwindow.h"
+#include "Simulacion.h"
 
 MainExe::MainExe(int game_size) {  // Ya creo la oleada inicial
-    arduinoManager = new ArduinoManager();
     cout<<"Creando oleadas iniciales\n";
     this->poblacionA = new Poblacion('A');
     this->poblacionB = new Poblacion('B');
@@ -17,11 +22,8 @@ MainExe::MainExe(int game_size) {  // Ya creo la oleada inicial
         poblacionA->getElegido()->getProbabilidadSupervivencia()<<"% y gladiador "<<
         poblacionB->getElegido()->getIdUnico()<<" de la poblacion B con "<<poblacionB->getElegido()->getProbabilidadSupervivencia()
         <<"% que Noguera bendiga su sacrificio\n";
-    //Arma los algoritmos de busqueda con sus parametros necesarios
-    arduinoManager->inicializar();
-    arduinoManager->enviarEstadoGladiador(poblacionA->getElegido(),1);
-    arduinoManager->enviarEstadoGladiador(poblacionB->getElegido(),2);
 
+    //Arma los algoritmos de busqueda con sus parametros necesarios
     createMap(game_size);
     aStar = new AStar(game_size, game_size-1, game_size-1);
     aStar->setMapMatrix(map_matrix);
@@ -30,7 +32,6 @@ MainExe::MainExe(int game_size) {  // Ya creo la oleada inicial
     iteration_ctr=0;
     matrix_size=game_size;
     tower_ctr=0;
-
 }
 
 MainExe::~MainExe() {
@@ -38,7 +39,6 @@ MainExe::~MainExe() {
 
 void MainExe::iniciar() {
     bool terminar = false;
-
     Sendable paquete = Sendable();
     server = Server();
     server.run();
@@ -113,9 +113,6 @@ void MainExe::siguienteIteracion() {
     poblacionA->getElegido()->getProbabilidadSupervivencia()<<"% y gladiador "<<
         poblacionB->getElegido()->getIdUnico()<<" de la poblacion B con "<<poblacionB->getElegido()->getProbabilidadSupervivencia()
         <<"% que Noguera bendiga su sacrificio\n";
-    arduinoManager->enviarEstadoGladiador(poblacionA->getElegido(),1);
-    arduinoManager->enviarEstadoGladiador(poblacionB->getElegido(),2);
-
     if(tower_ctr<(matrix_size*matrix_size-matrix_size)){
         for(int i=0; i<3; i++){
             int type = (int) (rand()%3);
@@ -202,13 +199,32 @@ LinkedList<int> MainExe::moveTowers() {
     return movimientos;
 }
 
-int main(){
-    MainExe* mainExe = new MainExe(10);
+int main(int argc, char *argv[]){
+   /* MainExe* mainExe = new MainExe(10);
     //mainExe->iniciar();
 
     Sendable sendable = Sendable();
     sendable.setMovimientos(mainExe->formatMovements(0));
     cout<<sendable.toJson()<<endl;
+    */
+    //---------------------------------------------------------- NO BORRAR
+    Simulacion juego = Simulacion();
+    juego.iniciar();
+    qDebug() << QT_VERSION_STR;
+    QApplication a(argc, argv);
+    MainWindow A,B;
+    for(int i = 0; i < juego.getPoblacionA()->getGeneraciones().getSize(); i++){
+        A.addPoint(i,juego.getPoblacionA()->getGeneraciones().getElemento(i)->getData()->getPromedioSupervivencia());
+        cout << "Promedio de supervivencia de "<< i <<"A: " << juego.getPoblacionA()->getGeneraciones().getElemento(i)->getData()->getPromedioSupervivencia() << endl;
+    }
+    for(int i = 0; i < juego.getPoblacionB()->getGeneraciones().getSize(); i++){
+        B.addPoint(i,juego.getPoblacionB()->getGeneraciones().getElemento(i)->getData()->getPromedioSupervivencia());
+        cout << "Promedio de supervivencia de "<< i <<"B: " << juego.getPoblacionB()->getGeneraciones().getElemento(i)->getData()->getPromedioSupervivencia() << endl;
+    }
+    A.show();
+    B.show();
+    return a.exec();
+    //---------------------------------------------------------- NO BORRAR
 }
 
 int *MainExe::atributeArray(Gladiator *glad, int poblacion){
