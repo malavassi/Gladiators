@@ -89,6 +89,8 @@ Gladiator::Gladiator() {
     padre1 = nullptr;
     padre2 = nullptr;
     for(int i=0;i<4;i++){
+        arr_atributos_f[i]=0;
+        arr_atributos_i[i]=0;
         arr_atributos_mod_mutacion[i] = 0;
         arr_atributos_mod_inversion[i] = 0;
     }

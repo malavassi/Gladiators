@@ -1,5 +1,6 @@
 //
-// Created by cvaz on 28/04/19.
+// Code based on https://www.geeksforgeeks.org/a-search-algorithm/
+// Adapted by cvaz on 28/04/19.
 //
 
 #include <iostream>
@@ -68,6 +69,12 @@ LinkedList<Quadrant*> AStar::generatePath(LinkedList<LinkedList<Quadrant*>>* sea
 }
 
 bool AStar::aStarSearch(int ref_x, int ref_y) {
+    if(ref_x == goal_x && ref_y == goal_y){
+        LinkedList<int> endPath;
+        endPath.push_back(goal_x*10 + goal_y);
+        generated_path = endPath;
+        return true;
+    }
     bool reachedDest = false;
     //Crea una matriz de Quadrant para la búsqueda del camino
     LinkedList<LinkedList<Quadrant*>>* search_matrix = new LinkedList<LinkedList<Quadrant*>>();
@@ -421,5 +428,9 @@ LinkedList<LinkedList<int>>* &AStar::getMapMatrix(){
 
 void AStar::setMapMatrix(LinkedList<LinkedList<int>> *mapMatrix) {
     map_matrix = mapMatrix;
+}
+
+const LinkedList<int> &AStar::getGeneratedPath() const {
+    return generated_path;
 }
 

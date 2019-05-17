@@ -116,6 +116,13 @@ void Poblacion::reproduccion() {
     while(to_reproduce.getSize()>0){ // Se mantiene siempre que hayan elementos en la lista
 
         // Elijo dos padres (esta asegurado que sera random porque la lista se aleatoriza cada vez que corre la funcion)
+        Node<Gladiator*>* p1 = to_reproduce.pop_front();
+        Node<Gladiator*>* p2 = to_reproduce.pop_front();
+
+        if(p1 && p2) {  // Revisa que ambos existan, si no existe uno o ambos, no reproduce, esto porque algunas veces puede que no hayan parejas
+            Gladiator* padre1 = to_reproduce.pop_front()->getData();
+            Gladiator* padre2 = to_reproduce.pop_front()->getData();
+
         Node<Gladiator*> *nodoPadre1 = to_reproduce.pop_front();
         Node<Gladiator*> *nodoPadre2 = to_reproduce.pop_front();
 
