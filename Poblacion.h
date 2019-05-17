@@ -22,6 +22,8 @@ public:
     Poblacion(char id);
     ~Poblacion();
 
+    void generarTXT_top10(LinkedList<Gladiator*> lista);
+    void generarTXT_gladiadortop(Gladiator gladiador);
     /**
      * Selecciona a los diez mejores gladiadores de toda la poblacion para reproducirlos
      * @author Elorim
@@ -44,7 +46,12 @@ public:
 private:
     //Atributos
     int generacion_c = 0; /**Contador con el numero de generaciones*/
-    LinkedList<Generacion*> generaciones; /** Generaciones de esta poblacion*/
+    LinkedList<Generacion*> generaciones;
+public:
+    const LinkedList<Generacion *> &getGeneraciones() const;
+
+private:
+    /** Generaciones de esta poblacion*/
     Gladiator* elegido;  /**Gladiador elegido para la siguiente iteracion*/
     char id; /**Identificador de la poblacion, A o B*/
     LinkedList<Gladiator*> reproducibles;
