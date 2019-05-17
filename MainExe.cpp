@@ -66,10 +66,10 @@ void MainExe::iniciar() {
                     list2.push_back(elemento * 100 + i * 10 + j);
                 }
             }
-        }
+        }*/
         print();
-        enviar.push_back(list2);
-        sendable.setMovimientos(enviar);
+       // enviar.push_back(list2);
+       // sendable.setMovimientos(enviar);
         //cout<<sendable.toJson()<<flush;
        // server.sendToClient(sendable.toJson());
         //server.readFromClient();  // Espera a que el cliente este listo
@@ -81,13 +81,13 @@ void MainExe::iniciar() {
             sendable.setGlad1(arr);     //PoblacionA = A* = 0 & PoblacionB = Backtracking = 1
             sendable.setGlad2(atributeArray(poblacionB->getElegido(), 1));
             sendable.setMovimientos(formatMovements(iteration_ctr));/*
-            server.sendToClient(sendable.toJson());
+            /*server.sendToClient(sendable.toJson());
             server.readFromClient();
             if(strcmp(server.buffer, "nueva")==0){
                 siguienteIteracion();
             }*/
 
-            /*
+
             cout << sendable.toJson();
             cout << "\n";
             cout << "Introduzca un comando:\n 1: Reproducir\n0: Finalizar\n";
@@ -251,17 +251,19 @@ LinkedList<int> MainExe::moveTowers() {
 }
 
 int main(int argc, char *argv[]){
-   /* MainExe* mainExe = new MainExe(10);
-    //mainExe->iniciar();
+    MainExe* mainExe = new MainExe(10);
+    mainExe->iniciar();
 
     Sendable sendable = Sendable();
     sendable.setMovimientos(mainExe->formatMovements(0));
     cout<<sendable.toJson()<<endl;
-    */
+
     //---------------------------------------------------------- NO BORRAR
-    MainExe juego = MainExe(10);
-    juego.iniciar();
-    /*qDebug() << QT_VERSION_STR;
+   // MainExe juego = MainExe(10);
+   // juego.iniciar();
+
+   /* comento
+    qDebug() << QT_VERSION_STR;
     QApplication a(argc, argv);
     MainWindow A,B;
     for(int i = 0; i < juego.getPoblacionA()->getGeneraciones().getSize(); i++){
@@ -274,16 +276,11 @@ int main(int argc, char *argv[]){
     }
     A.show();
     B.show();
+    */
     //return a.exec();
     //---------------------------------------------------------- NO BORRAR
 
-    //              ______________________
-    //_____________/Flujo logico del juego
-    MainExe* mainExe = new MainExe(10);
-    mainExe->iniciar();
-    while(true){
 
-    }
 
 }
 
@@ -383,11 +380,6 @@ LinkedList<LinkedList<int>> MainExe::formatMovements(int counter) {
  return result;
 }
 
-void MainExe::moveGladiator(int x_i, int y_i, int x_f, int y_f) {
- map_matrix->getElemento(x_i)->getData().getElemento(y_i)->setData(0);
- map_matrix->getElemento(x_f)->getData().getElemento(y_f)->setData(4);
-}
-
 LinkedList<LinkedList<int>> *MainExe::getMapMatrix() const {
  return map_matrix;
 }
@@ -451,17 +443,18 @@ LinkedList<LinkedList<int>> MainExe::getRutasAlgoritmos(){
     }
 }
 
-void MainExe::showRutas(LinkedList<LinkedList<int>> Rutas){
-    cout<<"A star: ";
-    for(int i = 0; i<Rutas.getHead()->getData().getSize(); i++){
-        cout<<Rutas.getHead()->getData().pop_front()->getData();
+void MainExe::showRutas(LinkedList<LinkedList<int>> Rutas) {
+    cout << "A star: ";
+    for (int i = 0; i < Rutas.getHead()->getData().getSize(); i++) {
+        cout << Rutas.getHead()->getData().pop_front()->getData();
     }
-    cout<<endl;
+    cout << endl;
     Rutas.pop_front();
-    cout<<"Backtracking: ";
-    for(int i = 0; i<Rutas.getHead()->getData().getSize(); i++){
-        cout<<Rutas.getHead()->getData().pop_front()->getData();
+    cout << "Backtracking: ";
+    for (int i = 0; i < Rutas.getHead()->getData().getSize(); i++) {
+        cout << Rutas.getHead()->getData().pop_front()->getData();
     }
+}
 void MainExe::moveGladiator(int x_i, int y_i, int x_f, int y_f) {
     map_matrix->getElemento(x_i)->getData().getElemento(y_i)->setData(0);
     map_matrix->getElemento(x_f)->getData().getElemento(y_f)->setData(4);

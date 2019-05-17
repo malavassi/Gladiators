@@ -9,6 +9,7 @@
 #include "Backtracking.h"
 #include "Server.h"
 #include <iostream>
+#include "Sendable.h"
 #include "ArduinoManager.h"
 /**
  * Clase encargada del flow del programa
@@ -88,11 +89,17 @@ public:
 
     void showRutas(LinkedList<LinkedList<int>> Rutas);
 
+    Poblacion* getPoblacionA(){return poblacionA;}
+    Poblacion* getPoblacionB(){return poblacionB;}
+
+    void print();
+
 private:
     /**Tablero matriz del juego, 0 es torre normal, 1 es torre fuego, 2 es torre explosiva*/
     Poblacion* poblacionA; /**Poblacion de A*/
     Poblacion* poblacionB; /**Poblacion de Backtracking*/
     LinkedList<LinkedList<int>>* map_matrix;
+    Sendable sendable;
     AStar* aStar;    /**Buscador AStar*/
     Backtracking* backtracking;  /**Buscador Backtracking*/
     int iteration_ctr;
@@ -108,3 +115,4 @@ private:
 
 
 #endif //INC_2_SIMULACION_H
+
