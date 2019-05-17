@@ -78,17 +78,21 @@ public:
     * @author Cvaztian
     * */
     void moveGladiator(int x_i, int y_i, int x_f, int y_f);
+    /**
+    * Obtiene la lista de todos los movimientos secuenciales de los gladiadores segun su algoritmo y el tipo de iteracion
+    * @author Cvaztian
+    * */
+    LinkedList<LinkedList<int>> getRutasAlgoritmos();
 
-private:
-    //Atributos
-    Poblacion* poblacionA; /**Poblacion de A*/
-    Poblacion* poblacionB; /**Poblacion de Backtracking*/
-    LinkedList<LinkedList<int>>* map_matrix;
-public:
     LinkedList<LinkedList<int>> *getMapMatrix() const;
+
+    void showRutas(LinkedList<LinkedList<int>> Rutas);
 
 private:
     /**Tablero matriz del juego, 0 es torre normal, 1 es torre fuego, 2 es torre explosiva*/
+    Poblacion* poblacionA; /**Poblacion de A*/
+    Poblacion* poblacionB; /**Poblacion de Backtracking*/
+    LinkedList<LinkedList<int>>* map_matrix;
     AStar* aStar;    /**Buscador AStar*/
     Backtracking* backtracking;  /**Buscador Backtracking*/
     int iteration_ctr;
