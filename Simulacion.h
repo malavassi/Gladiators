@@ -28,6 +28,12 @@ public:
      * @author elorim
      * */
     void iniciar();
+
+    /**
+      Ejecuta la siguiente iteracion.
+      @author elorim
+*/
+    void siguienteIteracion();
 private:
     //Atributos
     Poblacion* poblacionA;
@@ -41,7 +47,6 @@ private:
     Poblacion* poblacionB; /**Poblacion de Backtracking*/
 
     //Metodos
-    void siguienteIteracion();
 
 };
 

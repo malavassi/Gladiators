@@ -30,6 +30,8 @@ Simulacion::Simulacion() {  // Ya creo la oleada inicial
     cout<<"Creando oleadas iniciales\n";
     this->poblacionA = new Poblacion('A');
     this->poblacionB = new Poblacion('B');
+    poblacionA->seleccion();
+    poblacionB->seleccion();
     cout<<"Oleadas iniciales generadas\n";
     cout<<"Los elegidos son: gladiador "<<poblacionA->getElegido()->getIdUnico()<<" de la poblacion A con "<<
     poblacionA->getElegido()->getProbabilidadSupervivencia()<<"% y gladiador "<<

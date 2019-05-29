@@ -98,7 +98,7 @@ TEST_F(PruebaGeneracion, modificarEdad){
 TEST_F(PruebaPoblacion, parametrosIniciales){
     EXPECT_FALSE(poblacion->getGeneraciones().getHead()==nullptr);
     Generacion* actual = poblacion->getGeneraciones().getHead()->getData();
-    EXPECT_EQ(20, actual->getEdad());
+    EXPECT_EQ(20, actual->getGladiadores().getHead()->getData()->getEdad());
 }
 
 TEST_F(PruebaPoblacion, fitness){
@@ -116,6 +116,20 @@ TEST_F(PruebaPoblacion, reproducion){
     poblacion->reproduccion();
     EXPECT_EQ(2, poblacion->getGeneraciones().getSize());
     EXPECT_EQ(20, poblacion->getGeneraciones().getElemento(0)->getData()->getGladiadores().getSize());
+}
+
+// Pruebas simulacion
+TEST_F(PruebaSimulacion, primerosElegidos){
+    EXPECT_FALSE(nullptr==simulacion->getPoblacionA()->getElegido());
+    EXPECT_FALSE(nullptr==simulacion->getPoblacionB()->getElegido());
+}
+
+TEST_F(PruebaSimulacion, siguienteIteracion){
+    Gladiator* glad1 = simulacion->getPoblacionA()->getElegido();
+    simulacion->siguienteIteracion();
+    Gladiator* glad2 = simulacion->getPoblacionA()->getElegido();
+    EXPECT_FALSE(glad1==glad2);  // Prueba de misma asignacion de gladiadores
+    EXPECT_FALSE(glad1->getResistencia()==glad2->getResistencia());  // Prueba de reproduccion
 }
 
 int main(int argc, char* argv[]){
