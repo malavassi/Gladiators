@@ -185,6 +185,7 @@ void Poblacion::fitness_local() {
             if(genActual->getEdad()==20){
                 genActual->addProm(nuevRes);
             }
+            gladiador->setProbabilidadSupervivencia(gladiador->getResistencia());
         }
     }
 }

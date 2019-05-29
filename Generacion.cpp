@@ -48,7 +48,6 @@ Generacion::Generacion(LinkedList<Gladiator *> gladiadores, int numero) {
     this->gladiadores = gladiadores;
     this->numero = numero;
     //Generacion::contador++;
-
 }
 
 void Generacion::addProm(int valor){

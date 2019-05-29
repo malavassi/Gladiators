@@ -49,7 +49,7 @@ public:
 
     //getters y setters
     int getNumero();
-    float getPromedioSupervivencia(){return promedio_supervivencia;};
+    float getPromedioSupervivencia(){return promedio_supervivencia;}
     LinkedList<Gladiator*> getGladiadores();
     int getEdad();
 

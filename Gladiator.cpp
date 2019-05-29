@@ -102,6 +102,7 @@ Gladiator::Gladiator() {
 
 Gladiator::Gladiator(int iq, int cf, int fs, int fi) {  // Este constructor solo deberia usarse en la primera generacion
     // ID
+    cout<<Gladiator::cont;
     id = Gladiator::cont;
     Gladiator::cont++;
     cout<<"      Creando el gladiador " << id<<endl;

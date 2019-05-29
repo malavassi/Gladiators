@@ -18,7 +18,7 @@
 class Poblacion {
 public:
 
-    Poblacion(){};
+    Poblacion(){}
     Poblacion(char id);
     ~Poblacion();
 

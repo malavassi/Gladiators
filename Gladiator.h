@@ -30,19 +30,12 @@ private:
     int arr_atributos_mod_mutacion[4]; /**Array de atributos despues de pasar por mutacion*/
     int arr_atributos_mod_inversion[4]; /**Array de atributos despues de invertir*/
     Gladiator* padre1;
+    Gladiator* padre2;
 public:
     Gladiator *getPadre1() const;
 
     Gladiator *getPadre2() const;
 
-private:
-    Gladiator* padre2;
-public:
-    void setPadre1(Gladiator *padre1);
-
-    void setPadre2(Gladiator *padre2);
-
-public:
     static int cont; /**Estatica para llevar el control de los ids*/
     /**
      * Fool constructor
@@ -78,7 +71,7 @@ public:
     int getFuerzaTInferior() const;
     int getResistencia() const;
     /**
-     * Retorna el atributo numero attr del padre.
+     * Retorna el atributo numero attr..
      * @param attr Atributo a retornar (0:iq, 1:FS, 2:FI, 3:Cf)
      * @returns Atributo numero attr
      * */
@@ -110,6 +103,11 @@ public:
     void setAtributesM(int arrAttr[4]);
 
     void setAtributesF(int arrAttr[4]);
+
+    void setPadre1(Gladiator *padre1);
+
+    void setPadre2(Gladiator *padre2);
+
 };
 
 
