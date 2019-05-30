@@ -46,6 +46,12 @@ TEST_F(A1, PruebaCamino){
     }
 }
 
+TEST_F(A1, CalH){
+    ASSERT_EQ((int)astar->calcH(2,3),3);
+}
+
+
+
 int main(int argc, char* argv[]){
     testing::InitGoogleTest(&argc, argv);
     return RUN_ALL_TESTS();

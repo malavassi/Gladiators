@@ -9,7 +9,8 @@ struct Backtracking_TEST : public testing::Test{
     Backtracking *test;
     Matriz *matriz;
     void SetUp(){test = new Backtracking();
-    matriz = new Matriz();}
+    matriz = new Matriz();
+    test->encontrarRuta(0);}
     void TearDown(){delete test;
     delete matriz;}
 };
@@ -21,3 +22,5 @@ TEST_F(Backtracking_TEST, isVisited){
 TEST_F(Backtracking_TEST, fila){
     EXPECT_EQ(matriz->columna1.getHead()->getData(),test->fila(matriz->matriz,0).getHead()->getData());
 }
+
+
